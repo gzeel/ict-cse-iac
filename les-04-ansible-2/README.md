@@ -1,10 +1,4 @@
-# Les 4 - Hello, Ansible (2)!
-
-Leerdoelen:
-
-1. Aan het einde van deze les weet je wat Ansible Handlers en Variabelen zijn en hoe je ze in kunt zetten.
-2. Aan het einde van deze les weet je hoe je een playbook kunt include of importeren en wat het verschil is tussen beiden.
-3. Aan het einde van deze les kun je een Ansible role maken en toepassen in een playbook.
+# Week 4 - Hello, Ansible (2)!
 
 Inhoud:
 
@@ -738,4 +732,3 @@ Als laatste nog een voorbeeld hoe krachtig roles kunnen zijn, een complete LAMP 
 > - Werk samen met een medestudent, gebruik elkaars role in een playbook.
 
 Lever de code van opdracht 1 in op Brightspace
-

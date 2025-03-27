@@ -1,9 +1,4 @@
-# les-05
-
-Leerdoelen:
-
-1. Aan het einde van de les weet je hoe je Ansible code via diverse methodes kunt testen.
-2. Aan het einde van deze les weet je wat een CI/CD Pipeline is en hoe je dit kunt toepassen in Gitlab.
+# Week 5 - CI/CD
 
 ## Ansible (3) Code testen
 

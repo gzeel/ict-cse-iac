@@ -1,10 +1,4 @@
-# Les 2 - Hello, Terraform!
-
-Leerdoelen:
-
-1. Aan het einde van deze les weet je wat Terraform is en welke relatie het heeft met de theorie van Infrastructure as Code.
-2. Aan het einde van deze les weet je wat CloudInit is en welke relatie het heeft met de theorie van Infrastructure as Code.
-3. Aan het einde van deze les weet je hoe je een virtuele machine door middel van code kunt deployen en starten met daarop een initiele configuratie.
+# Week 2 - Hello, Terraform!
 
 Inhoud:
 

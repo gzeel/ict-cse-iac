@@ -1,10 +1,4 @@
-# Les 3 - Hello, Ansible (1)!
-
-Leerdoelen:
-
-1. Aan het einde van deze les weet je wat Ansible is en welke relatie het heeft met de theorie van Infrastructure as Code.
-2. Aan het einde van deze les kun je een aantal ad-hoc commando's op een host uitvoeren.
-3. Aan het einde van deze les kun je een simpel playbook schrijven en dit uitvoeren op een groep van hosts dmv een inventory.
+# Week 3 - Hello, Ansible (1)!
 
 Inhoud:
 

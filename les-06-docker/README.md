@@ -1,9 +1,4 @@
-# Les 6
-
-Leerdoelen:
-
-1. Aan het einde van de les weet je wat Docker is
-2. Aan het einde van deze les weet je hoe je via Ansible Docker containers kunt aanmaken en beheren.
+# Les 6 - Docker
 
 ## Docker
 

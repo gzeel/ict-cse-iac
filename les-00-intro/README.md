@@ -1,9 +1,4 @@
-# Les 1 - Hello, IAC!
-
-Leerdoelen:
-
-1. Aan het einde van deze les ken je het begrip Infrastructure as Code.
-2. Aan het einde van deze les heb je een ontwikkelomgeving (VSCode, Git repository) opgezet om je code op te gaan ontwikkelen en deployen
+# Week 1 - Hello, IAC!
 
 Inhoud:
 
@@ -17,14 +12,10 @@ Inhoud:
 
 ## Introductie vak IAC
 
-- 7 weken
+- 6 weken
 - 3 uur per keer op je rooster
 - Elke week een thema
 - Ruimte om aan opdrachten te werken
-- Alle losse opdrachten bij elkaar vormt voor je eindopdracht
-- Aan het einde maak je een portfolio video waarin je laat zien dat alle opdrachten werken
-- Alle code moet in Gitlab (gitlab.windesheim.nl)
-- Bij elke week schrijf je een README.md wat je gedaan hebt en hoe de code werkt.
 
 ## Introductie Infrastructure as Code
 
