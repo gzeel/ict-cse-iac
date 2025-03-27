@@ -1,0 +1,32 @@
+---
+Introductie Git
+---
+
+## Wat is Git?
+
+Git is een versiebeheersysteem waarmee developers veranderingen in de broncode kunnen beheren en bijhouden. Met Git is het mogelijk om in een projectgroep te werken aan een project zonder dat ieder ander elkaar in de weg zit. Git houdt een 'logboek' bij met alle wijzigingen (genaamd _commits_) en geeft de mogelijkheid om een project terug te zetten naar eerdere versies indien dat nodig is.
+
+## Hoe zit Git in elkaar?
+
+Git is onder de motorkap eigenlijk een verzameling van bestanden en referenties. Dit betekent dat Git werkt met objecten die aan elkaar gekoppeld zijn via versleutelde waarden en er ontstaat een _grafiek_ waarin elke verandering door tijdlijn en structuur wordt vastgelegd.
+
+## Wat kan je met Git?
+
+Git heeft verschillende use cases. Een aantal voorbeelden:
+
+- **Versiebeheer**: Bijhouden van wijzigingen in codebestanden over de tijd.
+- **Samenwerken**: Verschillende ontwikkelaars kunnen aan dezelfde projecten werken, zelfs vanaf verschillende locaties.
+- **Vertakkingen**: Verschillende vertakkingen maken voor nieuwe functies of bugfixes zonder de centrale versie van het project te verstoren.
+- **Samenvoegen**: Wijzigingen van verschillende vertakkingen samenvoegen.
+- **Terugdraaien van wijzigingen**: Naar eerdere versies van je project teruggaan als iets fout gaat.
+- **Conflicten oplossen**: Wanneer meerdere mensen aan dezelfde bestanden hebben gewerkt, kunnen tegenstrijdige veranderingen zijn aangemaakt, de _conflicten_. Deze conflicten kunnen opgelost worden met Git.
+
+Deze onderwerpen zullen verder in deze ondersteunende informatie nog verder worden uitgelegd.
+
+## Git tools
+
+Wanneer er gesproken wordt over Git, komen de termen GitHub en GitLab al snel voorbij. Dit zijn tools waarmee er gewerkt kan worden met Git en uitbreidingen hierop. Verder zitten de volgende verschillende tussen de drie tools:
+
+- **Git**: [Git](https://git-scm.com/) is de onderliggende technologie, het gedistribueerde versiebeheersysteem. Het is open-source software waarmee je versiebeheer kunt toepassen op je projecten. Git zelf is in de basis gemaakt om mee te werken in de terminal.
+- **GitHub**: [GitHub](https://docs.github.com/en) is een online platform gebouwd bovenop Git, dat het gemakkelijk maakt om code te delen, samen te werken, en projecten te beheren. Het biedt ook extra tools voor projectbeheer, zoals issue-tracking, pull requests en [CI/CD-integratie](https://www.redhat.com/en/topics/devops/what-is-ci-cd). Deze termen zullen later verder behandeld worden.
+- **GitLab**: [GitLab](https://docs.gitlab.com/) is ook een platform gebaseerd op Git, vergelijkbaar met GitHub, maar biedt een bredere reeks geïntegreerde functies zoals uitgebreide projectbeheerfunctionaliteiten. GitLab kan zowel zelf gehost worden binnen een organisatie als gebruikt worden via GitLab's cloud-service. Door het zelf te hosten krijgt de organisatie meer beheer over de repositories en infrastructuur.
