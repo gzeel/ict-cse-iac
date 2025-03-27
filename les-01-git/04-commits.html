@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>04-commits</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-commits">Git Commits </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-een-commit%3F">Wat is een commit? </a></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-een-commit-in-elkaar%3F">Hoe zit een commit in elkaar? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#stashen">Stashen </a></li><li class="toc-item"><a class="toc-link" href="#tags">Tags </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-een-commit%3F">Wat kan je met een commit? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#pushen-en-pullen">Pushen en pullen </a></li></ul></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-commits" tabindex="-1">Git Commits <a aria-hidden="true" class="anchor" href="#git-commits">#</a></h2>
+<blockquote>
+<p>Meer informatie over commits: <a href="https://git-scm.com/docs/git-commit">Git commits</a></p>
+</blockquote>
+<h2 id="wat-is-een-commit%3F" tabindex="-1">Wat is een commit? <a aria-hidden="true" class="anchor" href="#wat-is-een-commit%3F">#</a></h2>
+<p>Wanneer er veranderingen zijn geweest van een project, kunnen deze <em>gecommit</em> worden. Een commit bevat de veranderingen die zijn gemaakt op de branch waarop gewerkt is. Met een commit worden de veranderingen naar je lokale repository geüpload.</p>
+<h2 id="hoe-zit-een-commit-in-elkaar%3F" tabindex="-1">Hoe zit een commit in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-een-commit-in-elkaar%3F">#</a></h2>
+<p>Met het uitvoeren van een commit op een gekloonde repository worden de veranderingen op de lokale repository gezet.
+In een commit zitten de volgende onderdelen:</p>
+<ul>
+<li><strong>De veranderde bestanden:</strong> De aanpassing die ten opzichte van de vorige commit zijn gemaakt</li>
+<li><strong>De titel van de commit:</strong> Dit is een verplicht onderdeel van elke commit. Als hier een duidelijke naam aan gegeven wordt, dan is het makkelijk om later terug te zien welke veranderingen in de commit zijn gemaakt.
+<ul>
+<li>Voorbeeld: Feature: Validatie van e-mail toegevoegd</li>
+</ul>
+</li>
+<li><strong>De optionele beschrijving van de commit:</strong> In het geval dat er veel veranderingen zijn, kan het handig zijn om een duidelijke beschrijving te geven welke veranderingen zijn gemaakt.</li>
+<li><strong>De optionele toegevoegde contributors:</strong> Indien er samengewerkt is met andere mensen aan een commit, dan is het voor de navolgbaarheid goed om deze mensen ook toe te voegen aan de commit.</li>
+<li><strong>Uniek ID:</strong> Dit is een hash, wat de commit uniek maakt in de hele Git geschiedenis en wordt gemaakt op basis van de vorige commit, de auteur, de datum en de veranderingen.</li>
+</ul>
+<h3 id="stashen" tabindex="-1">Stashen <a aria-hidden="true" class="anchor" href="#stashen">#</a></h3>
+<p>Een stash is de plek waar de aanpassingen kunnen worden opgeslagen die niet meegenomen moeten worden in de commit. Hiermee kan een branch schoon achtergelaten worden. Hiermee kan je wisselen van branch zonder te hoeven commiten maar wel de veranderingen lokaal nog te bewaren.</p>
+<h3 id="tags" tabindex="-1">Tags <a aria-hidden="true" class="anchor" href="#tags">#</a></h3>
+<p>Git tags zijn markeringen die je kunt gebruiken om specifieke punten in de geschiedenis van een Git-repository vast te leggen. Ze worden vaak gebruikt om belangrijke momenten, zoals de release van een nieuwe versie van software, te markeren. In tegenstelling tot branches, die in de loop van de tijd kunnen veranderen, blijven tags altijd aan dezelfde commit gekoppeld.</p>
+<p>Tags worden veel gebruikt om versies van software te markeren, zoals <code class="hljs"><span class="hljs-attribute">v1</span>.<span class="hljs-number">0</span></code>, <code class="hljs"><span class="hljs-attribute">v2</span>.<span class="hljs-number">1</span>.<span class="hljs-number">3</span></code>, enz. Dit helpt om een specifieke staat van de code vast te leggen, vooral bij releases. Omdat tags statisch zijn, kunnen ze altijd worden gebruikt om terug te gaan naar een exacte versie van de code. Tags maken het eenvoudig om belangrijke commits terug te vinden zonder door de volledige commit geschiedenis te moeten zoeken.</p>
+<h2 id="wat-kan-je-met-een-commit%3F" tabindex="-1">Wat kan je met een commit? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-een-commit%3F">#</a></h2>
+<p>Door het maken van een commit heb je een snapshot gemaakt van de bestanden. Dit zorgt ervoor dat de versiegeschiedenis van jouw project bij te houden is over de tijd heen.</p>
+<p>Verder is het mogelijk om op een later moment terug te vallen op een commit, de zogeheten <code class="hljs"><span class="hljs-attribute">rollback</span></code>. Voor meer informatie over hoe dit in werking gaat, zie <a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-revert">Git revert</a>.</p>
+<h3 id="pushen-en-pullen" tabindex="-1">Pushen en pullen <a aria-hidden="true" class="anchor" href="#pushen-en-pullen">#</a></h3>
+<p>Na het commiten van code kan er <em>gepusht</em> worden. Dit houdt in dat alle veranderingen van één of meerdere commits naar de remote repository worden gezet.</p>
+<p><strong>Ter illustratie:</strong> Een aanpassing kan gezien worden als een brief. Deze brief stop je in een envelop, de <strong>commit</strong>. Deze doe je in de brievenbus om door te sturen, de <strong>push</strong>. Het is ook mogelijk om meerdere brieven in één keer in de brievenbus te doen, net zoals bij pushen van commits.</p>
+<p>Voor andere mensen om deze veranderingen ook te krijgen op hun lokale repositories kan er <em>gepulled</em> worden. Door te pullen worden de veranderingen van een branch opgehaald van de remote repository en toegevoegd aan jouw huidige lokale repository. Hierbij is het mogelijk om conflicten te krijgen. Deze moeten eerst opgelost worden voordat er verder gewerkt kan worden.</p>
+<p>Voordat je je wijzigingen pusht, is het gebruikelijk om eerst te pullen als er mogelijk commits van anderen zijn. Door eerst te pullen, kun je eventuele conflicten direct tegenkomen en oplossen. Dit voorkomt dat je conflicten naar de repository pusht, wat later tot grotere problemen kan leiden.</p>
+<blockquote>
+<p>[!tip] Casus
+Anne en Bert werken samen aan een project in dezelfde repository. Op een dag voegt Anne een nieuwe feature op een feature branch toe en commit haar wijzigingen met de boodschap: “Voeg gebruikersauthenticatie toe.”. Dit pusht zij ook naar de remote repository.</p>
+<p>Bert pulled deze commit naar zijn lokale repository en voegt hieraan nog een extra beveiligingsmaatregel toe. Dit commit hij naar de branch met de boodschap: “Extra beveiligingsmaatregel (wachtwoord) toegevoegd.”.</p>
+<p>Met deze commits is het later makkelijk terug te vinden dat Anne de gebruikersauthenticatie heeft gemaakt en Bert hier een toevoeging op heeft gemaakt.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Commits: <a href="https://git-scm.com/docs/git-commit">https://git-scm.com/docs/git-commit</a> <br/>
+Tags: <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">https://git-scm.com/book/en/v2/Git-Basics-Tagging</a> <br/>
+Git revert: <a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-revert">https://www.atlassian.com/git/tutorials/undoing-changes/git-revert</a></p>
+</blockquote>
+</div>
+</body>
+</html>

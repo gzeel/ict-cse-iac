@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Week 5 - CI/CD</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#ansible-(3)-code-testen">Ansible (3) Code testen </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#debugging-en-asserting">Debugging en Asserting </a></li><li class="toc-item"><a class="toc-link" href="#de-fail-en-assert-module">De fail en assert module </a></li><li class="toc-item"><a class="toc-link" href="#yaml-en-ansible-linting">YAML en Ansible linting </a></li><li class="toc-item"><a class="toc-link" href="#%E2%80%93syntax-check">–syntax-check </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#gitlab-ci%2Fcd-pipeline">Gitlab CI/CD Pipeline </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#wat-is-ci%2Fcd%3F">Wat is CI/CD? </a><ul class="toc-list"></ul></li></ul></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="week-5---ci%2Fcd" tabindex="-1">Week 5 - CI/CD <a aria-hidden="true" class="anchor" href="#week-5---ci%2Fcd">#</a></h1>
+<h2 id="ansible-(3)-code-testen" tabindex="-1">Ansible (3) Code testen <a aria-hidden="true" class="anchor" href="#ansible-(3)-code-testen">#</a></h2>
+<p>Wanneer je bezig bent een applicatie te ontwikkelen is het heel normaal dat je de software code test voordat je de applicatie in een productiomgeving beschikbaar maakt. We hebben de afgelopen weken besteed om onze infrastructuur ook als code te gaan zien. Waarom zouden we deze code dan niet testen?</p>
+<p>We kunnen dezelfde manieren en methodes van software testing ook toepassen op infrastructuurcode. Denk dus aan unit, functionele, integratie en acceptatietesten.
+Unit-testen, toegepast op applicaties, zijn het testen van de kleinste code-eenheden (meestal functies of klassenmethoden). In Ansible zouden unit-tests doorgaans van toepassing zijn op individuele draaiboeken. Je zou individuele draaiboeken in een geïsoleerde omgeving kunnen draaien, maar dat is vaak de moeite niet waard. Wat wel de moeite waard is, is controleren op playbook-syntax, om er zeker van te zijn dat je playbook faalt vanwege een ontbrekend aanhalingsteken of een tab of spatie issue! Dit wordt ook wel linting genoemd.
+Linting kun je ook al inschakelen in je IDE zoals VSCode. Er zijn specifieke Ansible, Terraform etc linting extensies beschikbaar.</p>
+<p>In een functionele test test je bijvoorbeeld de werking en output van een enkel playbook of role. Doet deze wat het zou moeten doen?
+Je kunt dit bijvoorbeeld doen door het playbook te draaien en de output te bekijken.</p>
+<p>Integratietesten zijn bijvoorbeeld van toepassing voor Ansible bij het gebruik van rollen. Werken je playbooks nog goed wanneer je ze in grotere eenheden integreert? Denk aan het testen van rollen. Je wil dat de rollen in meerdere playbooks blijven werken en de verwachte output geven. Of heb je ergens in een playbook iets gezet wat de werking van je role ongedaan maakt o.i.d.?</p>
+<p>Elke techniek die hieronder wordt besproken, biedt meer waarde dan de vorige, maar is ook complexer en misschien niet de extra installatie- en onderhoudslasten waard, afhankelijk van je playbook.</p>
+<p>We beginnen met de eenvoudigste en meest basale tests en gaan dan over naar volwaardige functionele testmethoden en testautomatisering.</p>
+<h3 id="debugging-en-asserting" tabindex="-1">Debugging en Asserting <a aria-hidden="true" class="anchor" href="#debugging-en-asserting">#</a></h3>
+<p>Voor de meeste playbooks is het testen van configuratiewijzigingen en het resultaat van de uitgevoerde opdrachten het enige dat je nodig hebt. En als je tests met behulp van enkele ingebouwde hulpprogrammamodules van Ansible uitvoert tijdens het draaien van je playbook, weet je meteen zeker dat het systeem zich in de juiste staat bevindt.</p>
+<p>Indien mogelijk moet je proberen alle eenvoudige testgevallen (bijvoorbeeld vergelijkingen en state controles) in je draaiboeken te verwerken. Ansible heeft drie modules die dit proces vereenvoudigen.</p>
+<p>Als je een Ansible-playbook aan het ontwikkelen bent is het vaak handig om waarden van variabelen of de uitvoer van bepaalde opdrachten af te drukken tijdens de run van het playbook. Voor dit doel heeft Ansible een debug-module.</p>
+<p>Als extreem eenvoudig voorbeeld zijn hier twee manieren waarop je debug kunt gebruiken tijdens het bouwen van een playbook:</p>
+<pre><code class="hljs language-yaml"> <span class="hljs-number">1</span> <span class="hljs-string">---</span>
+ <span class="hljs-attr">2 - hosts:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+ <span class="hljs-attr">3   gather_facts:</span> <span class="hljs-literal">no</span>
+ <span class="hljs-attr">4   connection:</span> <span class="hljs-string">local</span>
+ <span class="hljs-number">5</span>
+ <span class="hljs-attr">6   tasks:</span>
+ <span class="hljs-attr">7     - name:</span> <span class="hljs-string">Register</span> <span class="hljs-string">the</span> <span class="hljs-string">output</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">'uptime'</span> <span class="hljs-string">command.</span>
+ <span class="hljs-attr">8       command:</span> <span class="hljs-string">uptime</span>
+ <span class="hljs-attr">9       register:</span> <span class="hljs-string">system_uptime</span>
+<span class="hljs-number">10</span>
+<span class="hljs-attr">11     - name:</span> <span class="hljs-string">Print</span> <span class="hljs-string">the</span> <span class="hljs-string">registered</span> <span class="hljs-string">output</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">'uptime'</span> <span class="hljs-string">command.</span>
+<span class="hljs-attr">12       debug:</span>
+<span class="hljs-attr">13         var:</span> <span class="hljs-string">system_uptime.stdout</span>
+<span class="hljs-number">14</span>
+<span class="hljs-attr">15     - name:</span> <span class="hljs-string">Print</span> <span class="hljs-string">a</span> <span class="hljs-string">message</span> <span class="hljs-string">if</span> <span class="hljs-string">a</span> <span class="hljs-string">command</span> <span class="hljs-string">resulted</span> <span class="hljs-string">in</span> <span class="hljs-string">a</span> <span class="hljs-string">change.</span>
+<span class="hljs-attr">16       debug:</span>
+<span class="hljs-attr">17         msg:</span> <span class="hljs-string">"Command resulted in a change!"</span>
+<span class="hljs-attr">18       when:</span> <span class="hljs-string">system_uptime</span> <span class="hljs-string">is</span> <span class="hljs-string">changed'</span>
+</code></pre>
+<p>Als je dit playbook zou uitvoeren krijg je de volgende uitvoer:</p>
+<pre><code class="hljs language-bash">$ ansible-playbook debug.yml
+
+PLAY [127.0.0.1] ****************************************************
+
+TASK: [Register the output of the <span class="hljs-string">'uptime'</span> <span class="hljs-built_in">command</span>.] ****************
+changed: [127.0.0.1]
+
+TASK [Print the registered output of the <span class="hljs-string">'uptime'</span> <span class="hljs-built_in">command</span>.] *********
+ok: [127.0.0.1] =&gt; {
+    <span class="hljs-string">"system_uptime.stdout"</span>:
+      <span class="hljs-string">"20:55  up  7:33, 4 users, load averages: 0.95 1.36 1.43'
+      '}
+
+TASK [Print a message if a command resulted in a change.] ***********
+ok: [127.0.0.1] =&gt; {
+    "</span>msg<span class="hljs-string">": "</span>Command resulted <span class="hljs-keyword">in</span> a change!<span class="hljs-string">"
+}
+
+PLAY RECAP **********************************************************
+127.0.0.1            : ok=3    changed=1    unreachable=0    failed=0'
+</span></code></pre>
+<p>Debug-berichten zijn nuttig bij het actief debuggen van een playbook of wanneer je extra verbosity nodig hebt in de uitvoer van het playbook, maar als je een expliciete test op een bepaalde variabele moet uitvoeren, of om een of andere reden een playbook moet verlaten, biedt Ansible de fail-module, en zijn meer beknopte variant, assert.</p>
+<h3 id="de-fail-en-assert-module" tabindex="-1">De fail en assert module <a aria-hidden="true" class="anchor" href="#de-fail-en-assert-module">#</a></h3>
+<p>Zowel fail als assert zullen, wanneer ze worden geactiveerd, de run van het playbook afbreken. Het belangrijkste verschil zit in de eenvoud van hun gebruik en wat er wordt uitgevoerd tijdens een run van het playbook. Voorbeeld :</p>
+<pre><code class="hljs language-yaml"> <span class="hljs-number">1</span> <span class="hljs-string">---</span>
+ <span class="hljs-attr">2 - hosts:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+ <span class="hljs-attr">3   gather_facts:</span> <span class="hljs-literal">no</span>
+ <span class="hljs-attr">4   connection:</span> <span class="hljs-string">local</span>
+ <span class="hljs-number">5</span>
+ <span class="hljs-attr">6   vars:</span>
+ <span class="hljs-attr">7     should_fail_via_fail:</span> <span class="hljs-literal">true</span>
+ <span class="hljs-attr">8     should_fail_via_assert:</span> <span class="hljs-literal">false</span>
+ <span class="hljs-attr">9     should_fail_via_complex_assert:</span> <span class="hljs-literal">false</span>
+<span class="hljs-number">10</span>
+<span class="hljs-attr">11   tasks:</span>
+<span class="hljs-attr">12     - name:</span> <span class="hljs-string">Fail</span> <span class="hljs-string">if</span> <span class="hljs-string">conditions</span> <span class="hljs-string">warrant</span> <span class="hljs-string">a</span> <span class="hljs-string">failure.</span>
+<span class="hljs-attr">13       fail:</span>
+<span class="hljs-attr">14         msg:</span> <span class="hljs-string">"There was an epic failure."</span>
+<span class="hljs-attr">15       when:</span> <span class="hljs-string">should_fail_via_fail</span>
+<span class="hljs-number">16</span>
+<span class="hljs-attr">17     - name:</span> <span class="hljs-string">Stop</span> <span class="hljs-string">playbook</span> <span class="hljs-string">if</span> <span class="hljs-string">an</span> <span class="hljs-string">assertion</span> <span class="hljs-string">isn't</span> <span class="hljs-string">validated.</span>
+<span class="hljs-attr">18       assert:</span>
+<span class="hljs-attr">19         that:</span> <span class="hljs-string">"should_fail_via_assert != true"</span>
+<span class="hljs-number">20</span>
+<span class="hljs-attr">21     - name:</span> <span class="hljs-string">Assertions</span> <span class="hljs-string">can</span> <span class="hljs-string">have</span> <span class="hljs-string">contain</span> <span class="hljs-string">conditions.</span>
+<span class="hljs-attr">22       assert:</span>
+<span class="hljs-attr">23         that:</span>
+<span class="hljs-number">24</span>           <span class="hljs-bullet">-</span> <span class="hljs-string">should_fail_via_fail</span> <span class="hljs-type">!=</span> <span class="hljs-literal">true</span>
+<span class="hljs-number">25</span>           <span class="hljs-bullet">-</span> <span class="hljs-string">should_fail_via_assert</span> <span class="hljs-type">!=</span> <span class="hljs-literal">true</span>
+<span class="hljs-number">26</span>           <span class="hljs-bullet">-</span> <span class="hljs-string">should_fail_via_complex_assert</span> <span class="hljs-type">!=</span> <span class="hljs-literal">true</span><span class="hljs-string">'
+</span></code></pre>
+<p>Verander in bovenstaand voorbeeld de booleans van Should_fail_via_fail, Should_fail_via_assert en Should_fail_via_complex_assert om elk van de drie fail/assert-taken te activeren, en zie welk effect het heeft.</p>
+<p>Een fail taak wordt gerapporteerd als overgeslagen als er geen fout wordt geactiveerd, terwijl een assert-taak die slaagt, wordt weergegeven als een ok-taak met een inline-bericht in de standaarduitvoer van Ansible:</p>
+<pre><code class="hljs language-bash">TASK [Assertions can have contain conditions.] ********************
+ok: [default] =&gt; {
+    <span class="hljs-string">"changed"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">"msg"</span>: <span class="hljs-string">"All assertions passed"</span>
+}
+</code></pre>
+<p>Voor de meeste testgevallen zijn debug, fails en asserts alles wat je nodig hebt om ervoor te zorgen dat je infrastructuur in de desired state verkeert tijdens een playbook run.</p>
+<h3 id="yaml-en-ansible-linting" tabindex="-1">YAML en Ansible linting <a aria-hidden="true" class="anchor" href="#yaml-en-ansible-linting">#</a></h3>
+<p>Als je eenmaal een playbook hebt geschreven, is het een goed idee om ervoor te zorgen dat de basis-YAML-syntaxis correct is. Veel van de meest voorkomende fouten in Ansible-playbooks, vooral voor beginners, zijn whitespace problemen, de bekende inspringende spaties.
+Je kunt in je VSCode IDE een yaml lint extensie aanzetten. Daarnaast kun je op linux/macos systemen de applicatie yamllint installeren.</p>
+<p>Stel je zou een playbook hebben met de een fout erin:</p>
+<pre><code class="hljs language-yaml"> <span class="hljs-attr">1 - hosts:</span> <span class="hljs-string">localhost</span>
+ <span class="hljs-attr">2   gather_facts:</span> <span class="hljs-literal">no</span>
+ <span class="hljs-attr">3   connection:</span> <span class="hljs-string">local</span>
+ <span class="hljs-number">4</span>
+ <span class="hljs-attr">5   tasks:</span>
+ <span class="hljs-attr">6     - name:</span> <span class="hljs-string">Register</span> <span class="hljs-string">the</span> <span class="hljs-string">output</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">'uptime'</span> <span class="hljs-string">command.</span>
+ <span class="hljs-attr">7       command:</span> <span class="hljs-string">uptime</span>
+ <span class="hljs-attr">8       register:</span> <span class="hljs-string">system_uptime</span> <span class="hljs-comment"># comment</span>
+ <span class="hljs-number">9</span>
+<span class="hljs-attr">10     - name:</span> <span class="hljs-string">Print</span> <span class="hljs-string">the</span> <span class="hljs-string">registered</span> <span class="hljs-string">output</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">'uptime'</span> <span class="hljs-string">command.</span>
+<span class="hljs-attr">11       debug:</span>
+<span class="hljs-attr">12        var:</span> <span class="hljs-string">system_uptime.stdout</span>
+</code></pre>
+<p>En je laat de yamllint applicatie dit playbook nakijken, door yamllint in een directory aan te roepen, dan krijg je de volgende uitvoer:</p>
+<pre><code class="hljs language-bash">$ yamllint .
+./lint-example.yml
+  1:1  warning missing document start <span class="hljs-string">"---"</span>  (document-start)
+  2:17 warning truthy value should be one of [<span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>]  (truthy)
+  7:22 error   trailing spaces  (trailing-spaces)
+  8:31 warning too few spaces before comment  (comments)
+  12:8 error   wrong indentation: expected 8 but found 7 (indentation)<span class="hljs-string">'
+</span></code></pre>
+<p>Hoewel het in eerste instantie misschien muggenzifterig lijkt, besef je na verloop van tijd hoe belangrijk het is om een specifieke stijl van coderen te gebruiken en daaraan vast te houden. Het ziet er beter uit en kan helpen voorkomen dat er fouten binnensluipen als gevolg van inspringingen, whitespaces of structurele problemen.</p>
+<p>In dit specifieke geval kun je een aantal fouten snel herstellen:</p>
+<ul>
+<li>Voeg een yaml-documentstartindicator (—) toe bovenaan het draaiboek.</li>
+<li>Verwijder de extra ruimte op de opdrachtregel.</li>
+<li>Voeg een extra spatie toe vóór de # opmerking.</li>
+<li>Zorg ervoor dat de var-regel nog een spatie ingesprongen is.</li>
+</ul>
+<p>Maar hoe zit het met de waarschuwing ‘thruthy value’? In veel Ansible-voorbeelden wordt yes of no gebruikt in plaats van true en false. We kunnen dat toestaan door yamllint aan te passen met een configuratiebestand.</p>
+<p>Maak een bestand in dezelfde map met de naam .yamllint, met de volgende inhoud:</p>
+<pre><code class="hljs language-yaml"> <span class="hljs-number">1</span> <span class="hljs-string">---</span>
+ <span class="hljs-attr">2 extends:</span> <span class="hljs-string">default</span>
+ <span class="hljs-number">3</span>
+ <span class="hljs-attr">4 rules:</span>
+ <span class="hljs-attr">5   truthy:</span>
+ <span class="hljs-attr">6     allowed-values:</span>
+ <span class="hljs-number">7</span>       <span class="hljs-bullet">-</span> <span class="hljs-string">'true'</span>
+ <span class="hljs-number">8</span>       <span class="hljs-bullet">-</span> <span class="hljs-string">'false'</span>
+ <span class="hljs-number">9</span>       <span class="hljs-bullet">-</span> <span class="hljs-string">'yes'</span>
+<span class="hljs-number">10</span>       <span class="hljs-bullet">-</span> <span class="hljs-string">'no'</span>
+</code></pre>
+<h3 id="%E2%80%93syntax-check" tabindex="-1">–syntax-check <a aria-hidden="true" class="anchor" href="#%E2%80%93syntax-check">#</a></h3>
+<p>Het controleren van de syntax door Ansible is erg eenvoudig en vereist slechts een paar seconden.</p>
+<p>Wanneer je een playbook uitvoert met --syntax-check, worden de plays niet uitgevoerd; in plaats daarvan laadt Ansible het hele playbook statisch en zorgt ervoor dat alles kan worden geladen zonder fatale fouten. Als je een geïmporteerd taakbestand mist, een modulenaam verkeerd hebt gespeld of een module met ongeldige parameters opgeeft, zal --syntax-check het probleem snel identificeren.</p>
+<p>Je kunt --syntax-check erg goed gebruiken als je gebruik maakt van een CI omgeving (komen we later op) of als je een pre-commit test wil doen voordat je iets in Git versiebeheer zet.</p>
+<p>Omdat syntaxiscontrole een playbook alleen statisch laadt, kunnen dynamische includes (zoals geladen met include_tasks) en variabelen niet worden gevalideerd. Hierdoor zijn er meer integratietesten nodig om te garanderen dat een heel playbook kan draaien.</p>
+<h2 id="gitlab-ci%2Fcd-pipeline" tabindex="-1">Gitlab CI/CD Pipeline <a aria-hidden="true" class="anchor" href="#gitlab-ci%2Fcd-pipeline">#</a></h2>
+<p>In de moderne softwareontwikkeling is snelheid van levering gecombineerd met kwaliteit van cruciaal belang. Organisaties moeten snel kunnen reageren op veranderende marktomstandigheden en klantwensen, terwijl ze tegelijkertijd betrouwbare en veilige software blijven leveren. CI/CD (Continuous Integration/Continuous Delivery) vormt de ruggengraat van deze aanpak en is een essentieel onderdeel geworden van de DevOps-cultuur.</p>
+<h3 id="wat-is-ci%2Fcd%3F" tabindex="-1">Wat is CI/CD? <a aria-hidden="true" class="anchor" href="#wat-is-ci%2Fcd%3F">#</a></h3>
+<h4 id="continuous-integration-(ci)" tabindex="-1">Continuous Integration (CI) <a aria-hidden="true" class="anchor" href="#continuous-integration-(ci)">#</a></h4>
+<p>Continuous Integration is een development werkwijze waarbij ontwikkelaars regelmatig hun codewijzigingen in een centrale repository samenvoegen, waarna geautomatiseerde builds en tests worden uitgevoerd. Het hoofddoel van CI is om integratiefouten vroeg in de ontwikkelingscyclus te identificeren en op te lossen.
+In een effectieve CI-omgeving committen ontwikkelaars hun code meerdere keren per dag naar een gedeelde repository. Bij elke commit wordt een geautomatiseerd proces gestart dat de code bouwt en test. Dit proces zorgt ervoor dat nieuwe code compatibel is met de bestaande codebase en dat er geen regressies worden geïntroduceerd. Door deze frequente integratie worden problemen snel zichtbaar, waardoor ze gemakkelijker en goedkoper op te lossen zijn dan wanneer ze pas later in het ontwikkelingsproces worden ontdekt.
+Een belangrijk aspect van CI is de snelle feedback die het ontwikkelaars geeft. Wanneer een build of test mislukt, worden ontwikkelaars onmiddellijk op de hoogte gesteld, zodat ze het probleem kunnen oplossen voordat ze verder gaan met nieuwe functionaliteit. Deze snelle feedbacklus bevordert een cultuur van kwaliteit en verantwoordelijkheid binnen het ontwikkelteam.
+Naast het uitvoeren van unit tests kan een CI-pipeline ook statische code-analyse uitvoeren om codestandaarden te handhaven, beveiligingsproblemen te identificeren en technische schuld te voorkomen. Deze uitgebreide aanpak zorgt ervoor dat de code niet alleen functioneel correct is, maar ook voldoet aan de kwaliteitsnormen van de organisatie.</p>
+<h4 id="continuous-delivery-(cd)" tabindex="-1">Continuous Delivery (CD) <a aria-hidden="true" class="anchor" href="#continuous-delivery-(cd)">#</a></h4>
+<p>Continuous Delivery bouwt voort op CI door ervoor te zorgen dat code niet alleen wordt geïntegreerd en getest, maar ook continu klaar is voor productie. Bij CD is het doel om de software in een staat te houden waarin deze op elk moment veilig naar productie kan worden gebracht.
+In een CD-workflow wordt code die succesvol door de CI-fase is gekomen, automatisch gedeployed naar een testomgeving die de productieomgeving zo goed mogelijk nabootst. Hier ondergaat de software meer uitgebreide tests, waaronder functionele tests, prestatietests en beveiligingstests. Deze tests simuleren het echte gebruikersgedrag en valideren dat de software aan de bedrijfsvereisten voldoet.
+Een belangrijk principe van CD is dat elke codewijziging potentieel naar productie kan gaan. Dit betekent dat het releaseproces volledig geautomatiseerd moet zijn, met uitzondering van de uiteindelijke beslissing om de code naar productie te promoten, die vaak handmatig blijft. Deze aanpak vermindert de risico’s die gepaard gaan met releases door het proces voorspelbaar, herhaalbaar en betrouwbaar te maken.
+CD vereist ook een robuuste infrastructuur voor configuratiebeheer en omgevingsbeheer. Door gebruik te maken van Infrastructure as Code (IaC) kunnen teams consistente omgevingen creëren en beheren, waardoor het risico op omgevingsgerelateerde problemen tijdens de deployment wordt geminimaliseerd.</p>
+<h4 id="continuous-deployment-(cd)" tabindex="-1">Continuous Deployment (CD) <a aria-hidden="true" class="anchor" href="#continuous-deployment-(cd)">#</a></h4>
+<p>Continuous Deployment gaat nog een stap verder dan Continuous Delivery. Terwijl bij Continuous Delivery de beslissing om naar productie te gaan handmatig blijft, wordt bij Continuous Deployment elke wijziging die alle geautomatiseerde tests doorstaat, automatisch naar productie gepusht zonder menselijke tussenkomst.
+Deze aanpak vereist een hoog niveau van vertrouwen in de automatiseringsprocessen en testsuites. Organisaties die Continuous Deployment toepassen, hebben doorgaans uitgebreide monitoring- en alertingsystemen om snel problemen in productie te detecteren en te reageren. Ze maken ook vaak gebruik van technieken zoals feature flags en canary releases om risico’s te beheersen en de impact van nieuwe functionaliteit geleidelijk te evalueren.
+Continuous Deployment is niet voor elke organisatie of elk product geschikt. Regelgevende vereisten, klantvoorkeuren of de aard van het product kunnen een volledig geautomatiseerd releaseproces belemmeren. In dergelijke gevallen kan Continuous Delivery een passender aanpak zijn, waarbij de software altijd klaar is voor release, maar de daadwerkelijke deployment naar productie een bewuste beslissing blijft.</p>
+<h4 id="github-actions" tabindex="-1">GitHub Actions <a aria-hidden="true" class="anchor" href="#github-actions">#</a></h4>
+<p>GitHub Actions is een krachtige CI/CD-oplossing die direct geïntegreerd is in GitHub. Je hoeft geen aparte runners te installeren of te configureren, omdat GitHub al runners host die je workflows kunnen uitvoeren.
+Om aan de slag te gaan met GitHub Actions, moet je een workflow bestand aanmaken in je repository. Dit doe je door een directory genaamd .github/workflows aan te maken en daarin een YAML-bestand te plaatsen dat je workflow definieert. In dit bestand specificeer je wanneer de workflow moet worden uitgevoerd, zoals bij een push naar een bepaalde branch of bij het aanmaken van een pull request, en welke acties moeten worden ondernomen.</p>
+<p>GitHub Actions maakt gebruik van een event-gebaseerd systeem. Wanneer een bepaalde gebeurtenis plaatsvindt in je repository, zoals een push of pull request, kan dit een workflow triggeren. In je workflow bestand definieer je jobs die op verschillende runners kunnen worden uitgevoerd. Deze jobs bestaan uit een reeks stappen die sequentieel worden uitgevoerd.</p>
+<p>Hier is een voorbeeld van een workflow bestand:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">CI</span>
+
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [<span class="hljs-string">main</span>]
+  <span class="hljs-attr">pull_request:</span>
+    <span class="hljs-attr">branches:</span> [<span class="hljs-string">main</span>]
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Set</span> <span class="hljs-string">up</span> <span class="hljs-string">Node.js</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v3</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-string">"22"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Install</span> <span class="hljs-string">dependencies</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">ci</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Run</span> <span class="hljs-string">tests</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">test</span>
+</code></pre>
+<p>Je ziet hier een <code class="hljs"><span class="hljs-attribute">build</span></code> job met een aantal acties. De workflow gaat lopen als er een push of een pull-request wordt uitgevoerd.</p>
+<p>Een van de krachtigste aspecten van GitHub Actions is het uitgebreide ecosysteem van herbruikbare acties. Deze vooraf gebouwde componenten kunnen worden gebruikt om veelvoorkomende taken uit te voeren, zoals het uitchecken van code, het opzetten van een programmeeromgeving, of het deployen naar een cloudprovider. Dit bespaart tijd en vermindert de hoeveelheid code die je zelf moet schrijven.</p>
+<p>Nadat je je workflow bestand hebt gecommit en gepusht naar GitHub, kun je de uitvoering ervan volgen via de Actions tab in je repository. Hier zie je een overzicht van alle workflow runs, hun status, en gedetailleerde logs die helpen bij het debuggen van eventuele problemen.</p>
+<blockquote>
+<p>Opdracht 1:</p>
+<ul>
+<li>Maak een playbook waarbij het pakket <code class="hljs">apache2</code> wordt geinstaleerd, maar niet via de apt module. En er moet een ‘Changed’ melding komen als het installeren gelukt is. Zorg er ook voor dat het in een andere taak fout gaat en Ansible netjes laat zien dat het fout gegaan is.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Opdracht 2:</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Installeer een lokale GitHub Runner en voeg deze toe aan je repository.</li>
+<li>Richt een Github workflow in en voeg deze ook toe aan je repository.</li>
+<li>Maak een playbook wat een package (bv apache of nginx) installeert en maak hier een CI/CD configuratie voor een aantal stages voor. De code wordt gecheckt in een daarvoor logische stage. Zorg dat het playbook automatisch draait bij push van jouw code…</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Opdracht 3:</p>
+<ul>
+<li>Maak gebruik van de lokale GitHub Runner uit opdracht 2</li>
+<li>Maak een terraform manifest waarbij je een simpele vm deployed en maak hier een CI/CD configuratie voor. Zorg dat het bestand automatisch draait bij push van jouw code.</li>
+<li>Voeg een stap toe die controleert of de Terraform-code voldoet aan best practices</li>
+<li>Configureer de workflow zodanig dat deze alleen worden uitgevoerd wanneer er wijzigingen zijn in de Terraform-bestanden</li>
+<li>Voeg een workflow toe die alleen handmatig kan worden gestart voor het verwijderen van de infrastructuur.</li>
+</ul>
+</blockquote>
+<p>Lever een video in op Brightspace waarin je laat zien dat de pipeline van Opdracht 2 werkt…</p>
+</div>
+</body>
+</html>

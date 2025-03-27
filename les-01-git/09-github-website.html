@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>09-github-website</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#github-website">GitHub website </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-github%3F">Wat is GitHub? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#issues">Issues </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wiki">Wiki </a></li><li class="toc-item"><a class="toc-link" href="#project">Project </a></li><li class="toc-item"><a class="toc-link" href="#pages">Pages </a></li><li class="toc-item"><a class="toc-link" href="#releases">Releases </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#voordelen-van-github-releases">Voordelen van GitHub Releases </a></li></ul></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="github-website" tabindex="-1">GitHub website <a aria-hidden="true" class="anchor" href="#github-website">#</a></h2>
+<h2 id="wat-is-github%3F" tabindex="-1">Wat is GitHub? <a aria-hidden="true" class="anchor" href="#wat-is-github%3F">#</a></h2>
+<p>Hiervoor is GitHub vaker benoemd. Github is een online platform voor softwareontwikkeling en versiebeheer dat voornamelijk is gebaseerd op Git. GitHub voegt een online interface toe aan Git, waardoor teams eenvoudiger kunnen samenwerken aan projecten en wijzigingen kunnen delen.</p>
+<p>GitHub biedt naast de online interface nog meerdere zaken aan waarmee de samenwerking in een team beter kan verlopen.</p>
+<h3 id="issues" tabindex="-1">Issues <a aria-hidden="true" class="anchor" href="#issues">#</a></h3>
+<p>Met issues kunnen zaken, zoals problemen, features en bugs, binnen een repository worden bijgehouden en aan gewerkt worden.</p>
+<p>Bij issues kunnen verschillende dingen gedaan worden:</p>
+<ul>
+<li><strong>Commenten</strong>
+<ul>
+<li>Er kunnen comments geplaatst worden op issues zodat een issue correct kan worden afgehandeld.</li>
+</ul>
+</li>
+</ul>
+<p>Op de GitHub website in een repository kunnen de issues gevonden worden onder het kopje <code class="hljs"><span class="hljs-attribute">Issues</span></code>. Voor het maken van een issue moet er op de groene <code class="hljs"><span class="hljs-keyword">New</span> Issue</code> knop gedrukt worden.
+![[10.1 OI_Git_GitHub_Issues_1.png]]
+<em>Figuur 1: Issue pagina op GitHub website</em></p>
+<p>Eenmaal in dat scherm zijn dit de opties:</p>
+<ul>
+<li><strong>Title</strong></li>
+<li><strong>Description</strong>
+<ul>
+<li>Hierin kan je werken met markdown</li>
+</ul>
+</li>
+<li><strong>Assignees</strong>
+<ul>
+<li>Er kunnen mensen geassigned worden op een issue. Hiermee kan duidelijk worden aangegeven wie verantwoordelijk is om een issue op te lossen.</li>
+</ul>
+</li>
+<li><strong>Labels</strong>
+<ul>
+<li>Met labels kan er een overzicht worden gegeven wat voor een soort issue er beschreven wordt.
+![[10.2 OI_Git_GitHub_Issues_2.png]]
+<em>Figuur 2: Pagina voor het aanmaken van een issue</em></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Voor meer informatie: <a href="https://github.com/features/issues">GitHub Issues</a></p>
+</blockquote>
+<h2 id="wiki" tabindex="-1">Wiki <a aria-hidden="true" class="anchor" href="#wiki">#</a></h2>
+<p>Een GitHub Wiki is een systeem dat geïntegreerd is in GitHub-repositories en waarmee je documentatie voor je project kunt maken en organiseren. Het werkt als een kleine website waar je meerdere pagina’s kunt aanmaken, deze aan elkaar kunt koppelen en de inhoud kunt opmaken met markdown.</p>
+<p>Het wordt vaak gebruikt om gedetailleerde documentatie voor een project aan te bieden, zoals installatiehandleidingen, gebruiksinstructies, API-referenties en veelgestelde vragen.</p>
+<p>Je kunt de wikipagina’s opmaken met markdown, een eenvoudige opmaaktaal, zodat je makkelijk tekst kunt stylen en elementen zoals codefragmenten, links en afbeeldingen kunt toevoegen.</p>
+<p>Net als bij een GitHub-repository, kunnen medewerkers aan de repository ook de wikipagina’s bewerken, afhankelijk van hun rechten.</p>
+<p>Elke wijziging in een wiki wordt bijgehouden, zodat je de geschiedenis van bewerkingen kunt zien, veranderingen kunt vergelijken en indien nodig kunt terugkeren naar eerdere versies.</p>
+<p>Om gebruik te maken van de wiki is deze te vinden in dezelfde taskbar waar de <code class="hljs"><span class="hljs-attribute">Issues</span></code> ook te vinden is.</p>
+<blockquote>
+<p>Meer informatie over de Wiki: <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects">GitHub Wiki</a></p>
+</blockquote>
+<h2 id="project" tabindex="-1">Project <a aria-hidden="true" class="anchor" href="#project">#</a></h2>
+<p>GitHub Projects is een tool binnen GitHub die helpt bij het organiseren en beheren van werk voor een repository of organisatie. Het biedt een visueel overzicht van taken en workflows, vergelijkbaar met een projectmanagementbord zoals Trello. Het is ontworpen om ontwikkelteams te helpen hun werk beter te plannen en te volgen.
+![[10.3 OI_Git_GitHub_Projects_1.png]]
+<em>Figuur 3: Project pagina op de GitHub website</em></p>
+<blockquote>
+<p>Meer informatie over Projects: <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects">GitHub Projects</a></p>
+</blockquote>
+<h2 id="pages" tabindex="-1">Pages <a aria-hidden="true" class="anchor" href="#pages">#</a></h2>
+<p>GitHub Pages is een dienst van GitHub waarmee je eenvoudig statische websites kunt hosten vanuit een GitHub-repository. Het is bedoeld voor het maken van persoonlijke websites, projectdocumentatie, of portfolio’s zonder dat je zelf een webserver hoeft te beheren.</p>
+<p>GitHub Pages ondersteunt HTML-, CSS-, en JavaScript-bestanden kunt hosten voor een statische website. Je kunt ook gebruikmaken van statische site generators om dynamische content te maken zonder een server-side backend.</p>
+<p>Standaard zal de url voor de GitHub page <code class="hljs">gebruikersnaam.github.<span class="hljs-built_in">io</span></code> worden. De hosting op pages is ook een gratis service.</p>
+<p>Om een eigen GitHub Page aan te maken, volg dit <a href="https://docs.github.com/en/pages/quickstart">stappenplan</a></p>
+<blockquote>
+<p>Meer informatie over Pages: <a href="https://docs.github.com/en/pages">GitHub Pages</a></p>
+</blockquote>
+<h2 id="releases" tabindex="-1">Releases <a aria-hidden="true" class="anchor" href="#releases">#</a></h2>
+<p>GitHub Releases zijn een manier om versies van je softwareproject te beheren en te delen via GitHub. Releases zijn nauw verbonden met tags en bieden een gestructureerde manier om belangrijke punten in de ontwikkeling van een project te documenteren, zoals nieuwe versies, bugfixes of belangrijke veranderingen.</p>
+<p>Een release op GitHub is gekoppeld aan een specifieke tag in je repository. Wanneer je een release maakt, wijs je deze toe aan een tag die een snapshot van je project op dat specifieke moment vertegenwoordigt.</p>
+<p>Releases zijn zichtbaar op de GitHub-pagina van je repository en zijn toegankelijk voor iedereen die toegang heeft tot de repository. Dit maakt het eenvoudig voor andere ontwikkelaars en gebruikers om te zien welke versies beschikbaar zijn en welke veranderingen zijn aangebracht.</p>
+<h3 id="voordelen-van-github-releases" tabindex="-1">Voordelen van GitHub Releases <a aria-hidden="true" class="anchor" href="#voordelen-van-github-releases">#</a></h3>
+<ul>
+<li><strong>Overzichtelijkheid:</strong> Releases bieden een georganiseerde manier om de voortgang van je project te volgen.</li>
+<li><strong>Gebruiksgemak:</strong> Gebruikers kunnen eenvoudig de nieuwste versies van je software downloaden en installatie-instructies bekijken.</li>
+<li><strong>Documentatie:</strong> De release-notities fungeren als documentatie voor wat er in elke versie is veranderd.</li>
+<li><strong>Automatisering:</strong> GitHub kan geïntegreerd worden met CI/CD-tools om automatisch releases te maken wanneer bepaalde voorwaarden zijn voldaan.</li>
+</ul>
+<blockquote>
+<p>Meer informatie over Releases: <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases">GitHub Releases</a></p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Github Issues: <a href="https://github.com/features/issues">https://github.com/features/issues</a> <br/>
+Github Wiki: <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects">https://docs.github.com/en/issues/planning-and-tracking-with-projects</a> <br/>
+Github Project: <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects">https://docs.github.com/en/issues/planning-and-tracking-with-projects</a> <br/>
+Github Pages: <a href="https://docs.github.com/en/pages">https://docs.github.com/en/pages</a> <br/>
+Github Tags: <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">https://git-scm.com/book/en/v2/Git-Basics-Tagging</a> <br/>
+Github Releases: <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases">https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases</a></p>
+</blockquote>
+</div>
+</body>
+</html>

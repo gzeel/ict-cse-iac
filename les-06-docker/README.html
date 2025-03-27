@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Les 6 - Docker</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#docker">Docker </a></li><li class="toc-item"><a class="toc-link" href="#de-basis-van-containerisatie">De basis van containerisatie </a></li><li class="toc-item"><a class="toc-link" href="#docker%3A-de-motor-achter-moderne-containerisatie">Docker: De motor achter moderne containerisatie </a></li><li class="toc-item"><a class="toc-link" href="#dockerfiles%3A-de-bouwplannen-voor-containers">Dockerfiles: De bouwplannen voor containers </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#anatomie-van-een-dockerfile">Anatomie van een Dockerfile </a></li><li class="toc-item"><a class="toc-link" href="#de-bouwcontext-en-lagen-begrijpen">De bouwcontext en lagen begrijpen </a></li><li class="toc-item"><a class="toc-link" href="#best-practices-voor-dockerfiles">Best practices voor Dockerfiles </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#docker-in-actie%3A-een-blik-op-draaiende-containers">Docker in actie: Een blik op draaiende containers </a></li><li class="toc-item"><a class="toc-link" href="#docker-compose%3A-orkestratie-van-complexe-applicaties">Docker Compose: Orkestratie van complexe applicaties </a></li><li class="toc-item"><a class="toc-link" href="#beheer-van-docker-containers-met-ansible">Beheer van Docker-containers met Ansible </a></li><li class="toc-item"><a class="toc-link" href="#docker-in-de-praktijk">Docker in de praktijk </a></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="les-6---docker" tabindex="-1">Les 6 - Docker <a aria-hidden="true" class="anchor" href="#les-6---docker">#</a></h1>
+<h2 id="docker" tabindex="-1">Docker <a aria-hidden="true" class="anchor" href="#docker">#</a></h2>
+<p>Docker is niet zozeer Infrastructure as Code als de tools waar we de afgelopen weken naar gekeken hebben. Maar het heeft wel veel voordelen als je met Infrastructure as Code gaat werken of als je als organisatie richting een DevOps manier van werken wil.
+Doordat een applicatie niet langer (handmatig) geinstalleerd wordt, met een rij aan handmatig op te lossen dependencies, zou je kunnen stellen dat het een soort van idempotency in zich heeft.</p>
+<h2 id="de-basis-van-containerisatie" tabindex="-1">De basis van containerisatie <a aria-hidden="true" class="anchor" href="#de-basis-van-containerisatie">#</a></h2>
+<p>Containerisatie heeft de softwareontwikkeling fundamenteel veranderd door applicaties en hun afhankelijkheden samen te verpakken in gestandaardiseerde, draagbare eenheden. Anders dan traditionele virtualisatie deelt een container het onderliggende besturingssysteem met de host, maar draait in een geïsoleerde omgeving met eigen bestandssysteem, CPU, geheugen, processen en netwerken. Dit zorgt voor consistentie tussen verschillende omgevingen, van ontwikkeling tot productie.</p>
+<p>De waarde van containerisatie zit in het oplossen van het “het werkt op mijn machine” probleem. Ontwikkelaars kunnen hun applicatie en alle afhankelijkheden bundelen in één container, waardoor ze zeker weten dat deze overal identiek draait. Door hun lichtgewicht karakter kunnen containers binnen seconden worden opgestart en afgesloten, wat zeer efficiënte schaalbaarheid mogelijk maakt. De isolatie tussen containers voorkomt conflicten tussen applicaties, terwijl de portabiliteit ervoor zorgt dat applicaties op elk platform met een containerruntime kunnen draaien.</p>
+<h2 id="docker%3A-de-motor-achter-moderne-containerisatie" tabindex="-1">Docker: De motor achter moderne containerisatie <a aria-hidden="true" class="anchor" href="#docker%3A-de-motor-achter-moderne-containerisatie">#</a></h2>
+<p>Docker heeft containerisatie toegankelijk gemaakt voor een breed publiek sinds de lancering in 2013. De architectuur bestaat uit verschillende kerncomponenten die samen een krachtig ecosysteem vormen.</p>
+<p>De Docker Engine fungeert als het hart van het systeem. Deze runtime bestaat uit een daemon (containerd), een gebruiksvriendelijke command-line interface, en een REST API voor communicatie tussen componenten. Docker Images zijn de blauwdrukken waaruit containers worden gemaakt. Deze bevatten alle code, bibliotheken, en systeemtools die nodig zijn om een applicatie te draaien.</p>
+<h2 id="dockerfiles%3A-de-bouwplannen-voor-containers" tabindex="-1">Dockerfiles: De bouwplannen voor containers <a aria-hidden="true" class="anchor" href="#dockerfiles%3A-de-bouwplannen-voor-containers">#</a></h2>
+<p>Een Dockerfile is een tekstbestand met instructies die Docker vertellen hoe een image gebouwd moet worden. Het fungeert als een soort recept voor het creëren van een Docker-image, waarin elke regel een nieuwe laag in het image vertegenwoordigt. Deze gelaagde aanpak maakt Docker images efficiënt en makkelijk te onderhouden.</p>
+<h3 id="anatomie-van-een-dockerfile" tabindex="-1">Anatomie van een Dockerfile <a aria-hidden="true" class="anchor" href="#anatomie-van-een-dockerfile">#</a></h3>
+<p>Een Dockerfile bestaat uit een reeks instructies die Docker stap voor stap uitvoert. Elke instructie begint met een sleutelwoord (zoals FROM, COPY, RUN) gevolgd door argumenten. Hier zijn de meest gebruikte instructies:</p>
+<p><strong>FROM</strong>: Specificeert de basis-image waarop gebouwd wordt. Dit is altijd de eerste instructie in een Dockerfile. Bijvoorbeeld: <code class="hljs"><span class="hljs-attribute">FROM</span> ubuntu:<span class="hljs-number">24</span>.<span class="hljs-number">04</span></code> of <code class="hljs">FROM <span class="hljs-keyword">node</span><span class="hljs-title">:22</span></code>. Het volgt meestal het formaat <code class="hljs">[<span class="hljs-symbol">image</span>]:<span class="hljs-link">[tag]</span></code>.</p>
+<p><strong>WORKDIR</strong>: Stelt de werkdirectory in voor alle volgende instructies. Dit is waar uw applicatie binnen de container zal leven. Bijvoorbeeld: <code class="hljs"><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span></code>.</p>
+<p><strong>COPY</strong> en <strong>ADD</strong>: Kopiëren bestanden van de lokale bouwcontext naar het image. COPY is eenvoudiger en kopieert alleen lokale bestanden, terwijl ADD extra functionaliteiten heeft zoals het uitpakken van archieven. Bijvoorbeeld: <code class="hljs"><span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span></code> kopieert alle bestanden uit de huidige directory naar de werkdirectory in het image.</p>
+<p><strong>RUN</strong>: Voert commando’s uit tijdens het bouwen van het image en slaat het resultaat op als een nieuwe laag. Vaak gebruikt voor het installeren van afhankelijkheden. Bijvoorbeeld: <code class="hljs"><span class="hljs-built_in">RUN</span> apt-<span class="hljs-built_in">get</span> update &amp;&amp; apt-<span class="hljs-built_in">get</span> install -y python3</code>.</p>
+<p><strong>ENV</strong>: Stelt omgevingsvariabelen in die beschikbaar zijn tijdens het bouwen en in de draaiende container. Bijvoorbeeld: <code class="hljs"><span class="hljs-keyword">ENV</span> NODE_ENV production</code>.</p>
+<p><strong>EXPOSE</strong>: Documenteert welke poorten de container gebruikt tijdens het draaien. Dit is puur informatief; om daadwerkelijk poorten te openen moet je parameters meegeven bij het starten van de container. Bijvoorbeeld: <code class="hljs"><span class="hljs-attribute">EXPOSE</span> <span class="hljs-number">80</span></code>.</p>
+<p><strong>CMD</strong> en <strong>ENTRYPOINT</strong>: Definieert wat er gebeurt wanneer de container start. CMD geeft het standaard commando en argumenten, terwijl ENTRYPOINT het uitvoerbare bestand specificeert. Er kan slechts één CMD-instructie in een Dockerfile zijn. Bijvoorbeeld: <code class="hljs">CMD <span class="hljs-selector-attr">[<span class="hljs-string">"node"</span>, <span class="hljs-string">"server.js"</span>]</span></code>.</p>
+<p><strong>VOLUME</strong>: Creëert een mountpunt voor persistent data dat de levensduur van de container overstijgt. Bijvoorbeeld: <code class="hljs"><span class="hljs-keyword">VOLUME</span><span class="language-bash"> /data</span></code>.</p>
+<h3 id="de-bouwcontext-en-lagen-begrijpen" tabindex="-1">De bouwcontext en lagen begrijpen <a aria-hidden="true" class="anchor" href="#de-bouwcontext-en-lagen-begrijpen">#</a></h3>
+<p>Wanneer je een Docker image bouwt met <code class="hljs">docker build .</code>, verwijst de punt naar de “bouwcontext” – de directory die alle bestanden bevat die naar Docker worden gestuurd voor het bouwproces. Docker bouwt elke instructie als een aparte laag, wat een aantal belangrijke implicaties heeft:</p>
+<ol>
+<li>
+<p><strong>Caching</strong>: Docker kan lagen cachen die niet zijn veranderd sinds de laatste build, wat het bouwproces aanzienlijk versnelt.</p>
+</li>
+<li>
+<p><strong>Gelaagdheid</strong>: Elke laag is afhankelijk van de lagen eronder, en bevat alleen de wijzigingen ten opzichte van de vorige laag.</p>
+</li>
+<li>
+<p><strong>Optimalisatie</strong>: De volgorde van instructies beïnvloedt de efficiëntie van caching. Instructies die vaak veranderen (zoals het kopiëren van uw applicatiecode) moeten later in het Dockerfile komen dan stabielere instructies (zoals het installeren van systeemdependencies).</p>
+</li>
+</ol>
+<h3 id="best-practices-voor-dockerfiles" tabindex="-1">Best practices voor Dockerfiles <a aria-hidden="true" class="anchor" href="#best-practices-voor-dockerfiles">#</a></h3>
+<ol>
+<li>
+<p><strong>Gebruik specifieke tags</strong>: Vermijd <code class="hljs">FROM <span class="hljs-keyword">node</span><span class="hljs-title">:latest</span></code> en gebruik in plaats daarvan specifieke versies zoals <code class="hljs"><span class="hljs-attribute">FROM</span> node:<span class="hljs-number">14</span>.<span class="hljs-number">17</span>.<span class="hljs-number">5</span></code> om reproduceerbaarheid te garanderen.</p>
+</li>
+<li>
+<p><strong>Combineer gerelateerde RUN-instructies</strong>: Gebruik de shell-operator <code class="hljs"><span class="hljs-meta">&amp;&amp;</span></code> om gerelateerde commando’s te combineren, en <code class="hljs"><span class="hljs-string">\</span></code> voor leesbaarheid bij meerdere regels. Dit vermindert het aantal lagen.</p>
+</li>
+<li>
+<p><strong>Verwijder overbodige bestanden</strong>: Ruim na elke installatie op om de imagegrootte te minimaliseren.</p>
+</li>
+<li>
+<p><strong>Gebruik .dockerignore</strong>: Creëer een .dockerignore-bestand om onnodige bestanden uit te sluiten van de bouwcontext.</p>
+</li>
+<li>
+<p><strong>Gebruik multi-stage builds</strong>: Voor complexe applicaties, gebruik meerdere FROM-instructies om build-tools en runtime-afhankelijkheden te scheiden.</p>
+</li>
+<li>
+<p><strong>Draai als niet-root gebruiker</strong>: Voeg een <code class="hljs"><span class="hljs-keyword">USER</span></code>-instructie toe om de container als een niet-root gebruiker te draaien, wat veiliger is.</p>
+</li>
+</ol>
+<p>Nu we een goed begrip hebben van Dockerfiles, laten we een voorbeeld bekijken van een Node.js applicatie:</p>
+<pre><code class="hljs language-dockerfile"><span class="hljs-comment"># Basisimage: Node.js versie 14 op Alpine Linux (klein besturingssysteem)</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">22</span>-alpine
+
+<span class="hljs-comment"># Stel werkdirectory in</span>
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Kopieer package.json en package-lock.json eerst om gebruik te maken van Docker's cache</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+
+<span class="hljs-comment"># Installeer afhankelijkheden</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install --production</span>
+
+<span class="hljs-comment"># Kopieer de applicatiecode (dit verandert vaak, dus komt later in het Dockerfile)</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Stel omgevingsvariabele in</span>
+<span class="hljs-keyword">ENV</span> NODE_ENV=production
+
+<span class="hljs-comment"># Poort die de applicatie gebruikt</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+
+<span class="hljs-comment"># Definieer een niet-root gebruiker voor beveiliging</span>
+<span class="hljs-keyword">USER</span> node
+
+<span class="hljs-comment"># Commando om uit te voeren bij container start</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">"node"</span>, <span class="hljs-string">"app.js"</span>]</span>
+</code></pre>
+<p>Dit Dockerfile volgt best practices door:</p>
+<ul>
+<li>Een specifieke Node.js versie te gebruiken</li>
+<li>Gebruik te maken van Docker’s caching-mechanisme door package.json eerst te kopiëren</li>
+<li>Alleen productie-afhankelijkheden te installeren</li>
+<li>De applicatie als een niet-root gebruiker te draaien</li>
+<li>Commando’s logisch te ordenen van minst-vaak-veranderend naar meest-vaak-veranderend</li>
+</ul>
+<p>Docker Registry biedt een centrale opslagplaats voor images. Docker Hub dient als de officiële publieke registry, terwijl veel organisaties private registries gebruiken voor gevoelige of bedrijfseigen images.</p>
+<h2 id="docker-in-actie%3A-een-blik-op-draaiende-containers" tabindex="-1">Docker in actie: Een blik op draaiende containers <a aria-hidden="true" class="anchor" href="#docker-in-actie%3A-een-blik-op-draaiende-containers">#</a></h2>
+<p>Wanneer Docker-containers draaien op een host, kun je deze bekijken met het commando <code class="hljs"><span class="hljs-attribute">docker ps</span></code>. Dit geeft een overzicht van alle actieve containers, hun status en configuratie. Hieronder zie je hoe dit er in de praktijk uit zou kunnen zien:</p>
+<pre><code class="hljs"><span class="hljs-attribute">CONTAINER</span> ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+<span class="hljs-attribute">a72f6e346a32</span>   nginx:latest           <span class="hljs-string">"/docker-entrypoint.…"</span>   <span class="hljs-number">2</span> minutes ago    Up <span class="hljs-number">2</span> minutes    <span class="hljs-number">0.0.0.0:80</span>-&gt;<span class="hljs-number">80</span>/tcp, :::<span class="hljs-number">80</span>-&gt;<span class="hljs-number">80</span>/tcp           web-server
+<span class="hljs-attribute">f836d9a7c1d4</span>   postgres:<span class="hljs-number">13</span>            <span class="hljs-string">"docker-entrypoint.s…"</span>   <span class="hljs-number">15</span> minutes ago   Up <span class="hljs-number">15</span> minutes   <span class="hljs-number">0.0.0.0:5432</span>-&gt;<span class="hljs-number">5432</span>/tcp, :::<span class="hljs-number">5432</span>-&gt;<span class="hljs-number">5432</span>/tcp   database
+<span class="hljs-attribute">c45e7c986a2d</span>   redis:<span class="hljs-number">6</span>                <span class="hljs-string">"docker-entrypoint.s…"</span>   <span class="hljs-number">23</span> minutes ago   Up <span class="hljs-number">23</span> minutes   <span class="hljs-number">6379</span>/tcp                                    cache
+<span class="hljs-attribute">814f6d8750fe</span>   company/api:v2.<span class="hljs-number">3</span>       <span class="hljs-string">"node server.js"</span>         <span class="hljs-number">3</span> hours ago      Up <span class="hljs-number">3</span> hours      <span class="hljs-number">0.0.0.0:3000</span>-&gt;<span class="hljs-number">3000</span>/tcp                      api-service
+<span class="hljs-attribute">9b2fc8b65321</span>   company/worker:latest  <span class="hljs-string">"python worker.py"</span>       <span class="hljs-number">2</span> days ago       Up <span class="hljs-number">2</span> days                                                   background-worker
+<span class="hljs-attribute">e67d3c932811</span>   grafana/grafana        <span class="hljs-string">"/run.sh"</span>                <span class="hljs-number">5</span> days ago       Up <span class="hljs-number">5</span> days       <span class="hljs-number">0.0.0.0:3001</span>-&gt;<span class="hljs-number">3000</span>/tcp                      monitoring
+</code></pre>
+<p>Dit overzicht toont diverse containers die verschillende diensten draaien, zoals een webserver (NGINX), database (PostgreSQL), caching-service (Redis), een API-service, een achtergrondverwerker en een monitoring-tool (Grafana). Elke container heeft een unieke ID, is gebaseerd op een specifieke image, draait een bepaald commando, en kan poorten van de host doorverwijzen naar poorten binnen de container (zoals 0.0.0.0:80-&gt;80/tcp voor de webserver).</p>
+<p>Deze containers draaien allemaal geïsoleerd van elkaar, maar kunnen via het Docker-netwerk met elkaar communiceren. Ze delen het besturingssysteem van de host, maar hebben elk hun eigen processen, bestandssystemen en netwerkstacks.</p>
+<h2 id="docker-compose%3A-orkestratie-van-complexe-applicaties" tabindex="-1">Docker Compose: Orkestratie van complexe applicaties <a aria-hidden="true" class="anchor" href="#docker-compose%3A-orkestratie-van-complexe-applicaties">#</a></h2>
+<p>Docker Compose maakt het mogelijk om meerdere containers als één samenhangend systeem te beheren. Door een declaratieve YAML-configuratie te gebruiken, kan een ontwikkelaar een volledige applicatie met al haar componenten definiëren. Docker Compose automatiseert vervolgens het creëren van netwerken, volumes, en het starten van containers in de juiste volgorde.</p>
+<p>Stel je voor dat je een webapplicatie ontwikkelt met een frontend, backend API, en een database. Met Docker Compose definieert u deze structuur in één bestand:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">frontend:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">./frontend</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"80:80"</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">api</span>
+
+  <span class="hljs-attr">api:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">./api</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">DATABASE_URL:</span> <span class="hljs-string">postgres://postgres:example@db:5432/app</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+
+  <span class="hljs-attr">db:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:13</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">example</span>
+      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">app</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db-data:/var/lib/postgresql/data</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">db-data:</span>
+</code></pre>
+<p>Met één enkel commando (<code class="hljs"><span class="hljs-attribute">docker-compose up</span></code>) wordt deze volledige stack opgestart, met alle juiste netwerkverbindingen en volumekoppelingen. Dit vereenvoudigt het ontwikkelproces aanzienlijk, omdat ontwikkelaars niet langer complexe Docker-commando’s hoeven te onthouden of scripts hoeven te schrijven voor het opstarten van hun ontwikkelomgeving.</p>
+<p>Docker Compose is bijzonder waardevol voor het opzetten van lokale ontwikkelomgevingen, geautomatiseerde testomgevingen, demonstratie-opstellingen, en staging-omgevingen. Het helpt ontwikkelaars om zich te concentreren op hun code, terwijl de infrastructuur wordt gestandaardiseerd en reproduceerbaar wordt gemaakt.</p>
+<h2 id="beheer-van-docker-containers-met-ansible" tabindex="-1">Beheer van Docker-containers met Ansible <a aria-hidden="true" class="anchor" href="#beheer-van-docker-containers-met-ansible">#</a></h2>
+<p>Terwijl Docker Compose uitstekend werkt voor lokale ontwikkeling en kleinschalige implementaties, vereist het beheren van containers in grotere productieomgevingen meer geavanceerde automatiseringstools. Hier komt Ansible in beeld – een krachtig IT-automatiseringsplatform dat het beheer van Docker-containers naar een hoger niveau tilt.</p>
+<p>Ansible is een configuratiebeheertool die werkt vanuit het principe van idempotentie: ongeacht hoe vaak u een taak uitvoert, het resultaat blijft hetzelfde. Voor Docker-beheer betekent dit dat Ansible kan controleren of containers draaien met de juiste configuratie, en alleen wijzigingen aanbrengt waar nodig.</p>
+<p>Het gebruik van Ansible voor Docker-beheer biedt verschillende voordelen. Ten eerste kan Ansible zowel de Docker-infrastructuur als de containers zelf beheren. Dit betekent dat het niet alleen containers kan starten en stoppen, maar ook de onderliggende Docker Engine kan installeren, configureren en updaten op tientallen of honderden servers tegelijk.</p>
+<p>Een typisch Ansible-playbook voor Docker-beheer zou er als volgt uit kunnen zien:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Configureer</span> <span class="hljs-string">Docker</span> <span class="hljs-string">op</span> <span class="hljs-string">webservers</span>
+  <span class="hljs-attr">hosts:</span> <span class="hljs-string">webservers</span>
+  <span class="hljs-attr">become:</span> <span class="hljs-literal">yes</span>
+  <span class="hljs-attr">tasks:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Installeer</span> <span class="hljs-string">Docker</span>
+      <span class="hljs-attr">apt:</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">docker.io</span>
+        <span class="hljs-attr">state:</span> <span class="hljs-string">present</span>
+        <span class="hljs-attr">update_cache:</span> <span class="hljs-literal">yes</span>
+
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Start</span> <span class="hljs-string">en</span> <span class="hljs-string">enable</span> <span class="hljs-string">Docker</span> <span class="hljs-string">service</span>
+      <span class="hljs-attr">service:</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">docker</span>
+        <span class="hljs-attr">state:</span> <span class="hljs-string">started</span>
+        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">yes</span>
+
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Pull</span> <span class="hljs-string">de</span> <span class="hljs-string">nieuwste</span> <span class="hljs-string">versie</span> <span class="hljs-string">van</span> <span class="hljs-string">de</span> <span class="hljs-string">webapp</span> <span class="hljs-string">image</span>
+      <span class="hljs-attr">docker_image:</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">company/webapp</span>
+        <span class="hljs-attr">source:</span> <span class="hljs-string">pull</span>
+        <span class="hljs-attr">force_source:</span> <span class="hljs-literal">yes</span>
+
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Start</span> <span class="hljs-string">webapp</span> <span class="hljs-string">containers</span>
+      <span class="hljs-attr">docker_container:</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">"webapp-<span class="hljs-template-variable">{{ inventory_hostname }}</span>"</span>
+        <span class="hljs-attr">image:</span> <span class="hljs-string">company/webapp:latest</span>
+        <span class="hljs-attr">state:</span> <span class="hljs-string">started</span>
+        <span class="hljs-attr">restart_policy:</span> <span class="hljs-string">always</span>
+        <span class="hljs-attr">ports:</span>
+          <span class="hljs-bullet">-</span> <span class="hljs-string">"80:80"</span>
+        <span class="hljs-attr">env:</span>
+          <span class="hljs-attr">NODE_ENV:</span> <span class="hljs-string">production</span>
+</code></pre>
+<p>Dit playbook automatiseert de installatie van Docker, het downloaden van images, en het starten van containers op alle servers in de “webservers” groep. Het grote voordeel van deze aanpak is schaalbaarheid en consistentie. Dezelfde configuratie wordt toegepast op elke server, waardoor configuratiedrift wordt voorkomen.</p>
+<p>Ansible ondersteunt ook meer geavanceerde Docker-orchestratiescenario’s. Bijvoorbeeld, het kan integreren met Docker Swarm of Kubernetes voor het beheren van containerorkestratieclusters, het uitvoeren van rolling updates zonder downtime, en het implementeren van complexe netwerkconfiguraties.</p>
+<p>Voor organisaties die een CI/CD-pijplijn implementeren, kan Ansible dienen als de deployment-laag. Wanneer een nieuwe versie van een applicatie wordt gebouwd en getest, kan Ansible automatisch de nieuwe container-images uitrollen naar de productieomgeving, met ingebouwde controlemechanismen om de gezondheid van de implementatie te verifiëren.</p>
+<p>Een ander krachtig gebruik van Ansible met Docker is het beheren van de gehele container-levenscyclus, inclusief gezondheidscontroles, backups, en monitoring. Met Ansible’s integratie met monitoring-tools zoals Prometheus kan het automatisch reageren op problemen door containers te herstarten of te schalen wanneer nodig.</p>
+<h2 id="docker-in-de-praktijk" tabindex="-1">Docker in de praktijk <a aria-hidden="true" class="anchor" href="#docker-in-de-praktijk">#</a></h2>
+<p>In de praktijk wordt Docker ingezet in een breed scala aan scenario’s. Ontwikkelteams gebruiken Docker om identieke ontwikkelomgevingen te garanderen voor alle teamleden, ongeacht hun lokale besturingssysteem. Grote organisaties zoals Netflix, Uber en PayPal implementeren microservices-architecturen met Docker, waarbij elke service in haar eigen container draait.</p>
+<p>In CI/CD-pijplijnen maken Docker-containers het mogelijk om code consistent te testen en implementeren, terwijl in de data science wereld Docker zorgt voor reproduceerbare onderzoeksomgevingen met complexe afhankelijkheden. Legacy-applicaties kunnen worden gecontaineriseerd om ze portabel te maken zonder herschrijven, wat migratie naar de cloud aanzienlijk vereenvoudigt.</p>
+<p>De combinatie van Docker voor containerisatie, Docker Compose voor lokale ontwikkeling en testen, en Ansible voor grootschalig beheer, vormt een krachtige toolset voor moderne software-implementatie. Deze technologieën samen maken het mogelijk om applicaties betrouwbaar, schaalbaar en consistent uit te rollen, van de laptop van een ontwikkelaar tot grote productieclusters met duizenden servers.</p>
+<blockquote>
+<p>Opdracht :
+Maak een complete deployment waarin je een Azure VM en ESXi VM combineert en je een hybrid cloud situatie maakt. Gebruik de stof van de afgelopen lessen. De deployment is compleet geautomatiseert, inclusief het aanmaken van VM’s en andere resources in Azure. Je maakt op beide omgeving een gebruiker ‘testuser’ aan, via Ansible of via Terraform. De testuser kan inloggen van de ESXI VM naar de Azure VM, het plaatsen van de benodigde SSH keys is geautomatiseerd. Op beide systemen draait een “Hello World” Docker container en je gebruikt een role om docker te installeren. De omgeving kan automatisch via CI/CD uitgerold worden (dit hoeft alleen voor ESXi, want je hebt niet genoeg rechten hiervoor op Azure).</p>
+</blockquote>
+<p>Voor week 6 hoef je niet specifiek iets in te leveren. Dit kun je bij je uiteindelijke eindoplevering plaatsen.</p>
+<pre><code class="hljs">
+</code></pre>
+</div>
+</body>
+</html>

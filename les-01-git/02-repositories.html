@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>02-repositories</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-repositories">Git Repositories </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-een-repository%3F">Wat is een repository? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#public-%26-private">Public &amp; Private </a></li><li class="toc-item"><a class="toc-link" href="#readme">README </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-een-repository-in-elkaar%3F">Hoe zit een repository in elkaar? </a></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-een-repository%3F">Wat kan je met een repository? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#clonen">Clonen </a></li><li class="toc-item"><a class="toc-link" href="#forken-van-een-repository">Forken van een repository </a></li></ul></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-repositories" tabindex="-1">Git Repositories <a aria-hidden="true" class="anchor" href="#git-repositories">#</a></h2>
+<blockquote>
+<p>Meer informatie over repositories: <a href="https://docs.github.com/en/repositories">Git Repositories</a></p>
+</blockquote>
+<h2 id="wat-is-een-repository%3F" tabindex="-1">Wat is een repository? <a aria-hidden="true" class="anchor" href="#wat-is-een-repository%3F">#</a></h2>
+<p>Een repository fungeert als een centrale opslagplaats voor de broncode, documentatie en andere bestanden die bij een project horen. Via een repository kunnen verschillende ontwikkelaars samenwerken, wijzigingen volgen, en versies beheren.</p>
+<h3 id="public-%26-private" tabindex="-1">Public &amp; Private <a aria-hidden="true" class="anchor" href="#public-%26-private">#</a></h3>
+<p>Repositories kunnen verschillende instellingen hebben over de zichtbaarheid voor anderen, namelijk <code class="hljs"><span class="hljs-keyword">public</span></code> en <code class="hljs"><span class="hljs-keyword">private</span></code>.</p>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">public</span></code>
+<ul>
+<li>Een public repository is voor iedereen zichtbaar en kan ook gedownload worden door iedereen. Public repositories zijn gebruikelijk voor een open-source project (een project waar iedereen aan kan bijdragen).</li>
+</ul>
+</li>
+<li><code class="hljs"><span class="hljs-keyword">private</span></code>
+<ul>
+<li>Een private repository is alleen zichtbaar voor de eigenaar en iedereen die is toegevoegd aan de repository. Dit zijn vaak privé projecten waar informatie instaat die niet publiek toegankelijk moet zijn.</li>
+</ul>
+</li>
+</ul>
+<h3 id="readme" tabindex="-1">README <a aria-hidden="true" class="anchor" href="#readme">#</a></h3>
+<p>Een README is een markdown bestand (<code class="hljs"><span class="hljs-title">.md</span></code>) waarin de informatie vermeld staat wat nodig is om bezig te gaan met het project of de regels die gelden voor het bijdragen aan de repository.</p>
+<h2 id="hoe-zit-een-repository-in-elkaar%3F" tabindex="-1">Hoe zit een repository in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-een-repository-in-elkaar%3F">#</a></h2>
+<p>Een repository bevat bestanden en/of folders van een project. Via vertakkingen kan er gewerkt worden aan veranderingen zonder dat het centrale project hierdoor gelijk beïnvloedt wordt. Als veranderingen worden samengevoegd wordt hier ook de versie van bijgehouden.</p>
+<p>Git houdt de versie van een repository bij in de <code class="hljs"><span class="hljs-title">.git</span></code> folder. Hierin staat een <code class="hljs"><span class="hljs-attribute">objects</span></code> folder. In deze folder zitten de verschillende versies, <em>snapshots</em>, met de bestanden van het project op dat moment.</p>
+<h2 id="wat-kan-je-met-een-repository%3F" tabindex="-1">Wat kan je met een repository? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-een-repository%3F">#</a></h2>
+<p>Met een repository werk je aan een project waarbij een versiebeheer wordt bijgehouden. Om gebruik te maken van een repository is het mogelijk om deze niet alleen zelf aan te maken maar ook op te halen van GitHub/GitLab. Dit kan op twee verschillende manieren, <em>clonen</em> en <em>forken</em>.</p>
+<h3 id="clonen" tabindex="-1">Clonen <a aria-hidden="true" class="anchor" href="#clonen">#</a></h3>
+<p>Het clonen van een repository betekent dat je een kopie van de repository naar je lokale machine downloadt. Dit stelt je in staat om lokaal met de code te werken. Deze veranderingen kunnen later worden samengevoegd met de centrale versie van het project.</p>
+<h3 id="forken-van-een-repository" tabindex="-1">Forken van een repository <a aria-hidden="true" class="anchor" href="#forken-van-een-repository">#</a></h3>
+<p>Een repository kan ook <em>geforked</em> worden. Een fork is een kopie van een repository op je eigen GitHub/GitLab account. Deze <em>fork</em> kan gebruikt worden om wijzigingen aan te brengen zonder de originele versie van het project te beïnvloeden. Dit wordt gebruikt voor verschillende zaken:</p>
+<ul>
+<li><strong>Bijdragen aan open-source projecten</strong>
+<ul>
+<li>Om bij te dragen aan open-source projecten kan er via een fork gewerkt worden aan de code zonder dat het centrale project wordt aangepast.</li>
+</ul>
+</li>
+<li><strong>Experimenten</strong>
+<ul>
+<li>Met een fork kan je nieuwe functionaliteiten uitproberen zonder dat er een risico is dat het centrale project wordt aangepast.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!tip] Casus
+Anne heeft al een bestaand project op een repository staan. Zij heeft aan Bert gevraagd om mee te werken aan dit project. Bert cloned hiervoor de repository van Anne. Bert wil gelijk beginnen met het project, maar Anne wijst Bert op de README die bij deze repository zit.</p>
+<p>Anne heeft voor het meewerken aan dit project bepaalde regels om overzicht en consistentie in het project te waarborgen. Dit heeft Anne opgenomen in de README. Bert leest deze eerst zorgvuldig door waarna hij kan meewerken aan het project volgens de regels van de README. Hiermee zorgt hij voor een goeie samenwerking.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Meer uitleg over repositories: <a href="https://docs.github.com/en/repositories">https://docs.github.com/en/repositories</a> <br/>
+Meer uitleg over releases: <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests</a> <br/>
+Meer uitleg over tags: <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">https://git-scm.com/book/en/v2/Git-Basics-Tagging</a></p>
+</blockquote>
+</div>
+</body>
+</html>

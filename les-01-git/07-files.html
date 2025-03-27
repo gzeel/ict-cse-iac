@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>07-files</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-files">Git Files </a></li><li class="toc-item"><a class="toc-link" href="#.git%2F">.git/ </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#.git%2Fhooks%2F">.git/hooks/ </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#.gitignore">.gitignore </a></li><li class="toc-item"><a class="toc-link" href="#.gitkeep">.gitkeep </a></li><li class="toc-item"><a class="toc-link" href="#.github">.github </a></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-files" tabindex="-1">Git Files <a aria-hidden="true" class="anchor" href="#git-files">#</a></h2>
+<p>Met Git zijn er sommige documenten of folders wat Git herkent en kan gebruiken voor eigen acties.</p>
+<h2 id=".git%2F" tabindex="-1">.git/ <a aria-hidden="true" class="anchor" href="#.git%2F">#</a></h2>
+<p>De <code class="hljs"><span class="hljs-title">.git</span></code> folder is een verborgen map in de root van een project. De map bevat alle metadata en objecten die Git nodig heeft om de repository te herkennen en beheren. Hierbij kan je denken aan de commitgeschiedenis, configuraties, branches, tags en stashes. Verder zijn er ook nog folders in de <code class="hljs"><span class="hljs-title">.git</span></code> folder die bepaalde taken hebben</p>
+<ul>
+<li><code class="hljs">objects/</code>: Bevat alle objecten die Git nodig heeft voor het versiebeheer (zoals commits).</li>
+<li><code class="hljs"><span class="hljs-built_in">ref</span>s/</code>: Bevat verwijzingen naar branches en tags.</li>
+<li><code class="hljs">config</code>: De repository-specifieke configuratie.</li>
+<li><code class="hljs"><span class="hljs-attribute">HEAD</span></code>: Bevat een verwijzing naar de huidige actieve branch.</li>
+</ul>
+<h3 id=".git%2Fhooks%2F" tabindex="-1">.git/hooks/ <a aria-hidden="true" class="anchor" href="#.git%2Fhooks%2F">#</a></h3>
+<p>De <code class="hljs"><span class="hljs-attribute">hooks</span></code> subfolder bevat scripts die automatisch worden uitgevoerd door Git bij bepaalde gebeurtenissen of acties in de levenscyclus van een repository. Deze gebeurtenissen omvatten zaken zoals commits, merges, pushes, en meer.</p>
+<p><a href="https://git-scm.com/book/ms/v2/Customizing-Git-Git-Hooks">Git hooks</a> geven je de mogelijkheid om taken te automatiseren, zoals het valideren van code voordat je deze commit, het versturen van meldingen na een push, of het controleren van codeformattering. Een paar voorbeelden van zo’n hook is een <code class="hljs"><span class="hljs-attribute">pre-commit</span></code>, <code class="hljs"><span class="hljs-attribute">post-commit</span></code> en <code class="hljs">pre-<span class="hljs-built_in">push</span></code>.</p>
+<h2 id=".gitignore" tabindex="-1">.gitignore <a aria-hidden="true" class="anchor" href="#.gitignore">#</a></h2>
+<p><code class="hljs"><span class="hljs-title">.gitignore</span></code> is een document waarmee Git kan weten welke folder en/of bestanden niet mee genomen moeten worden in een commit. Hiermee kan je ervoor zorgen dat bestanden/folders niet <em>getracked</em> worden door Git. Dit bestand heeft ook geen bestandsextensie en moet gewoon als <code class="hljs"><span class="hljs-title">.gitignore</span></code> in een project worden geplaatst.</p>
+<blockquote>
+<p>[!warning] Let op
+Het is belangrijk om aan het begin van een project een .gitignore al aan te maken. Als bestanden eenmaal <em>getracked</em> worden, kan het wat moeite kosten om deze weer te untracken.</p>
+</blockquote>
+<h2 id=".gitkeep" tabindex="-1">.gitkeep <a aria-hidden="true" class="anchor" href="#.gitkeep">#</a></h2>
+<p>Als een folder leeg is of als de content van een folder in de gitignore is opgenomen, wordt de map niet getracked (omdat git alleen bestanden kan tracken). Hierdoor kan deze niet naar Git worden gecommit en gepusht.</p>
+<p>Als een <code class="hljs"><span class="hljs-title">.gitkeep</span></code> file in een folder staat, dan zal Git deze folder tracken. De <code class="hljs"><span class="hljs-title">.gitkeep</span></code> zal ook zichtbaar zijn in de repository. De naam voor het bestand (<code class="hljs"><span class="hljs-title">.gitkeep</span></code>) is een informele conventie voor de benaming voor zo’n bestand. Hiervoor kunnen ook andere namen gebruikt worden, zoals <code class="hljs"><span class="hljs-title">.empty</span></code>, <code class="hljs"><span class="hljs-attribute">placeholder</span></code> of <code class="hljs">keepme.<span class="hljs-built_in">md</span></code>.</p>
+<h2 id=".github" tabindex="-1">.github <a aria-hidden="true" class="anchor" href="#.github">#</a></h2>
+<p>Let op, deze directory gebruik je alleen als je met Github werkt, dus niet met GitLab. De <code class="hljs"><span class="hljs-title">.github</span></code> folder wordt gebruikt om verschillende configuraties in op te nemen.</p>
+<ul>
+<li><strong>Issue templates</strong>
+<ul>
+<li>De folder <code class="hljs"><span class="hljs-title">.github/ISSUE_TEMPLATE/</span></code> bevat <code class="hljs"><span class="hljs-title">.md</span></code> bestanden met een format voor issues op github ([[10. GitHub website]]).</li>
+</ul>
+</li>
+<li><strong>Pull requests templates</strong>
+<ul>
+<li>Dit kan een folder (<code class="hljs"><span class="hljs-title">.github/PULL_REQUEST_TEMPLATE/</span></code>) of markdown bestand (<code class="hljs"><span class="hljs-title">.github/PULL_REQUEST_TEMPLATE.md</span></code>) zijn.</li>
+</ul>
+</li>
+<li><strong>Workflows ([[9. GitHub Actions]])</strong>
+<ul>
+<li>In de <code class="hljs"><span class="hljs-title">.github/workflows</span></code> folder kunnen workflow bestanden worden geplaatst zodat Git deze kan herkennen.</li>
+</ul>
+</li>
+<li><strong>Overige</strong>
+<ul>
+<li>Verder kunnen nog bestanden zoals <code class="hljs">CODE_OF_CONDUCT.<span class="hljs-built_in">md</span></code> of <code class="hljs">CONTRIBUTING.<span class="hljs-built_in">md</span></code> worden geplaatst in de <code class="hljs"><span class="hljs-title">.github</span></code> folder om de richtlijnen van het project aan te geve.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!info] Bronnen
+Git hooks: <a href="https://git-scm.com/book/ms/v2/Customizing-Git-Git-Hooks">https://git-scm.com/book/ms/v2/Customizing-Git-Git-Hooks</a></p>
+</blockquote>
+</div>
+</body>
+</html>

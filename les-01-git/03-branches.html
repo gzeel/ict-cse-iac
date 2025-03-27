@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>03-branches</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-branches">Git Branches </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-een-branch%3F">Wat is een branch? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#lokale-en-remote-branches">Lokale en remote branches </a></li><li class="toc-item"><a class="toc-link" href="#branch-protection-rules">Branch protection rules </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-een-branch-in-elkaar%3F">Hoe zit een branch in elkaar? </a></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-een-branch%3F">Wat kan je met een branch? </a></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-branches" tabindex="-1">Git Branches <a aria-hidden="true" class="anchor" href="#git-branches">#</a></h2>
+<blockquote>
+<p>Meer informatie over branches: <a href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">Git branches</a></p>
+</blockquote>
+<h2 id="wat-is-een-branch%3F" tabindex="-1">Wat is een branch? <a aria-hidden="true" class="anchor" href="#wat-is-een-branch%3F">#</a></h2>
+<p>Binnen een team waar een Git-repository wordt gebruikt voor een codeer project, zullen taken verdeeld worden. Om hierbij niet elkaar in de weg te lopen met veranderingen in bestanden, kan het handig zijn om een <em>branch</em> aan te maken. In een branch kan iedereen hun eigen aanpassingen maken, zonder dat de veranderingen invloed hebben op de code van je groepsgenoten.</p>
+<p>Een branch is een vertakking binnen een Git-repository. Bij het aanmaken van een repository komt altijd de branch <code class="hljs"><span class="hljs-selector-tag">main</span></code>. Voorheen heette de standaard branch <code class="hljs"><span class="hljs-literal">master</span></code>, tegenwoordig is het <code class="hljs"><span class="hljs-selector-tag">main</span></code>. In veel gevallen wordt de naam <code class="hljs"><span class="hljs-literal">master</span></code> ook vervangen voor <code class="hljs"><span class="hljs-selector-tag">main</span></code>. Deze branch bevat vaak de meest stabiele versie van een project. Naast deze hoofdbranches kan je zelf ook branches erbij maken, zodat je kan werken aan de code zonder de code van de andere branches van de repository te beïnvloeden.</p>
+<p>In een repository voor een codeer project is het gebruikelijk om in ieder geval een <code class="hljs"><span class="hljs-selector-tag">main</span></code> en een <code class="hljs"><span class="hljs-attribute">dev</span></code>/<code class="hljs"><span class="hljs-attribute">development</span></code> branch te hebben. Bij een project kan dan elke nieuwe feature een eigen branch krijgen als voorbeeld. Een <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch wordt vaak gebruikt voor een tussenstap tussen feature branches en release branches (worden later behandeld). Dit alles samen maakt een branching model genaamd Gitflow.</p>
+<p><img alt="Gitflow" src="https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=2628"/></p>
+<blockquote>
+<p>Meer informatie over <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Gitflow</a></p>
+</blockquote>
+<h3 id="lokale-en-remote-branches" tabindex="-1">Lokale en remote branches <a aria-hidden="true" class="anchor" href="#lokale-en-remote-branches">#</a></h3>
+<p>Branches kunnen lokaal of remote zijn. Lokale branches zijn, zoals de naam al zegt, op jouw machine aanwezig. Deze zijn (nog) niet zichtbaar voor andere.</p>
+<p><a href="https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches">Remote branches</a> werken net iets anders. In Git verwijst een remote branch naar een branch die bestaat op een externe repository in plaats van in jouw lokale repository.</p>
+<p>Een remote branch kan je identificeren aan het feit dat het in de meeste gevallen <code class="hljs">origin/<span class="hljs-selector-attr">[BRANCH_NAAM]</span></code> zal heten. De standaard benaming voor de remote is <code class="hljs"><span class="hljs-attribute">origin</span></code>.</p>
+<h3 id="branch-protection-rules" tabindex="-1">Branch protection rules <a aria-hidden="true" class="anchor" href="#branch-protection-rules">#</a></h3>
+<p>Branches kunnen ook beschermd worden tegen bepaalde acties. In de workshop [[Git Forks &amp; Branches]] bij opdracht 3: Protection Rules wordt gewerkt met de <code class="hljs">classic branch protection <span class="hljs-keyword">rule</span></code>. Hierbij komen de volgende opties beschikbaar:
+![[3.1 OI_Git_Branches_1.png]]
+<em>Figuur 1: Branch protection rules</em></p>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">Require</span> a pull request <span class="hljs-built_in">before</span> merging</code>
+<ul>
+<li>Op deze branch kan alleen een verandering plaatsvinden via een pull request. Er kan niet op deze branch direct gecommit. (Pull requests worden behandeld in [[Pull requests]])</li>
+</ul>
+</li>
+<li><code class="hljs">Require status checks <span class="hljs-keyword">to</span> pass <span class="hljs-keyword">before</span> merging</code>
+<ul>
+<li>Voordat een merge doorgevoerd kan worden moet iets eerst voldoen aan een set eisen. Hieronder een paar voorbeelden:
+<ul>
+<li><strong>Geautomatiseerde Tests</strong>
+<ul>
+<li>Zorg ervoor dat alle eenheids-, integratie- en end-to-end tests succesvol worden uitgevoerd.</li>
+</ul>
+</li>
+<li><strong>Codekwaliteitschecks</strong>
+<ul>
+<li>Statistische analysetools kunnen controleren op code stijl, potentiële bugs en andere kwaliteitsmetrics.</li>
+</ul>
+</li>
+<li><strong>Bouwsucces</strong>
+<ul>
+<li>De code moet zonder fouten worden gecompileerd en gebouwd.</li>
+</ul>
+</li>
+<li><strong>Beveiligingsscans</strong>
+<ul>
+<li>Geautomatiseerde tools kunnen controleren op bekende kwetsbaarheden in afhankelijkheden of code.</li>
+</ul>
+</li>
+<li><strong>Handmatige Reviews</strong>
+<ul>
+<li>Sommige workflows vereisen dat een of meer teamleden de wijzigingen. beoordelen en goedkeuren.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code class="hljs"><span class="hljs-keyword">Require</span> conversation resolution <span class="hljs-built_in">before</span> merging</code>
+<ul>
+<li>Bij een pull request moeten alle discussies zijn opgelost voordat de pull request doorgevoerd kan worden.</li>
+</ul>
+</li>
+<li><code class="hljs">Require <span class="hljs-type">signed</span> commits</code>
+<ul>
+<li>Door een commit te signen wordt geverifieerd dat de veranderingen die zijn gemaakt ook echt door de persoon zijn gemaakt.</li>
+</ul>
+</li>
+<li><code class="hljs">Require linear <span class="hljs-built_in">history</span></code>
+<ul>
+<li>Er moet gewerkt worden met <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">lineaire history</a> en niet met merging.</li>
+</ul>
+</li>
+<li><code class="hljs">Require deployments <span class="hljs-keyword">to</span> succeed <span class="hljs-keyword">before</span> merging</code>
+<ul>
+<li>De pull request kan pas worden doorgevoerd als een deployment op een test- of stagingomgeving is gedeployed. Dit is vaak voor een <code class="hljs"><span class="hljs-selector-tag">main</span></code> of <code class="hljs"><span class="hljs-attribute">production</span></code> branch.</li>
+</ul>
+</li>
+<li><code class="hljs"><span class="hljs-keyword">Lock</span> branch</code>
+<ul>
+<li>Hiermee is een branch alleen te lezen en kunnen geen veranderingen worden gepusht naar de branch.</li>
+</ul>
+</li>
+<li><code class="hljs"><span class="hljs-keyword">Do</span> <span class="hljs-keyword">not</span> allow bypassing the above settings</code>
+<ul>
+<li>Door deze optie aan te vinken, mogen ook admins en custom rollen met admin rechten niet meer <em>bypassen</em>. Als deze optie niet aangevinkt wordt, dan gelden bovenstaande regels niet voor admins en de custom rollen met admin rechten.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Meer informatie over branch protection rules: <a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule">Branch protection rules</a></p>
+</blockquote>
+<h2 id="hoe-zit-een-branch-in-elkaar%3F" tabindex="-1">Hoe zit een branch in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-een-branch-in-elkaar%3F">#</a></h2>
+<p>Een branch verwijst altijd naar een versie van het project. Verschillende branches kunnen verwijzen naar verschillende versies van een project. Bijvoorbeeld, een feature branch kan wijzen naar een nieuwere versie door nieuwe wijzigen, terwijl de <code class="hljs"><span class="hljs-selector-tag">main</span></code>-branch nog verwijst naar een oudere versie omdat de feature branch nog niet releasebaar is.</p>
+<h2 id="wat-kan-je-met-een-branch%3F" tabindex="-1">Wat kan je met een branch? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-een-branch%3F">#</a></h2>
+<p>Een branch kan gebruikt worden voor verschillende redenen:</p>
+<ul>
+<li><strong>Features:</strong> Voor elke nieuwe functionaliteit kan een aparte branch worden aangemaakt. Dit wordt vaak een <em>feature branch</em> genoemd. Een feature branch isoleert de veranderingen op de branch van de bestanden op de <code class="hljs"><span class="hljs-selector-tag">main</span></code>-branch. Met feature branches is het gebruikelijk om een
+<ul>
+<li>Hierbij is een naamgeving zoals <code class="hljs"><span class="hljs-built_in">feature</span>/naam-van-de-<span class="hljs-built_in">feature</span></code> gebruikelijk.</li>
+</ul>
+</li>
+<li></li>
+<li><strong>Bugs:</strong> Als er bugs worden gevonden in een project is het gebruikelijk om hiervoor een <em>bug branch</em> aan te maken.
+<ul>
+<li>Hierbij is een naamgeving zoals <code class="hljs">fix/naam-van-de-bug</code> of <code class="hljs">bug/naam-van-de-bug</code> gebruikelijk.</li>
+</ul>
+</li>
+<li><strong>Releases:</strong> Een <em>release branch</em> wordt vaak gebruikt om alle veranderingen samen te voegen en dit geheel te testen. Hierbij kunnen bugs of andere problemen naar boven komen die dan nog eerst opgelost moeten worden.
+<ul>
+<li>Hierbij is een naamgeving zoals <code class="hljs">release/naam-van-de-release</code> gebruikelijk.</li>
+</ul>
+</li>
+<li><strong>Experimenteren:</strong> Soms kunnen er ideeën en concepten zijn waarmee eerst geëxperimenteerd wordt voordat het een feature wordt. Dit kan kunnen ook nieuwe technieken of architecturen zijn.
+<ul>
+<li>Hierbij is een naamgeving zoals <code class="hljs">experiment/naam-van-het-experiment</code> gebruikelijk.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!tip] Casus
+Anne en Bert werken samen aan een project. Nadat Bert de repository van Anne gekloond heeft, begint hij met het maken van een nieuwe feature. Hiervoor maakt hij een nieuwe branch aan op basis van de laatste release versie op de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch. Anne is al bezig met een feature op haar eigen branch. Anne en Bert kunnen hierdoor beide bezig gaan met verschillende features zonder dat Anne en Bert elkaar in de weg zitten.</p>
+<p>Zodra zowel Anne en Bert klaar zijn met het maken van de nieuwe features, voegen zij hun code samen op een release branch en checken op deze branch nog een keer of alles werkt volgens de requirements. Alleen hierbij komt Bert erachter dat er nog een bug in het project zit. Hiervoor maakt hij een nieuwe bug branch aan en lost deze op. Nadat deze verandering weer is samengevoegd, voegen zij deze code samen met de <code class="hljs"><span class="hljs-selector-tag">main</span></code>-branch voor een nieuwe release.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Rebasing voor linear history: <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">https://www.atlassian.com/git/tutorials/merging-vs-rebasing</a> <br/>
+Local vs. Remote branches: <a href="https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches">https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches</a> <br/>
+Branches: <a href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell</a> <br/>
+Branch protection rules: <a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule%5C">https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule\</a>
+Gitflow: <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow</a></p>
+</blockquote>
+</div>
+</body>
+</html>

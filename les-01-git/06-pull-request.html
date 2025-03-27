@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>06-pull-request</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-pull-requests">Git Pull requests </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-een-pull-request%3F">Wat is een pull request? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#drafts">Drafts </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-een-pull-request-in-elkaar%3F">Hoe zit een pull request in elkaar? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#review">Review </a><ul class="toc-list"></ul></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-een-pull-request%3F">Wat kan je met een pull request? </a></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-pull-requests" tabindex="-1">Git Pull requests <a aria-hidden="true" class="anchor" href="#git-pull-requests">#</a></h2>
+<h2 id="wat-is-een-pull-request%3F" tabindex="-1">Wat is een pull request? <a aria-hidden="true" class="anchor" href="#wat-is-een-pull-request%3F">#</a></h2>
+<p>Een pull request is een tussenstap voor het mergen van branches. Pull request geven de mogelijkheid om andere project leden een review te laten doen op het gemaakte werk/veranderingen. Bij goedkeuring kunnen de veranderingen worden [[5. Git Mergen|gemerged]] met de andere branch. Een pull request is ook niet een standaard item binnen Git, maar wel bij onder andere GitHub en GitLab.</p>
+<h3 id="drafts" tabindex="-1">Drafts <a aria-hidden="true" class="anchor" href="#drafts">#</a></h3>
+<p>Draft pull requests zijn beschikbaar in publieke repositories binnen organisaties. Draft pull requests kunnen niet gemerged worden. Er kan wel feedback ontvangen op de draft pull request. Een draft pull request is een handige tool om te gebruiken in een vroege fase van een toevoeging/feature.</p>
+<h2 id="hoe-zit-een-pull-request-in-elkaar%3F" tabindex="-1">Hoe zit een pull request in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-een-pull-request-in-elkaar%3F">#</a></h2>
+<p>Pull requests vereisen dat er minimaal twee branches binnen een repository bestaan. Hierbij is de base (in dit geval <code class="hljs"><span class="hljs-selector-tag">main</span></code>) de branch waar de code wordt samengevoegd met de bestanden uit de compare branch (in dit geval <code class="hljs"><span class="hljs-attribute">content</span></code>).
+![[6.1 OI_Git_Pull_Request_1.png]]
+<em>Figuur 1: Screenshot van de twee branches waar een pull request mee gemaakt wordt</em></p>
+<p>Verder kunnen meerdere eisen gesteld worden aan een pull request:</p>
+<ul>
+<li><strong>Reviewers:</strong> Er kunnen specifieke reviewers worden aangevraagd voor een pull request. Daarnaast kunnen mensen zelf altijd een review achterlaten die de rechten hebben binnen het project.
+<ul>
+<li><strong>Discussions:</strong> Er kunnen comments geplaatst worden bij de gemaakte veranderingen. Hierin kunnen bijvoorbeeld veranderingen worden aangevraagd en suggesties worden geopperd.</li>
+</ul>
+</li>
+<li><strong>Commits:</strong> De commit die bij een pull request worden worden weergegeven in een eigen tab. Hierin is terug te vinden wie hebben gewerkt aan de branch en welke veranderingen zijn gemaakt door de naamgeving van de commit. Het is dus verstandig om duidelijke naamgeving te hebben voor commits, zodat dit onder andere hier duidelijk terug te lezen is.</li>
+</ul>
+<h3 id="review" tabindex="-1">Review <a aria-hidden="true" class="anchor" href="#review">#</a></h3>
+<p>Er kan een review gegeven op een pull request via de GitHub pagina. In de review kunnen veranderingen aangevraagd kunnen worden en opmerkingen achtergelaten. Een pull request kan een regel hebben dat de aangevraagde veranderingen eerst moeten worden doorgevoerd voordat er gemerged kan worden.
+![[6.2 OI_Git_Pull_Request_2.png]]
+<em>Figuur 2: Voorbeeld hoe een pull request wordt tegengehouden doordat er nog veranderingen zijn aangevraagd</em></p>
+<h4 id="discussions" tabindex="-1">Discussions <a aria-hidden="true" class="anchor" href="#discussions">#</a></h4>
+<p>Bij de veranderingen kunnen comments geplaatst worden met suggesties/aanpassingen. Deze kan iemand anders bekijken en behandelen. Bij elke comment is het mogelijk om zelf comments achter te laten om een discussie te hebben over de suggestie. Dit zorgt voor transparantie over de communicatie binnen een team. Verder is er een knop om de comment te sluiten beschikbaar als de suggestie is toegepast of niet nodig was om toe te passen.</p>
+<h2 id="wat-kan-je-met-een-pull-request%3F" tabindex="-1">Wat kan je met een pull request? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-een-pull-request%3F">#</a></h2>
+<p>Pull requests hebben verschillende manieren om het effectief te gebruiken:</p>
+<ul>
+<li><strong>Navolgbaarheid:</strong> Pull requests kunnen gebruikt worden om meer inzicht te krijgen van de navolgbaarheid van een project.</li>
+<li><strong>Protection rules:</strong> Zoals bij de branch protection rules ([[3. Git Branches]]) te zien was, kan het ook zijn dat code alleen op een branch gepusht kan worden door middel van een pull request vanaf een andere branch. Dit is een beschermingsmaatregel voor je project.</li>
+<li><strong>Review:</strong> Een review op gemaakt werk zorgt ervoor dat er een extra controle op het werk komt, waardoor de kwaliteit van het gemaakte werk hoger wordt.</li>
+<li><strong>Merge conflicten:</strong> Merge conflicten kunnen ontstaan bij het aanmaken van een pull request. Met een pull request is er een visuele weergave van de conflicten en is het mogelijk om deze op te lossen.</li>
+</ul>
+<blockquote>
+<p>[!tip] Casus
+Anne heeft op een feature-branch een nieuwe feature gemaakt. Dit wil zij graag in de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch opnemen. Anne wil alleen wel dat er nog even naar haar werk gekeken wordt, in het geval zij iets over het hoofd heeft gezien. Zij maakt via GitHub een pull request aan op het project van de feature-branch naar de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch. Hieraan wordt Bert toegevoegd als reviewer.</p>
+<p>Bert krijgt de melding dat hij gevraagd is om een pull request te reviewen. Hij loopt de veranderingen door die Anne heeft gemaakt, maar merkt nog een foutje in de code op. Hij maakt bij dit stukje code een comment aan met de suggestie wat hier verbeterd kan worden. De rest van de veranderingen heeft Bert beoordeeld en goedgekeurd.</p>
+<p>De merge kan nog niet plaatsvinden, wat er is nog een comment open. Nadat Bert Anne heeft gemeld dat hij een verandering heeft aangevraagd, gaat Anne deze bekijken. Zij ziet dat zij een fout had gemaakt en past dit aan. Hierna sluit zij de comment en nu komt de optie beschikbaar om de pull request te mergen.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Pull requests: <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests</a></p>
+</blockquote>
+</div>
+</body>
+</html>

@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>05-mergen</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#git-mergen">Git Mergen </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-mergen%3F">Wat is mergen? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#merge-conflicten">Merge conflicten </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-mergen-in-elkaar%3F">Hoe zit mergen in elkaar? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#merge-conflicten-oplossen">Merge conflicten oplossen </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-mergen%3F">Wat kan je met mergen? </a></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="git-mergen" tabindex="-1">Git Mergen <a aria-hidden="true" class="anchor" href="#git-mergen">#</a></h2>
+<blockquote>
+<p>Meer informatie over <a href="https://git-scm.com/docs/git-merge">mergen</a></p>
+</blockquote>
+<h2 id="wat-is-mergen%3F" tabindex="-1">Wat is mergen? <a aria-hidden="true" class="anchor" href="#wat-is-mergen%3F">#</a></h2>
+<p>Mergen is het samenvoegen van twee branches. Hierbij worden de bestanden van de branches met elkaar vergeleken en indien er geen conflicten zijn, zullen de bestanden samengevoegd worden in de branch die aangegeven is als ontvanger.</p>
+<p>Als je merged, dan moet je de veranderingen nog wel pushen, zodat de veranderingen niet alleen op de lokale repository staan, maar ook op de remote.</p>
+<h3 id="merge-conflicten" tabindex="-1">Merge conflicten <a aria-hidden="true" class="anchor" href="#merge-conflicten">#</a></h3>
+<p>Bij mergen kunnen er conflicten ontstaan. Dit betekent dat Git bestanden tegenkomt bij twee verschillende commits waarbij veranderingen zijn doorgevoerd die elkaar overlappen. Deze moeten opgelost zijn voordat de merge doorgevoerd kan worden.</p>
+<h2 id="hoe-zit-mergen-in-elkaar%3F" tabindex="-1">Hoe zit mergen in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-mergen-in-elkaar%3F">#</a></h2>
+<p>Voor mergen heb je twee verschillende branches nodig. Voor deze uitleg hebben we een <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch en een <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch. Zodra er veranderingen zijn gemaakt op de <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch en je wil dit samenvoegen met de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch ga je <em>mergen</em>. Git kijkt naar het verschil tussen de <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch bestanden en de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch bestanden.</p>
+<p>Als de veranderingen (bijvoorbeeld een nieuwe methode/functie, nieuw bestand, etc.) op de <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch geen overlap hebben met de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch, dan zullen de bestanden gelijk gemerged worden.</p>
+<p>Als Git niet automatisch kan bepalen welke versie (<code class="hljs"><span class="hljs-built_in">feature</span></code>-branch of <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch versie) behouden moet worden, zal er een merge conflict ontstaan. Hierbij moet zelf bepaald worden welke versie behouden moet worden. Zodra de conflicten zijn opgelost, dan kan de merge doorgevoerd worden.</p>
+<h3 id="merge-conflicten-oplossen" tabindex="-1">Merge conflicten oplossen <a aria-hidden="true" class="anchor" href="#merge-conflicten-oplossen">#</a></h3>
+<p>Merge conflicten kunnen opgelost worden op GitHub zelf, zie Figuur 1. Hierbij moet je zelf de regels/lines weghalen die niet meer relevant zijn.
+![[5.1 OI_Git_Pull_Request_3.png]]
+<em>Figuur 1: Voorbeeld van merge conflicten op de GitHub pagina</em></p>
+<h2 id="wat-kan-je-met-mergen%3F" tabindex="-1">Wat kan je met mergen? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-mergen%3F">#</a></h2>
+<p>Zoals hiervoor is uitgelegd, kan je met mergen verschillende branches samenvoegen, een paar voorbeeld van hoe mergen gebruikt kan worden:</p>
+<ul>
+<li><strong>Feature branches samenvoegen:</strong> Als gebruik gemaakt wordt van feature branches zullen deze samengevoegd moeten worden op een andere branch.</li>
+<li><strong>Bugfixes doorvoeren:</strong> Bugfix-branch zullen samengevoegd worden met branches als er kleine problemen zijn opgelost.</li>
+<li><strong>Release branches doorvoeren naar main of production:</strong> Als eenmaal alle features voor een periode zijn goedgekeurd en getest moeten release branches gemerged worden met een <code class="hljs"><span class="hljs-selector-tag">main</span></code> of <code class="hljs"><span class="hljs-attribute">production</span></code> branch.</li>
+<li><strong>Het ophalen van andermans werk:</strong> Als een ander project lid al werk naar een <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch heeft gepusht, kan het handig zijn deze gelijk op te halen (te mergen) met de feature-branch waar op het moment aan gewerkt worden.</li>
+</ul>
+<p>Na het mergen zijn de twee branches identiek aan elkaar qua bestanden. Neem een <code class="hljs"><span class="hljs-attribute">dev</span></code>- en <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch. Als de <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch gemerged is met de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch, dan kan je de <code class="hljs"><span class="hljs-built_in">feature</span></code>-branch verwijderen als die niet meer gebruikt zal worden. Hiermee zorg je ervoor dat de lijst van branches opgeschoond blijft.</p>
+<blockquote>
+<p>[!tip] Casus
+Anne en Bert hebben samen een project. Er bestaat een <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch en twee feature-branches (<code class="hljs"><span class="hljs-built_in">feature</span>/add-cart-discounts</code> en <code class="hljs"><span class="hljs-built_in">feature</span>/cart-total-calculation</code>). Beide branches zijn aangemaakt op basis van de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch.</p>
+<p>Anne heeft hard gewerkt aan de berekening van het winkelmandje op <code class="hljs"><span class="hljs-built_in">feature</span>/cart-total-calculation</code> en gaat dit mergen met de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch. Hierbij komen geen conflicten en kan dit gelijk mergen en pusht dit daarna naar de remote repository.</p>
+<p>Bert is ook klaar met de kortingcodes en gaat <code class="hljs"><span class="hljs-built_in">feature</span>/add-cart-discounts</code> mergen met de <code class="hljs"><span class="hljs-attribute">dev</span></code>-branch. Hierbij komen alleen wat conflicten. Bert gaat vergelijken wat er anders is en ziet dat dat het werk van Anne is geweest. Samen bekijken zij de merge conflicten en lossen deze op. De merge kan na het oplossen worden doorgevoerd en pusht ook zijn veranderingen naar de remote repository.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Bronnen
+Mergen: <a href="https://git-scm.com/docs/git-merge">https://git-scm.com/docs/git-merge</a> <br/>
+Uitleg van mergen met figuren: <a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging</a></p>
+</blockquote>
+</div>
+</body>
+</html>

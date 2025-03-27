@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Linux</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#pre-req">Pre-req </a></li><li class="toc-item"><a class="toc-link" href="#ssh">SSH </a></li><li class="toc-item"><a class="toc-link" href="#github">GitHub </a></li><li class="toc-item"><a class="toc-link" href="#installatie-ovftool">Installatie OVFTool </a></li><li class="toc-item"><a class="toc-link" href="#pip">PIP </a></li><li class="toc-item"><a class="toc-link" href="#terraform">Terraform </a></li><li class="toc-item"><a class="toc-link" href="#ansible">Ansible </a></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="linux" tabindex="-1">Linux <a aria-hidden="true" class="anchor" href="#linux">#</a></h1>
+<p>Deze handleiding gaat uit van Ubuntu 24.04. Wil je iets anders? Dan zul je sommige commando’s anders moeten gebruiken.</p>
+<h2 id="pre-req" tabindex="-1">Pre-req <a aria-hidden="true" class="anchor" href="#pre-req">#</a></h2>
+<p>Op dit moment moet je VM’s die in je skylab aanmaakt handmatig voorzien van de juiste netwerkinstellingen. Als je DHCP actief hebt op je pfsense kun je dit vrij eenvoudig doen.
+Log via de Skylab Remote Console in op het systeem met de student gebruiker. Voer dan het volgende commando uit:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> vi /etc/netplan/99-netcfg-vmware.yaml
+</code></pre>
+<p>Als sudo wachtwoord gebruik je ook het wachtwoord van student.</p>
+<p>Haal dan de onderste 2 regels weg, dus het IP adres en de regel met <code class="hljs"><span class="hljs-attribute">addresses</span></code>. Verander <code class="hljs"><span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">no</span></code> in <code class="hljs"><span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">yes</span></code>.
+Pas hierna de configuratie toe:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> netplan apply
+</code></pre>
+<p>en reboot de vm.</p>
+<p>Log nu via ssh in op het systeem, gebruik bv Windows Terminal of Putty hiervoor.
+Installeer de pakketten git en unzip op het systeem:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt install git unzip curl
+</code></pre>
+<h2 id="ssh" tabindex="-1">SSH <a aria-hidden="true" class="anchor" href="#ssh">#</a></h2>
+<p>We gaan passwordless SSH logins gebruiken vanaf je laptop en ontwikkelmachine richting de VM’s die je aan gaat maken. Hiervoor moet je 3 ssh-keypairs aanmaken. 1 Om vanaf je laptop in te loggen naar je ontwikkelmachine, en 1 om vanaf je ontwikkelmachine in te loggen op de VM’s die we met Terraform gaan maken. Het laatste keypair is voor Azure.
+Maak daarom een ssh keypair aan voor de student user (of voor een andere user die gaat gebruiken) op je Linux ontwikkel VM. We gebruiken een ED25519 key omdat deze kort is.</p>
+<p>Herhaal dit commando dus 3x en gebruik verschillende namen. Bijvoorbeeld devhost, skylab en azure</p>
+<pre><code class="hljs language-bash">ssh-keygen -t ed25519
+</code></pre>
+<p>In de directory /home/student/.ssh staan nu 6 bestanden. 3 private en 3 public keys.
+De ‘devhost’ private key kopieer je naar je eigen laptop. Dan kun je passwordless inloggen via een terminal of VSCode. Zet daarom deze private key file in "C:\Users\je gebruikersnaam.ssh" Dit kun je bijvoorbeeld doen door een nieuwe file in die directory te maken met de inhoud van de file /home/student/.ssh/devhost</p>
+<p>Zet vervolgens de inhoud van /home/student/.ssh/devhost.pub in /home/student/.ssh/authorized_keys bijvoorbeeld dus zo:</p>
+<pre><code class="hljs language-bash">student@ubuntu:~/.ssh$ <span class="hljs-built_in">cat</span> authorized_keys
+ssh-ed25519 AAAAHierstaateensupergeheimesshed25519key/blabla student@lokale-laptop
+</code></pre>
+<p>Let op: het bestand /home/student/.ssh/authorized_keys moet alleen write rechten voor de owner hebben (tip: chmod 400 authorized_keys)</p>
+<p>Als laatste upload je de azure publieke key naar Azure. Zie hiervoor <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/ssh-keys-portal">https://learn.microsoft.com/en-us/azure/virtual-machines/ssh-keys-portal</a> en dan ‘Upload a ssh key’.</p>
+<h2 id="github" tabindex="-1">GitHub <a aria-hidden="true" class="anchor" href="#github">#</a></h2>
+<p>Voor onze code gaan we GitHub gebruiken. Ga in een browser naar <a href="http://github.com">github.com</a> en log in of maak een account aan.</p>
+<h2 id="installatie-ovftool" tabindex="-1">Installatie OVFTool <a aria-hidden="true" class="anchor" href="#installatie-ovftool">#</a></h2>
+<p>Download OVFTool via de volgende link: <a href="https://github.com/rgl/ovftool-binaries/raw/main/archive/VMware-ovftool-4.6.3-24031167-lin.x86_64.zip">https://github.com/rgl/ovftool-binaries/raw/main/archive/VMware-ovftool-4.6.3-24031167-lin.x86_64.zip</a> .
+Voer de volgende commando’s uit vanuit de directory waar je de zip hebt gedownload:</p>
+<pre><code class="hljs language-bash">unzip VMware-ovftool-&lt;versie&gt;-lin.x86_64.zip
+</code></pre>
+<p>In de files directory doe je het volgende :</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mv</span> ovftool vmware-ovftool
+</code></pre>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mv</span> vmware-ovftool /usr/bin/
+</code></pre>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> +x /usr/bin/vmware-ovftool/ovftool.bin
+</code></pre>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> +x /usr/bin/vmware-ovftool/ovftool
+</code></pre>
+<p>Voer nu het volgende commando uit, als je een andere gebruiker dan de default user ‘student’ gebruikt moet je dit aanpassen.</p>
+<pre><code class="hljs language-bash">sed -i <span class="hljs-string">'$ a\PATH=$PATH:/home/student/.local/bin:/usr/bin/vmware-ovftool'</span> ~/.bashrc
+</code></pre>
+<h2 id="pip" tabindex="-1">PIP <a aria-hidden="true" class="anchor" href="#pip">#</a></h2>
+<p>We installeren Ansible via PIP. Daardoor is het noodzakelijk dat PIP op het systeem staat.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt-get update &amp;&amp; <span class="hljs-built_in">sudo</span> apt-get install -y gnupg software-properties-common python3-pip pipx
+</code></pre>
+<p>Voeg het juiste path toe aan je profiel</p>
+<pre><code class="hljs language-bash">pipx ensurepath
+</code></pre>
+<h2 id="terraform" tabindex="-1">Terraform <a aria-hidden="true" class="anchor" href="#terraform">#</a></h2>
+<pre><code class="hljs language-bash">wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /usr/share/keyrings/hashicorp-archive-keyring.gpg
+</code></pre>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">"deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com <span class="hljs-subst">$(lsb_release -cs)</span> main"</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/apt/sources.list.d/hashicorp.list
+</code></pre>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt-get update &amp;&amp; <span class="hljs-built_in">sudo</span> apt-get install terraform
+</code></pre>
+<h2 id="ansible" tabindex="-1">Ansible <a aria-hidden="true" class="anchor" href="#ansible">#</a></h2>
+<p>Wanneer pip succesvol is geinstalleerd kan Ansible worden geinstaleerd.</p>
+<pre><code class="hljs language-bash">pipx install --include-deps ansible
+</code></pre>
+<pre><code class="hljs language-bash">pipx install ansible-lint
+</code></pre>
+<p>Log als laatste actie uit en weer opnieuw in.</p>
+</div>
+</body>
+</html>

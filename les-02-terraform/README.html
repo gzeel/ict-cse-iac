@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Week 2 - Hello, Terraform!</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#recap-week-1">Recap week 1 </a></li><li class="toc-item"><a class="toc-link" href="#introductie-in-terraform">Introductie in Terraform </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-terraform%3F">Wat is Terraform? </a></li><li class="toc-item"><a class="toc-link" href="#waarvoor-wordt-terraform-gebruikt%3F">Waarvoor wordt Terraform gebruikt? </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-infrastructure-as-code-(iac)%3F">Wat is Infrastructure as Code (IaC)? </a></li><li class="toc-item"><a class="toc-link" href="#hoe-werkt-terraform%3F">Hoe werkt Terraform? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-terraform-core">1. Terraform Core </a></li><li class="toc-item"><a class="toc-link" href="#2.-plugins-(providers-en-provisioners)">2. Plugins (Providers en Provisioners) </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#de-typische-terraform-werkwijze">De typische Terraform-werkwijze </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-manifest-schrijven">1. Manifest Schrijven </a></li><li class="toc-item"><a class="toc-link" href="#2.-plan-beoordelen">2. Plan beoordelen </a></li><li class="toc-item"><a class="toc-link" href="#3.-toepassen">3. Toepassen </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#kernonderdelen-van-terraform">Kernonderdelen van Terraform </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#terraform-cli">Terraform CLI </a></li><li class="toc-item"><a class="toc-link" href="#terraform-language-(hcl)">Terraform Language (HCL) </a></li><li class="toc-item"><a class="toc-link" href="#terraform-provisioners">Terraform Provisioners </a></li><li class="toc-item"><a class="toc-link" href="#terraform-modules">Terraform Modules </a></li><li class="toc-item"><a class="toc-link" href="#terraform-state">Terraform State </a></li><li class="toc-item"><a class="toc-link" href="#state-file">State File </a></li><li class="toc-item"><a class="toc-link" href="#providers">Providers </a><ul class="toc-list"></ul></li></ul></li><li class="toc-item"><a class="toc-link" href="#cloudinit">Cloudinit </a></li><li class="toc-item"><a class="toc-link" href="#terraform-output">Terraform Output </a></li><li class="toc-item"><a class="toc-link" href="#terraform-versus-andere-tools">Terraform versus Andere Tools </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#opentofu">OpenTofu </a></li><li class="toc-item"><a class="toc-link" href="#terraform-vs.-configuratiebeheer-tools-(zoals-chef-of-puppet)">Terraform vs. Configuratiebeheer Tools (zoals Chef of Puppet) </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#opdrachten">Opdrachten </a></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="week-2---hello%2C-terraform!" tabindex="-1">Week 2 - Hello, Terraform! <a aria-hidden="true" class="anchor" href="#week-2---hello%2C-terraform!">#</a></h1>
+<p>Inhoud:</p>
+<ul>
+<li>Recap week 1</li>
+<li>Introductie in Terraform</li>
+<li>Waarom Terraform?</li>
+<li>Cloud Init</li>
+<li>Waar hulp te krijgen</li>
+<li>Opdracht</li>
+</ul>
+<h2 id="recap-week-1" tabindex="-1">Recap week 1 <a aria-hidden="true" class="anchor" href="#recap-week-1">#</a></h2>
+<p>Vorige keer hebben we gekeken naar wat Infrastructure as Code is, waarom we het gebruiken en wat de Key Principes zijn.
+Herinneren jullie je de termen Declarative, Immutable en Idempotency nog?</p>
+<h2 id="introductie-in-terraform" tabindex="-1">Introductie in Terraform <a aria-hidden="true" class="anchor" href="#introductie-in-terraform">#</a></h2>
+<p>In deze les gaan we kennismaken met Terraform als tool voor Infrastructure as Code (IaC). We gaan het hebben over waarom Terraform wordt gebruikt, de voor- en nadelen en je krijgt een gedetailleerde uitleg over het opstellen van een Terraform-bestand met stapsgewijze voorbeelden voor het implementeren van resources in Microsoft Azure. Je gaat daarna zelf aan de slag met Terraform in combinatie met ESXi en/of Azure.</p>
+<h2 id="wat-is-terraform%3F" tabindex="-1">Wat is Terraform? <a aria-hidden="true" class="anchor" href="#wat-is-terraform%3F">#</a></h2>
+<p>Terraform is een krachtig <strong>Infrastructure as Code (IaC)</strong>-hulpmiddel van HashiCorp. Met Terraform kun je jouw infrastructuur, zowel on-premises (lokaal) als in de cloud, definiëren, uitrollen en beheren met code. Dankzij de plugin-gebaseerde architectuur is Terraform makkelijk uit te breiden en aan te passen.</p>
+<h2 id="waarvoor-wordt-terraform-gebruikt%3F" tabindex="-1">Waarvoor wordt Terraform gebruikt? <a aria-hidden="true" class="anchor" href="#waarvoor-wordt-terraform-gebruikt%3F">#</a></h2>
+<p>Terraform wordt ingezet om verbinding te maken met diverse infrastructuurplatformen en complexe beheerscenario’s te realiseren over meerdere clouds heen. Enkele voordelen zijn:</p>
+<ul>
+<li><strong>Consistentie en herbruikbaarheid:</strong> Je kunt je infrastructuur als code definiëren, opslaan en delen in de vorm van modules.</li>
+<li><strong>Multi-cloud en hybride omgevingen:</strong> Beheer infrastructuur die verspreid is over verschillende cloudproviders en on-premises systemen.</li>
+<li><strong>Versnelde deployments:</strong> Snel nieuwe omgevingen bouwen en weer afbreken, bijvoorbeeld voor testen of disaster recovery.</li>
+</ul>
+<h2 id="wat-is-infrastructure-as-code-(iac)%3F" tabindex="-1">Wat is Infrastructure as Code (IaC)? <a aria-hidden="true" class="anchor" href="#wat-is-infrastructure-as-code-(iac)%3F">#</a></h2>
+<p>Traditioneel moest je bij het opzetten van een Windows- of Linux-server handmatig allerlei stappen doorlopen, zoals klikken, scripts draaien en configureren van opslag en netwerken. Bij honderden of duizenden servers wordt dit erg complex en foutgevoelig.</p>
+<p>IaC biedt een oplossing door je infrastructuur met een declaratieve taal te definiëren. Hierdoor ben je in staat om:</p>
+<ul>
+<li><strong>Consistente omgevingen</strong> te creëren.</li>
+<li><strong>Herhaalbare deployments</strong> uit te voeren.</li>
+<li><strong>Betrouwbaarheid</strong> en efficiëntie te verhogen.</li>
+</ul>
+<h2 id="hoe-werkt-terraform%3F" tabindex="-1">Hoe werkt Terraform? <a aria-hidden="true" class="anchor" href="#hoe-werkt-terraform%3F">#</a></h2>
+<p>Terraform bestaat hoofdzakelijk uit twee onderdelen:</p>
+<h3 id="1.-terraform-core" tabindex="-1">1. Terraform Core <a aria-hidden="true" class="anchor" href="#1.-terraform-core">#</a></h3>
+<ul>
+<li>Dit is de open-source binary die je downloadt en via de commandoregel gebruikt.</li>
+<li>Terraform Core beheert de levenscyclus van je infrastructuur. Het vergelijkt de huidige staat met jouw gewenste configuratie en maakt een plan om aanpassingen (toevoegen of verwijderen) voor te stellen.</li>
+<li>Als je het plan toepast, zorgt Terraform ervoor dat de infrastructuur de gewenste staat bereikt.</li>
+</ul>
+<h3 id="2.-plugins-(providers-en-provisioners)" tabindex="-1">2. Plugins (Providers en Provisioners) <a aria-hidden="true" class="anchor" href="#2.-plugins-(providers-en-provisioners)">#</a></h3>
+<ul>
+<li>Deze plugins maken de communicatie mogelijk tussen Terraform Core en de infrastructuur (zoals AWS, Azure, Kubernetes, etc.).</li>
+<li><strong>Providers</strong> zorgen ervoor dat Terraform de API’s van de infrastructuurleveranciers kan aanspreken.</li>
+<li><strong>Provisioners</strong> worden ingezet om na de provisioning extra configuratiestappen uit te voeren, zoals het kopiëren van bestanden of het starten van configuratiescripts.</li>
+</ul>
+<h2 id="de-typische-terraform-werkwijze" tabindex="-1">De typische Terraform-werkwijze <a aria-hidden="true" class="anchor" href="#de-typische-terraform-werkwijze">#</a></h2>
+<p>Een typische workflow met Terraform bestaat uit de volgende stappen:</p>
+<h3 id="1.-manifest-schrijven" tabindex="-1">1. Manifest Schrijven <a aria-hidden="true" class="anchor" href="#1.-manifest-schrijven">#</a></h3>
+<p>Definieer je infrastructuur als code in de <a href="https://www.terraform.io/language/syntax">HashiCorp Configuration Language (HCL)</a>.<br/>
+Bijvoorbeeld, een Virtual Network configureren in Azure kan er zo uitzien:</p>
+<pre><code class="hljs language-hcl"># Definieer een Virtual Network
+resource "azurerm_virtual_network" "default_vnet" {
+  name                = "example-vnet"
+  address_space       = ["172.31.0.0/16"]
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+}
+</code></pre>
+<h3 id="2.-plan-beoordelen" tabindex="-1">2. Plan beoordelen <a aria-hidden="true" class="anchor" href="#2.-plan-beoordelen">#</a></h3>
+<p>Terraform vergelijkt jouw code met de huidige infrastructuur en laat een plan zien met de voorgestelde veranderingen.</p>
+<h3 id="3.-toepassen" tabindex="-1">3. Toepassen <a aria-hidden="true" class="anchor" href="#3.-toepassen">#</a></h3>
+<p>Als je akkoord gaat met het plan, voer je de wijzigingen uit zodat je infrastructuur aangepast wordt.<br/>
+Bij individuele gebruikers wordt de Terraform state lokaal opgeslagen. Voor teams zijn er cloud- of enterprise-versies beschikbaar die de state centraal beheren.</p>
+<h2 id="kernonderdelen-van-terraform" tabindex="-1">Kernonderdelen van Terraform <a aria-hidden="true" class="anchor" href="#kernonderdelen-van-terraform">#</a></h2>
+<p><img alt="Terraform Architecture" src="images/terraform-architecture-diagram.png" title="Terraform Architecture"/></p>
+<h3 id="terraform-cli" tabindex="-1">Terraform CLI <a aria-hidden="true" class="anchor" href="#terraform-cli">#</a></h3>
+<ul>
+<li>De commandoregelinterface (CLI) van Terraform is een enkele binary die je kunt downloaden en gebruiken via de terminal.</li>
+<li>Met de CLI voer je opdrachten uit zoals <code class="hljs">terraform <span class="hljs-keyword">init</span></code>, <code class="hljs"><span class="hljs-attribute">terraform plan</span></code> en <code class="hljs">terraform <span class="hljs-built_in">apply</span></code>.</li>
+</ul>
+<h3 id="terraform-language-(hcl)" tabindex="-1">Terraform Language (HCL) <a aria-hidden="true" class="anchor" href="#terraform-language-(hcl)">#</a></h3>
+<ul>
+<li><strong>HCL</strong> is een declaratieve taal die speciaal is ontworpen voor het beschrijven van infrastructuur.</li>
+<li>In HCL definieer je <strong>resources</strong> (zoals virtuele machines, databases, S3 buckets, enzovoorts) in blokken.</li>
+<li>Elk resourceblok specificeert de eigenschappen van een infrastructuurcomponent.</li>
+</ul>
+<h3 id="terraform-provisioners" tabindex="-1">Terraform Provisioners <a aria-hidden="true" class="anchor" href="#terraform-provisioners">#</a></h3>
+<p>Provisioners worden gebruikt om extra configuratie of setup-taken uit te voeren nadat de infrastructuur is uitgerold.<br/>
+Denk aan taken zoals het kopiëren van bestanden naar een VM of het uitvoeren van configuratieprogramma’s zoals Chef of Puppet.<br/>
+Het gebruik van provisioners wordt vaak als laatste redmiddel gezien, omdat ze moeilijk te plannen zijn en directe toegang tot kritieke systemen geven.</p>
+<h3 id="terraform-modules" tabindex="-1">Terraform Modules <a aria-hidden="true" class="anchor" href="#terraform-modules">#</a></h3>
+<p>Modules zijn herbruikbare configuratieblokken die je kunt gebruiken om samenhangende onderdelen van je infrastructuur te groeperen.<br/>
+Elke Terraform-configuratie heeft minstens één module: de root module. Je kunt daarnaast extra, “child” modules aanroepen.<br/>
+Er is een grote collectie modules beschikbaar in de <a href="https://registry.terraform.io/">Terraform Registry</a>.</p>
+<h3 id="terraform-state" tabindex="-1">Terraform State <a aria-hidden="true" class="anchor" href="#terraform-state">#</a></h3>
+<p>Terraform bewaart de huidige staat van je infrastructuur in een bestand genaamd <code class="hljs">terraform.tfstate</code>.<br/>
+Dit bestand helpt Terraform om veranderingen te plannen en toe te passen.<br/>
+De state file kan lokaal worden opgeslagen of centraal in een teamomgeving.</p>
+<h3 id="state-file" tabindex="-1">State File <a aria-hidden="true" class="anchor" href="#state-file">#</a></h3>
+<p>De <em>state file</em> is een belangrijk onderdeel van hoe Terraform werkt. Het is een JSON-bestand waarin alle informatie over de beheerde resources wordt opgeslagen, inclusief hun huidige status en afhankelijkheden.</p>
+<p>Terraform gebruikt dit state-bestand om te bepalen welke veranderingen nodig zijn wanneer er een nieuwe configuratie wordt toegepast. Ook voorkomt het dat resources onnodig worden herbouwd bij herhaalde uitvoeringen van Terraform.</p>
+<p>Je kunt het state-bestand lokaal opslaan op de machine waar Terraform draait, of op een externe locatie met een remote backend, zoals een Azure Storage Account, Amazon S3 of HashiCorp Consul. Het is erg belangrijk om dit bestand goed te beveiligen en regelmatig back-ups te maken, omdat het gevoelige informatie bevat over de infrastructuur die je beheert. Standaard wordt de state file in dezelfde directory als je manifest opgeslagen.</p>
+<h3 id="providers" tabindex="-1">Providers <a aria-hidden="true" class="anchor" href="#providers">#</a></h3>
+<p>Voor dit vak gaan we Azure en een ESXi server gebruiken die jullie hebben ingericht op Skylab. Standaard kan Terraform wel met Azure maar niet met ESXi ‘praten’. Wel met VMWare vCenter, maar omdat dat dit vak onnodig complex maakt houden we het hiervoor bij ESXi. Als Terraform niet standaard met iets kan praten gebruik je een custom provider plugin. Omdat we deze (custom) provider plugin gebruiken moeten we deze ergens in de code bekend maken. Dat kan in een los <a href="http://providers.tf">providers.tf</a> bestand maar je mag het ook (bovenin) je <a href="http://main.tf">main.tf</a> bestand zetten:</p>
+<pre><code class="hljs language-terraform">terraform {
+  required_providers {
+    esxi = {
+      source = "registry.terraform.io/josenk/esxi"
+    }
+  }
+}
+</code></pre>
+<p>En voor Azure ziet het er net weer iets anders uit:</p>
+<pre><code class="hljs language-terraform">terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~&gt; (actueel versienummer)"
+  }
+}
+</code></pre>
+<p>De ESXi provider heeft informatie nodig waar de ESXi server te vinden is waar je tegenaan wil praten. We hebben dus een blok ‘provider’ nodig. In dit blok geef je onder andere het IP adres op, welke user gebruikt moet worden e.d. Let op, dit is niet bij elke provider hetzelfde. Vaak kun je in de documentatie van een provider informatie vinden hoe zo’n blok eruit moet zien.
+Voor de josenk/esxi provider kan het er alsvolgt uitzien:</p>
+<pre><code class="hljs language-terraform"># Details voor de provider
+provider "esxi" {
+  esxi_hostname      = "192.168.100.84" #vul hier jouw ESXi IP nummer in
+  esxi_hostport      = "22"
+  esxi_hostssl       = "443"
+  esxi_username      = "root"
+  esxi_password      = "Welkom01!"
+}
+</code></pre>
+<p>En voor Azure heb je hier een blokje nodig met informatie over je subscription:</p>
+<pre><code class="hljs language-terraform">provider "azurerm" {
+  resource_provider_registrations = "none"
+  subscription_id = "xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx"
+  features{}
+}
+</code></pre>
+<p>Terraform weet nu waar we iets willen gaan doen en met welke provider. Maar nog niet dat we deze VM willen maken hoe deze VM eruit moet gaan zien. Welke virtuele hardware wil je in de VM stoppen?
+Daar moeten we een ‘resource’ voor aanmaken in het bestand. Deze resource krijgt een naam en je kunt aangeven hoeveel cpu’s, memory en storage je resource moet krijgen. Ook kun je bijvoorbeeld aangeven welk netwerk er gekoppeld moeten worden.</p>
+<pre><code class="hljs language-terraform">resource "esxi_guest" "vmtest" {
+  guest_name         = "vmtest"
+  disk_store         = "datastore1"
+
+  ovf_source = "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.ova"
+  network_interfaces {
+    virtual_network = "VM Network"
+  }
+}
+</code></pre>
+<p>Je ziet ook de regel ovf_source staan. Dit is een verwijzing naar een image wat Terraform moet gebruiken om de VM mee aan te maken. Terraform zal deze .ova file omzetten in een disk voor de VM. De VM gebruikt dit uiteindelijk als boot en data disk. In dit image zit een complete Ubuntu 24.04 server VM.</p>
+<p>Voor Azure heb je in ieder geval blokjes nodig voor je resource group, een vnet, een subnet, de nic, en de vm zelf.
+Voorbeelden kun je vinden in de repository van de provider : <a href="https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/virtual-machines">https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/virtual-machines</a></p>
+<h4 id="uitvoeren" tabindex="-1">Uitvoeren <a aria-hidden="true" class="anchor" href="#uitvoeren">#</a></h4>
+<p>Als je een configuratie gemaakt hebt zijn er 3 belangrijke commando’s voor het gebruik van Terraform.</p>
+<p>Als eerste moet je ervoor zorgen dat je provider beschikbaar is en dat een aantal files klaar worden gezet.
+Dat doe je met</p>
+<pre><code class="hljs language-bash">terraform init
+</code></pre>
+<p>Wil je vervolgens de deployment van de VM’s gaan uitvoeren, dan kun je dat doen met:</p>
+<pre><code class="hljs language-bash">terraform apply
+</code></pre>
+<p>Zoals je ziet krijg je vlak voor het uitvoeren van de deployment nog een yes/no vraag. Deze kun je eventueel overslaan door --auto-approve toe te voegen aan je commando:</p>
+<pre><code class="hljs language-bash">terraform destroy --auto-approve
+</code></pre>
+<h2 id="cloudinit" tabindex="-1">Cloudinit <a aria-hidden="true" class="anchor" href="#cloudinit">#</a></h2>
+<p>In bovenstaand voorbeeld hebben we het default ‘Cloud’ image van Ubuntu gedeployed op onze ESXi omgeving.
+Cloud images hebben een minimalistische configuratie en zijn redelijk klein in omvang (ongeveer 700mb). Ze zijn met name bedoeld voor public cloud omgevingen zoals Amazon’s EC2 of een Azure omgeving.</p>
+<p>Om gebruik te kunnen maken van dit cloud image moeten we het na deployment op de een of andere manier configureren want het heeft bijvoorbeeld geen wachtwoord voor de default gebruiker.</p>
+<p>De tool die gebruikt wordt om een image na deployment te configureren heet CloudInit. CloudInit maakt gebruik van twee yaml bestanden, metadata.yaml waarin gegevens over het systeem komen zoals hostname, netwerk informatie e.d. en een bestand userdata.yaml waar gegevens over de aan te maken gebruiker, te installeren packages etc komen.</p>
+<p>In onderstaand voorbeeld zie je hoe je met een file userdata.yaml een user aan kunt maken op het systeem en hoe je een public key die je eerder aangemaakt hebt op het systeem zet. Hierdoor kun je door de combinatie van private key (op jouw systeem) en public key (op de vm) zonder wachtwoord inloggen op de vm. De userdata.yaml file kun je ook gebruiken om bijvoorbeeld packages te installeren.</p>
+<p>metadata.yaml</p>
+<pre><code class="hljs language-yaml"><span class="hljs-comment">#cloud-config</span>
+<span class="hljs-attr">local-hostname:</span> <span class="hljs-string">vm-host-naam</span>
+</code></pre>
+<p>userdata.yaml</p>
+<pre><code class="hljs language-yaml"><span class="hljs-comment">#cloud-config</span>
+<span class="hljs-attr">users:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">username_die_je_aan_wil_maken</span>
+    <span class="hljs-attr">ssh-authorized-keys:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ssh-ed25519</span> <span class="hljs-string">je_ssh_public_key</span>
+    <span class="hljs-attr">shell:</span> <span class="hljs-string">/bin/bash</span>
+</code></pre>
+<p>Je kunt voor de waardes van de keys (bv name, local-hostname) ook variabelen gebruiken vanuit een variabele bestand (zie bv het simple-variables voorbeeld).</p>
+<p>Om cloudinit aan te roepen na het deployen van de VM door Terraform moet je bij de ESXi proider een blok <code class="hljs"><span class="hljs-attribute">guestinfo</span></code> opnemen binnen de resource van de VM in je Terraform bestand. Dit is voor elke provider anders, maar de josenk/esxi provider verwacht 4 regels met data. In deze 4 regels staat de locatie van metadata.yaml, userdata.yaml en voor elk van deze files de codering die Terraform moet gebruiken (base64).</p>
+<pre><code class="hljs language-yaml"><span class="hljs-string">guestinfo</span> <span class="hljs-string">=</span> {
+<span class="hljs-string">"metadata"</span>          <span class="hljs-string">=</span> <span class="hljs-string">filebase64("metadata.yaml")</span>
+<span class="hljs-string">"metadata.encoding"</span> <span class="hljs-string">=</span> <span class="hljs-string">"base64"</span>
+<span class="hljs-string">"userdata"</span>          <span class="hljs-string">=</span> <span class="hljs-string">filebase64("userdata.yaml")</span>
+<span class="hljs-string">"userdata.encoding"</span> <span class="hljs-string">=</span> <span class="hljs-string">"base64"</span>
+}
+</code></pre>
+<p>Waarbij userdata.yaml je template bestand is wat je gebruikt en local.templatevars een setje lokale variabelen in het terraform bestand. Cloudinit verwacht een base64 encoded bestand, vandaar de base64encode functie ervoor. De variabelen die je in je userdata.yaml bestand gebruikt haal je ook vanuit je Terraform variabelen. Meer info over Guestinfo voor de ESXi provider kun je vinden in de documentatie van de ESXi provider.</p>
+<p>Bij de Azure provider werkt het net weer een beetje anders. Daar geef je binnen de specificatie van de VM de volgende regel op:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-string">custom_data</span> <span class="hljs-string">=</span> <span class="hljs-string">base64encode(file("cloud-init.yml"))</span>
+</code></pre>
+<p>Hier is dus geen metadata nodig, maar de opbouw van cloud-init.yml en userdata.yml van de ESXiprovider ziet er wel hetzelfde uit, behalve dat je geen user hoeft aan te maken en je SSH key niet hoeft te kopieren. Dat gebeurd al in je terraform manifest.</p>
+<p>Let er op dat op de eerste de regel <code class="hljs"><span class="hljs-meta">#cloud-config</span></code> in beide files staat. Anders zal cloudinit de file niet gebruiken!</p>
+<h2 id="terraform-output" tabindex="-1">Terraform Output <a aria-hidden="true" class="anchor" href="#terraform-output">#</a></h2>
+<p>Je kunt tijdens het deployen van je infrastructuur Terraform ook output laten genereren. Bijvoorbeeld een bestand met daarin de IPs van de vm’s die je net gedeployed hebt. Je gebruikt daar de <code class="hljs"><span class="hljs-attribute">local_file</span></code> resource voor. Je kunt daarmee eigen tekst combineren met variabelen die Terraform gebruikt, zoals het IP adres van een aangemaakte VM.</p>
+<p>Je kunt bij de local_file resource ook gebruik maken van een template. Zie hier voor <a href="https://developer.hashicorp.com/terraform/language/functions/templatefile">De terraform templatefile documentatie</a></p>
+<p>Een andere optie is het ‘streamen’ van tekst naar een file. Dit doe je doormiddel van de EOF functie. Zie deze <a href="https://medium.com/@rajeshshukla_49087/ansible-inventory-file-using-terraform-b305db3ead2">site</a> voor een uitleg. Let erop dat bij de provider die wij gebruiken (josenk/esxi) informatie uit de vm resource kan worden gehaald door deze aan te roepen door bijvoorbeeld <code class="hljs">esxi_guest.dbserver</code> te gebruiken met daarna de informatie die je wil hebben. Dus bijvoorbeeld <code class="hljs">esxi_guest<span class="hljs-selector-class">.dbserver</span>.ip_address</code> of <code class="hljs">esxi_guest<span class="hljs-selector-class">.dbserver</span>.guest_name</code>. Als je meerdere vm’s in 1 terraform bestand hebt kun je met een for loop werken, waarbij de gevonden ip’s samengevoegd worden in het bestand, elk op een nieuwe regel.</p>
+<p>In 2023 is er een extra mogelijkheid bijgekomen via een provider die gemaakt is door RedHat. Deze cloud.terraform provider heeft de mogelijkheid om een inventory voor je aan te maken. Je kunt er <a href="https://blog.sneakybugs.com/ansible-inventory-terraform/">hier</a> meer over lezen.</p>
+<p>Bij Azure kun je de variabele ${azurerm_public_ip.pip.ip_address} gebruiken om het publieke IP adres op te halen en ${azurerm_network_interface.nic.private_ip_address} voor het private adres.</p>
+<h2 id="terraform-versus-andere-tools" tabindex="-1">Terraform versus Andere Tools <a aria-hidden="true" class="anchor" href="#terraform-versus-andere-tools">#</a></h2>
+<h3 id="opentofu" tabindex="-1">OpenTofu <a aria-hidden="true" class="anchor" href="#opentofu">#</a></h3>
+<p>OpenTofu is een open-source fork van Terraform (afgeleid van versie 1.5.6).<br/>
+De voordelen van OpenTofu zijn onder andere:</p>
+<ul>
+<li><strong>Echt open-source:</strong> Geen beperkingen voor commercieel of persoonlijk gebruik.</li>
+<li><strong>Dynamische community:</strong> Snelle bijdrage en bugfixes dankzij een actieve ontwikkelaarsgemeenschap.</li>
+<li><strong>Betrouwbare ondersteuning:</strong> Snelle updates en nieuwe features.</li>
+<li><strong>Lange termijn zekerheid:</strong> Uitgegeven onder een open licentie (MPL) en beheerd binnen de Linux Foundation.</li>
+</ul>
+<h3 id="terraform-vs.-configuratiebeheer-tools-(zoals-chef-of-puppet)" tabindex="-1">Terraform vs. Configuratiebeheer Tools (zoals Chef of Puppet) <a aria-hidden="true" class="anchor" href="#terraform-vs.-configuratiebeheer-tools-(zoals-chef-of-puppet)">#</a></h3>
+<ul>
+<li><strong>Terraform</strong> richt zich op het provisionen en beheren van infrastructuur.</li>
+<li><strong>Configuratiebeheer tools</strong> (zoals Chef en Puppet) worden ingezet om servers en applicaties te configureren nadat ze zijn uitgerold.</li>
+<li>Beide tools vullen elkaar aan en kunnen in combinatie worden gebruikt voor een volledige deployment-pijplijn.</li>
+</ul>
+<h2 id="opdrachten" tabindex="-1">Opdrachten <a aria-hidden="true" class="anchor" href="#opdrachten">#</a></h2>
+<p>Deze twee opdrachten maak je in tweetallen. 1 persoon maakt de VM’s op ESXi en de andere persoon maakt ze in Azure. Werk samen aan de code.</p>
+<blockquote>
+<p>Opdracht 1 :</p>
+</blockquote>
+<p>A. (ESXi) Maak een terraform manifest voor 1 Ubuntu VM met 1 vcpu en 1024MB geheugen. Je zult zien dat de VM start en dat via de remote console van ESXi een prompt kunt zien. Maar je kunt er nog niks mee… Daarom mag je de VM verwijderen. De code bewaar je wel.</p>
+<p>B. (Azure) Maak een terraform manifest voor 1 Ubuntu VM, gebaseerd op de Standard_B2ats_v2 sizing.</p>
+<blockquote>
+<p>Opdracht 2 :</p>
+</blockquote>
+<p>A. (ESXi) Maak een terraform deployment file waarin je in totaal 3 Ubuntu VM’s deployed met 1 vcpu en 2048MB geheugen, met de volgende kenmerken:</p>
+<blockquote>
+<ul>
+<li>Je hebt het Ubuntu 24.04 cloudimage gebruikt</li>
+<li>Er is een resource voor 2 Ubuntu VM’s die de naam webserver hebben</li>
+<li>Er is een resource voor 1 Ubuntu VM die de naam databaseserver heeft.</li>
+<li>Via cloudinit maak je op de 3 vm’s een gebruiker aan met sudo rechten zonder dat er alsnog een wachtwoord wordt gevraagd.
+(De volgende criteria zoek je zelf op in de voorbeelden van de provider, zie voor de link hieronder)</li>
+<li>Via cloudinit zet je je public ssh-key (let op gebruik je ED25519 key) op de 3 vm’s gezet</li>
+<li>Via cloudinit installeer je de packages wget en ntpdate.</li>
+<li>Het ip adres van elke machine komt in een bestand op je beheer systeem.</li>
+<li>Maak in je Terraform manifest gebruik van variabelen waar dit kan. Zet deze variabelen in een apart bestand.</li>
+</ul>
+<p>Gebruik hiervoor de voorbeelden in de IAC Git repository en de voorbeelden in de <a href="https://github.com/josenk/terraform-provider-esxi/tree/master/examples">Git Repository van de ESXI-terraform provider</a></p>
+</blockquote>
+<p>B. (Azure) Maak 1 terraform manifest waarin je 2 Ubuntu 24.04 VM in Azure deployed met de volgende kenmerken:</p>
+<blockquote>
+<ul>
+<li>De VM is van het type “Standard_B2ats_v2”</li>
+<li>Je eerder geuploade SSH key wordt gebruikt.</li>
+<li>Je VM heeft een publiek IP adres</li>
+<li>Je maakt de user ‘iac’ aan.</li>
+<li>Via CloudInit wordt er een bestand ‘hello.txt’ in /home/iac geplaatst met de inhoud ‘Hello World’</li>
+<li>Het ip adres van elke machine komt in een bestand op je beheer systeem.</li>
+<li>Het moet dus 1 manifest zijn waarin 2 dezelfde VM’s aangemaakt worden.</li>
+<li>Maak in je Terraform manifest gebruik van variabelen waar dit kan. Zet deze variabelen in een apart bestand.</li>
+</ul>
+</blockquote>
+<p>Gebruik de volgende <a href="https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/virtual-machines/linux">Git repository</a> met voorbeelden van Hashicorp voor Azure.</p>
+<p>Maak een korte video waarin je laat zien dat je vanuit de VM op ESXi van opdracht 2A een SSH sessie kunt starten naar de Azure VM (opdracht 2B)</p>
+</div>
+</body>
+</html>

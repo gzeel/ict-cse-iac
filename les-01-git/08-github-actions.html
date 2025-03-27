@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paths-ignore</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#github-actions">GitHub Actions </a></li><li class="toc-item"><a class="toc-link" href="#wat-zijn-github-actions%3F">Wat zijn GitHub Actions? </a></li><li class="toc-item"><a class="toc-link" href="#hoe-zit-github-actions-in-elkaar%3F">Hoe zit GitHub Actions in elkaar? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#uitleg-van-de-commando%E2%80%99s">Uitleg van de commando’s </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-kan-je-met-github-actions%3F">Wat kan je met GitHub Actions? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#verschil-met-githooks">Verschil met githooks </a></li><li class="toc-item"><a class="toc-link" href="#overige-commando%E2%80%99s">Overige commando’s </a></li></ul></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="github-actions" tabindex="-1">GitHub Actions <a aria-hidden="true" class="anchor" href="#github-actions">#</a></h2>
+<blockquote>
+<p>Μeer informatie over <a href="https://docs.github.com/en/actions/writing-workflows">GitHub Actions</a></p>
+</blockquote>
+<h2 id="wat-zijn-github-actions%3F" tabindex="-1">Wat zijn GitHub Actions? <a aria-hidden="true" class="anchor" href="#wat-zijn-github-actions%3F">#</a></h2>
+<p>GitHub Actions is een CI/CD-tool (<a href="https://www.redhat.com/en/topics/devops/what-is-ci-cd">Uitleg over CI/CD</a>) die het mogelijk maakt om automatisch workflows uit te voeren in reactie op gebeurtenissen in een GitHub-repository, zoals push- of pull-request-activiteiten. Met GitHub Actions kun je eenvoudig geautomatiseerde workflows opzetten voor builds, tests, en deployments.</p>
+<h2 id="hoe-zit-github-actions-in-elkaar%3F" tabindex="-1">Hoe zit GitHub Actions in elkaar? <a aria-hidden="true" class="anchor" href="#hoe-zit-github-actions-in-elkaar%3F">#</a></h2>
+<p>Een workflow wordt gedefinieerd in een <code class="hljs"><span class="hljs-title">.yml</span></code>-bestand dat zich in de map <code class="hljs"><span class="hljs-title">.github/workflows/</span></code> bevindt. De basisstructuur van een workflowbestand is als volgt:</p>
+<pre><code class="hljs"><span class="hljs-attribute">name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">Example name for a workflow</span>
+
+<span class="hljs-attribute">on</span><span class="hljs-punctuation">:</span>
+  <span class="hljs-attribute">event_type</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">branches</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">main</span>
+
+<span class="hljs-attribute">jobs</span><span class="hljs-punctuation">:</span>
+  <span class="hljs-attribute">naam-van-een-job</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">runs-on</span><span class="hljs-punctuation">:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attribute">steps</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">name: Checkout code</span>
+        <span class="hljs-attribute">uses</span><span class="hljs-punctuation">:</span> <span class="hljs-string">actions/checkout@v2</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-string">name: Run a script</span>
+        <span class="hljs-attribute">run</span><span class="hljs-punctuation">:</span> <span class="hljs-string">|</span>
+          echo "Hello, World!"
+</code></pre>
+<h3 id="uitleg-van-de-commando%E2%80%99s" tabindex="-1">Uitleg van de commando’s <a aria-hidden="true" class="anchor" href="#uitleg-van-de-commando%E2%80%99s">#</a></h3>
+<pre><code class="hljs"><span class="hljs-keyword">name</span>: Example <span class="hljs-keyword">name</span> <span class="hljs-keyword">for</span> a workflow
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">name</span></code>: De naam van de workflow die zichtbaar is in GitHub. Het is handig om hier een korte duidelijke beschrijving staat wat de workflow doet.</li>
+</ul>
+<pre><code class="hljs"><span class="hljs-attribute">on</span><span class="hljs-punctuation">:</span>
+  <span class="hljs-attribute">push</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">branches</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">main</span>
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">on</span></code>: Dit specificeert wat er moet gebeuren om de workflow te laten runnen</li>
+<li><code class="hljs"><span class="hljs-built_in">push</span></code>: Dit specificeert op basis van welke actie de workflow getriggerd wordt.
+Dit kunnen ook andere event types zijn:
+<ul>
+<li><code class="hljs"><span class="hljs-attribute">pull</span></code></li>
+<li><code class="hljs"><span class="hljs-attribute">commit</span></code></li>
+<li><code class="hljs"><span class="hljs-attribute">pull_request</span></code></li>
+<li><code class="hljs">release</code></li>
+<li><code class="hljs"><span class="hljs-attribute">schedule</span></code></li>
+<li><code class="hljs"><span class="hljs-attribute">workflow_dispatch</span></code></li>
+</ul>
+</li>
+<li><code class="hljs"><span class="hljs-attribute">branches</span></code>: Dit specificeert op welke branch de actie moet zijn uitgevoerd om de workflow te triggeren.</li>
+</ul>
+<pre><code class="hljs"><span class="hljs-params">jobs:</span>
+  <span class="hljs-params">naam-van-een-job:</span>
+    <span class="hljs-params">runs-on:</span> ubuntu-latest
+    <span class="hljs-params">steps:</span>
+      <span class="hljs-operator">-</span> <span class="hljs-params">name:</span> Checkout code
+        <span class="hljs-params">uses:</span> actions<span class="hljs-operator">/</span>checkout@v2
+
+      <span class="hljs-operator">-</span> <span class="hljs-params">name:</span> Run a script
+        <span class="hljs-params">run:</span> |
+          echo <span class="hljs-string">"Hello, World!"</span>
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-built_in">jobs</span></code>: Dit kan een lijst zijn van alle verschillende taken die uitgevoerd moeten worden. In dit voorbeeld is er één job.</li>
+<li><code class="hljs">naam-van-een-<span class="hljs-keyword">job</span></code>: De naam van een job die zichtbaar is in GitHub. Deze naam kan geen spaties bevatten, alleen letters, <code class="hljs"><span class="hljs-deletion">-</span></code> en <code class="hljs"><span class="hljs-literal">_</span></code>.</li>
+<li><code class="hljs"><span class="hljs-attribute">runs</span>-<span class="hljs-literal">on</span></code>: Specificeert op welk besturingssysteem de job moet werken.</li>
+<li><code class="hljs"><span class="hljs-attribute">steps</span></code>: Dit is een lijst van de stappen die de action op volgorde zal doorlopen. Elke stap heeft weer een eigen vorm.
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">name</span></code>: De naam van de stap die zichtbaar is op GitHub.</li>
+<li><code class="hljs"><span class="hljs-keyword">uses</span></code>: De actie die de stap moet uitvoeren op basis van al bestaande actions. Dit kunnen eigen actions zijn op actions van andere mensen.</li>
+<li><code class="hljs">run<span class="hljs-punctuation">:</span> <span class="hljs-string">|</span></code>: Dit kan allerlei verschillende commando’s uitvoeren van bijvoorbeeld een terminal, python of npm.</li>
+</ul>
+</li>
+</ul>
+<h2 id="wat-kan-je-met-github-actions%3F" tabindex="-1">Wat kan je met GitHub Actions? <a aria-hidden="true" class="anchor" href="#wat-kan-je-met-github-actions%3F">#</a></h2>
+<p>GitHub Actions kan gebruikt worden om automatische ontwikkelstraten op te stellen. Een paar use cases voor GitHub Actions:</p>
+<ul>
+<li>Automatische build en test</li>
+<li>Code kwaliteitscontrole</li>
+<li>Automatisch deployen naar productie</li>
+<li>Versiebeheer van releases</li>
+</ul>
+<h3 id="verschil-met-githooks" tabindex="-1">Verschil met githooks <a aria-hidden="true" class="anchor" href="#verschil-met-githooks">#</a></h3>
+<p>GitHub actions en githooks lijken veel op elkaar maar doen wel andere acties.</p>
+<ul>
+<li><strong>Locatie:</strong>
+<ul>
+<li>GitHub actions worden extern op de GitHub servers gerund.</li>
+<li>Githooks worden alleen uitgevoerd op je lokale machine.</li>
+</ul>
+</li>
+<li><strong>Toepassing:</strong>
+<ul>
+<li>GitHub actions worden vooral toegepast op CI/CD pipelines.</li>
+<li>Githooks worden gebruikt voor lokale automatisering bij git acties zoals een commit of een push.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!tip] Casus
+Anne en Bert hebben een werkende versie van een project kunnen maken en dit deployen zij ook op een website. Nu willen zij dat als zij een commit maken op de <code class="hljs"><span class="hljs-selector-tag">main</span></code>-branch, dat er automatisch opnieuw gedeployed wordt. Hiervoor gaan zij aan de slag om een workflow op te stellen waarin zij door een push op <code class="hljs"><span class="hljs-selector-tag">main</span></code> de commando uit laten voeren om een nieuwe deployement op te starten op hun hosting omgeving.</p>
+</blockquote>
+<hr/>
+<h3 id="overige-commando%E2%80%99s" tabindex="-1">Overige commando’s <a aria-hidden="true" class="anchor" href="#overige-commando%E2%80%99s">#</a></h3>
+<pre><code class="hljs"><span class="hljs-comment"># Paths-ignore</span>
+<span class="hljs-attribute">on</span><span class="hljs-punctuation">:</span>
+  <span class="hljs-attribute">push</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">branches</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">main</span>
+    <span class="hljs-attribute">paths-ignore</span><span class="hljs-punctuation">:</span>
+	  <span class="hljs-bullet">-</span> <span class="hljs-string">`.github/**`</span>
+
+<span class="hljs-comment"># Paths</span>
+<span class="hljs-attribute">on</span><span class="hljs-punctuation">:</span>
+  <span class="hljs-attribute">push</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">branches</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">main</span>
+    <span class="hljs-attribute">paths</span><span class="hljs-punctuation">:</span>
+	  <span class="hljs-bullet">-</span> <span class="hljs-string">`.github/**`</span>
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-attribute">paths-ignore</span></code>: Dit zegt tegen de action dat de content in de folder van <code class="hljs"><span class="hljs-title">.github</span></code> moet negeren.
+<ul>
+<li>
+<ul>
+<li>In bovenstaand voorbeeld wordt de action uitgevoerd als er op een push is op de main branch behalve als de veranderingen alleen in de <code class="hljs"><span class="hljs-title">.github</span></code> folder zijn.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>De tegenhanger hiervan, <code class="hljs"><span class="hljs-attribute">paths</span></code>, zorgt ervoor dat de action dus alleen op die folders let.
+<ul>
+<li>In bovenstaand voorbeeld wordt de action uitgevoerd als er op een push is op de main branch met veranderingen in de <code class="hljs"><span class="hljs-title">.github</span></code> folder.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs">permissions:
+  <span class="hljs-built_in">contents</span>: <span class="hljs-built_in">read</span>
+  issues: <span class="hljs-built_in">write</span>
+  pull-requests: <span class="hljs-built_in">read</span>
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-symbol">permissions:</span></code> Permissions geven de optie aan de action welke rechten er zijn voor bepaalde acties, zoals <code class="hljs"><span class="hljs-built_in">contents</span></code>, <code class="hljs"><span class="hljs-attribute">issues</span></code> en <code class="hljs"><span class="hljs-attribute">pull-requests</span></code>.
+<ul>
+<li><code class="hljs"><span class="hljs-attribute">permissions</span></code> kan voor de <code class="hljs"><span class="hljs-built_in">jobs</span></code> geplaatst worden, maar kan ook in een job worden benoemd om de job aparte rechten te geven.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs"><span class="hljs-params">jobs:</span>
+  <span class="hljs-params">naam-van-een-job:</span>
+    <span class="hljs-params">runs-on:</span> ubuntu-latest
+    <span class="hljs-params">steps:</span>
+      <span class="hljs-operator">-</span> <span class="hljs-params">name:</span> Checkout code
+        <span class="hljs-params">uses:</span> actions<span class="hljs-operator">/</span>checkout@v2
+
+      <span class="hljs-operator">-</span> <span class="hljs-params">name:</span> Run a script
+        <span class="hljs-params">run:</span> |
+          echo <span class="hljs-string">"Hello, World!"</span>
+		<span class="hljs-params">env:</span>
+		  <span class="hljs-params">API_KEY:</span> ${{ secrets.API_KEY }}
+</code></pre>
+<ul>
+<li><code class="hljs"><span class="hljs-built_in">env</span></code>: env secrets kunnen aangemaakt worden in de settings van een repository.
+<ul>
+<li>Secrets worden beschermd van log bestanden.</li>
+<li>Secrets worden geencrypt door GitHub en zijn alleen blootgesteld tijdens runtime.</li>
+<li>Secrets bevatten belangrijke data (bijv. wachtwoorden, API sleutels) wat niet publiek beschikbaar moet zijn.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!info] Bronnen
+Uitleg over CI/CD: <a href="https://www.redhat.com/en/topics/devops/what-is-ci-cd">https://www.redhat.com/en/topics/devops/what-is-ci-cd</a> <br/>
+Meer over Workflows: <a href="https://docs.github.com/en/actions/writing-workflows">https://docs.github.com/en/actions/writing-workflows</a></p>
+</blockquote>
+</div>
+</body>
+</html>
