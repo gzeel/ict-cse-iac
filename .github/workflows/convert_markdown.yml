@@ -18,6 +18,11 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for proper branch handling
 
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
