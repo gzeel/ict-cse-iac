@@ -257,23 +257,3 @@ Je ziet hier een `build` job met een aantal acties. De workflow gaat lopen als e
 Een van de krachtigste aspecten van GitHub Actions is het uitgebreide ecosysteem van herbruikbare acties. Deze vooraf gebouwde componenten kunnen worden gebruikt om veelvoorkomende taken uit te voeren, zoals het uitchecken van code, het opzetten van een programmeeromgeving, of het deployen naar een cloudprovider. Dit bespaart tijd en vermindert de hoeveelheid code die je zelf moet schrijven.
 
 Nadat je je workflow bestand hebt gecommit en gepusht naar GitHub, kun je de uitvoering ervan volgen via de Actions tab in je repository. Hier zie je een overzicht van alle workflow runs, hun status, en gedetailleerde logs die helpen bij het debuggen van eventuele problemen.
-
-> Opdracht 1:
->
-> - Maak een playbook waarbij het pakket `apache2` wordt geinstaleerd, maar niet via de apt module. En er moet een 'Changed' melding komen als het installeren gelukt is. Zorg er ook voor dat het in een andere taak fout gaat en Ansible netjes laat zien dat het fout gegaan is.
-
-> Opdracht 2:
-
-> - Installeer een lokale GitHub Runner en voeg deze toe aan je repository.
-> - Richt een Github workflow in en voeg deze ook toe aan je repository.
-> - Maak een playbook wat een package (bv apache of nginx) installeert en maak hier een CI/CD configuratie voor een aantal stages voor. De code wordt gecheckt in een daarvoor logische stage. Zorg dat het playbook automatisch draait bij push van jouw code..
-
-> Opdracht 3:
->
-> - Maak gebruik van de lokale GitHub Runner uit opdracht 2
-> - Maak een terraform manifest waarbij je een simpele vm deployed en maak hier een CI/CD configuratie voor. Zorg dat het bestand automatisch draait bij push van jouw code.
-> - Voeg een stap toe die controleert of de Terraform-code voldoet aan best practices
-> - Configureer de workflow zodanig dat deze alleen worden uitgevoerd wanneer er wijzigingen zijn in de Terraform-bestanden
-> - Voeg een workflow toe die alleen handmatig kan worden gestart voor het verwijderen van de infrastructuur.
-
-Lever een video in op Brightspace waarin je laat zien dat de pipeline van Opdracht 2 werkt..
