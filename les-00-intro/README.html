@@ -331,7 +331,7 @@
 <body>
 <div class="toc-container">
 <h3 class="toc-header">Table of Contents</h3>
-<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#introductie-vak-iac">Introductie vak IAC </a></li><li class="toc-item"><a class="toc-link" href="#introductie-infrastructure-as-code">Introductie Infrastructure as Code </a><ul class="toc-list"></ul></li><li class="toc-item"><a class="toc-link" href="#key-principes">Key Principes </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#idempotency-%26-desired-state">Idempotency &amp; Desired State </a></li><li class="toc-item"><a class="toc-link" href="#declarative">Declarative </a></li><li class="toc-item"><a class="toc-link" href="#immutability">Immutability </a></li><li class="toc-item"><a class="toc-link" href="#versiebeheer">Versiebeheer </a></li><li class="toc-item"><a class="toc-link" href="#lab">LAB </a><ul class="toc-list"></ul></li></ul></li></ul>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#introductie-vak-iac">Introductie vak IAC </a></li><li class="toc-item"><a class="toc-link" href="#introductie-infrastructure-as-code">Introductie Infrastructure as Code </a><ul class="toc-list"></ul></li><li class="toc-item"><a class="toc-link" href="#key-principes">Key Principes </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#idempotency-%26-desired-state">Idempotency &amp; Desired State </a></li><li class="toc-item"><a class="toc-link" href="#declarative">Declarative </a></li><li class="toc-item"><a class="toc-link" href="#immutability">Immutability </a></li><li class="toc-item"><a class="toc-link" href="#versiebeheer">Versiebeheer </a></li></ul></li></ul>
 </div>
 <div class="markdown-body">
 <h1 id="week-1---hello%2C-iac!" tabindex="-1">Week 1 - Hello, IAC! <a aria-hidden="true" class="anchor" href="#week-1---hello%2C-iac!">#</a></h1>
@@ -514,28 +514,6 @@ Wat als we de commando’s uit oefening 1 en 2 op een declaratieve manier willen
 <p>Onze infrastructuurcode moeten we dus op gaan slaan in een versiebeheersysteem. In dit vak gebruiken we de GitLab omgeving van Windesheim. (<a href="https://gitlab.windesheim.nl">https://gitlab.windesheim.nl</a>). Zorg dat je hier een account hebt waar je een repository kunt aanmaken.</p>
 <p>Zie ook onderstaande YouTube video van HashiCorp:</p>
 <p><a href="https://youtu.be/OPDJXicUBuo"><img alt="YouTube" src="images/hqdefault.jpg"/></a></p>
-<h3 id="lab" tabindex="-1">LAB <a aria-hidden="true" class="anchor" href="#lab">#</a></h3>
-<h5 id="ontwikkelomgeving-(opdracht-1)" tabindex="-1">Ontwikkelomgeving (opdracht 1) <a aria-hidden="true" class="anchor" href="#ontwikkelomgeving-(opdracht-1)">#</a></h5>
-<ul>
-<li>VPN naar Skylab pfsense is vereist.</li>
-<li>Ontwikkel en commando omgeving (Ubuntu VM) in Skylab</li>
-<li>VSCode of andere editor op lokale machine</li>
-<li>We werken niet met de remote console van Skylab maar alleen via een Terminal. Dit is een knock out voor je beoordeling!</li>
-</ul>
-<h5 id="esxi-(opdracht-2)" tabindex="-1">ESXi (opdracht 2) <a aria-hidden="true" class="anchor" href="#esxi-(opdracht-2)">#</a></h5>
-<p>Om de opdrachten uit te kunnen voeren heb je ook een ESXi omgeving nodig op Skylab. Deploy deze met default instellingen, 16GB ram + 50gb extra storage disk toekennen</p>
-<p><img alt="ESXi" src="images/esxi.png"/></p>
-<p>Log daarna in op de ESXi console met username <strong>root</strong> en wachtwoord <strong>Welkom01!</strong>
-Daarna moet SSH toegang aan worden gezet via <strong>Actions&gt;Services&gt;SSH</strong></p>
-<p><img alt="ESXi" src="images/esxi_enable_ssh.png"/></p>
-<p>Via <strong>Manage-&gt;Services</strong> kun je SSH altijd laten opstarten, zodat je dit niet elke keer hoeft te doen.</p>
-<p><img alt="SSH" src="images/esxi_ssh.png"/></p>
-<p>Maak als laatste een nieuwe datastore aan op je toegevoegde disk in ESXI. Noem deze <strong>datastore1</strong></p>
-<h5 id="esxi-(opdracht-3)" tabindex="-1">ESXi (opdracht 3) <a aria-hidden="true" class="anchor" href="#esxi-(opdracht-3)">#</a></h5>
-<p>Als ESXi gedeployed is voer je vanaf je ontwikkel omgeving het volgende commando uit:</p>
-<pre><code class="hljs language-bash">ansible -i <span class="hljs-string">'IPADRESESXI,'</span> -m ping all -u root -k
-</code></pre>
-<p>Een screenshot van de ping lever je in op Brightspace.</p>
 </div>
 </body>
 </html>

@@ -515,50 +515,6 @@ Als je dit in 1 playbook zou willen uitvoeren ziet het playbook het er als volgt
 <p>Het playbook kun je uitvoeren met het volgende commando:</p>
 <pre><code class="hljs language-bash">ansible-playbook playbook.yml
 </code></pre>
-<blockquote>
-<p>Opdracht 1</p>
-<ul>
-<li>Maak een nieuwe repository les-03 aan.</li>
-<li>Maak een nieuwe git branch <code class="hljs"><span class="hljs-built_in">test</span></code> aan en werk voor opdracht 1 en 2 in deze branch.</li>
-<li>Deploy met Terraform een VM en zorg dat je in kunt loggen op deze vm dmv een ssh-key. Zorg dat er bij het deployen van deze VM automatisch een inventory wordt aangemaakt.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opracht 2</p>
-<ul>
-<li>In de <code class="hljs"><span class="hljs-built_in">test</span></code> branch:</li>
-<li>Maak playbooks voor de volgende taken:</li>
-<li>Alle packages op een Ubuntu VM moeten geupdate worden.</li>
-<li>Het bestand /etc/hosts op de VM moet aangepast worden, er moet een regel toegevoegd worden in /etc/hosts toe die naar je esxi server wijst. Noem de host esxi.</li>
-<li>Een user <code class="hljs"><span class="hljs-built_in">test</span></code> toevoegen op de VM</li>
-<li>Een lokaal bestand wordt gekopieerd naar de VM</li>
-<li>Maak een playbook dat /etc/ en /var/www/ back-upt, voeg een cronjob toe die dagelijks een back-up maakt en kopieer dit naar /tmp</li>
-<li>Voer de code uit op de VM van opdracht 1</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 3</p>
-<ul>
-<li>Gebruik de repository van opdracht 1, maak een nieuwe branch <code class="hljs"><span class="hljs-attribute">productie</span></code> aan</li>
-<li>Deploy met Terraform drie VMs (vanuit 1 manifest) en zorg dat je in kunt loggen op deze vm’s dmv een ssh-key. Zorg dat er bij het deployen van deze vm’s automatisch een inventory wordt aangemaakt. Er zijn 2 webservers en 1 database server.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 4</p>
-<ul>
-<li>In de <code class="hljs"><span class="hljs-attribute">productie</span></code> branch:</li>
-<li>Schrijf een playbook wat op twee webservers nginx installeert en op de database server mariadb. Het playbook moet gebruik maken van de groepen uit de inventory van Opdracht 3.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 5</p>
-<ul>
-<li>In een branch <code class="hljs"><span class="hljs-attribute">proxmox</span></code></li>
-<li>Schrijf een playbook dat van een Proxmox Hypervisor alle VM’s backupped. Gebruik de volgende waardes: api gebruiker en wachtwoord is <code class="hljs"><span class="hljs-built_in">test</span></code>, de api host is node1, en de storage waarop de backups opgeslagen moeten worden heet <code class="hljs"><span class="hljs-attribute">backup_vm</span></code>. Voor deze opdracht moet de juiste proxmox community module gebruikt worden.</li>
-<li>Je kunt dit playbook uiteraard niet testen.</li>
-</ul>
-</blockquote>
-<p>Lever de code van opdracht 4 deze week in op Brightspace.</p>
 </div>
 </body>
 </html>

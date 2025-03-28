@@ -331,7 +331,7 @@
 <body>
 <div class="toc-container">
 <h3 class="toc-header">Table of Contents</h3>
-<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#recap-week-1">Recap week 1 </a></li><li class="toc-item"><a class="toc-link" href="#introductie-in-terraform">Introductie in Terraform </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-terraform%3F">Wat is Terraform? </a></li><li class="toc-item"><a class="toc-link" href="#waarvoor-wordt-terraform-gebruikt%3F">Waarvoor wordt Terraform gebruikt? </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-infrastructure-as-code-(iac)%3F">Wat is Infrastructure as Code (IaC)? </a></li><li class="toc-item"><a class="toc-link" href="#hoe-werkt-terraform%3F">Hoe werkt Terraform? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-terraform-core">1. Terraform Core </a></li><li class="toc-item"><a class="toc-link" href="#2.-plugins-(providers-en-provisioners)">2. Plugins (Providers en Provisioners) </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#de-typische-terraform-werkwijze">De typische Terraform-werkwijze </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-manifest-schrijven">1. Manifest Schrijven </a></li><li class="toc-item"><a class="toc-link" href="#2.-plan-beoordelen">2. Plan beoordelen </a></li><li class="toc-item"><a class="toc-link" href="#3.-toepassen">3. Toepassen </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#kernonderdelen-van-terraform">Kernonderdelen van Terraform </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#terraform-cli">Terraform CLI </a></li><li class="toc-item"><a class="toc-link" href="#terraform-language-(hcl)">Terraform Language (HCL) </a></li><li class="toc-item"><a class="toc-link" href="#terraform-provisioners">Terraform Provisioners </a></li><li class="toc-item"><a class="toc-link" href="#terraform-modules">Terraform Modules </a></li><li class="toc-item"><a class="toc-link" href="#terraform-state">Terraform State </a></li><li class="toc-item"><a class="toc-link" href="#state-file">State File </a></li><li class="toc-item"><a class="toc-link" href="#providers">Providers </a><ul class="toc-list"></ul></li></ul></li><li class="toc-item"><a class="toc-link" href="#cloudinit">Cloudinit </a></li><li class="toc-item"><a class="toc-link" href="#terraform-output">Terraform Output </a></li><li class="toc-item"><a class="toc-link" href="#terraform-versus-andere-tools">Terraform versus Andere Tools </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#opentofu">OpenTofu </a></li><li class="toc-item"><a class="toc-link" href="#terraform-vs.-configuratiebeheer-tools-(zoals-chef-of-puppet)">Terraform vs. Configuratiebeheer Tools (zoals Chef of Puppet) </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#opdrachten">Opdrachten </a></li></ul>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#recap-week-1">Recap week 1 </a></li><li class="toc-item"><a class="toc-link" href="#introductie-in-terraform">Introductie in Terraform </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-terraform%3F">Wat is Terraform? </a></li><li class="toc-item"><a class="toc-link" href="#waarvoor-wordt-terraform-gebruikt%3F">Waarvoor wordt Terraform gebruikt? </a></li><li class="toc-item"><a class="toc-link" href="#wat-is-infrastructure-as-code-(iac)%3F">Wat is Infrastructure as Code (IaC)? </a></li><li class="toc-item"><a class="toc-link" href="#hoe-werkt-terraform%3F">Hoe werkt Terraform? </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-terraform-core">1. Terraform Core </a></li><li class="toc-item"><a class="toc-link" href="#2.-plugins-(providers-en-provisioners)">2. Plugins (Providers en Provisioners) </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#de-typische-terraform-werkwijze">De typische Terraform-werkwijze </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-manifest-schrijven">1. Manifest Schrijven </a></li><li class="toc-item"><a class="toc-link" href="#2.-plan-beoordelen">2. Plan beoordelen </a></li><li class="toc-item"><a class="toc-link" href="#3.-toepassen">3. Toepassen </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#kernonderdelen-van-terraform">Kernonderdelen van Terraform </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#terraform-cli">Terraform CLI </a></li><li class="toc-item"><a class="toc-link" href="#terraform-language-(hcl)">Terraform Language (HCL) </a></li><li class="toc-item"><a class="toc-link" href="#terraform-provisioners">Terraform Provisioners </a></li><li class="toc-item"><a class="toc-link" href="#terraform-modules">Terraform Modules </a></li><li class="toc-item"><a class="toc-link" href="#terraform-state">Terraform State </a></li><li class="toc-item"><a class="toc-link" href="#state-file">State File </a></li><li class="toc-item"><a class="toc-link" href="#providers">Providers </a><ul class="toc-list"></ul></li></ul></li><li class="toc-item"><a class="toc-link" href="#cloudinit">Cloudinit </a></li><li class="toc-item"><a class="toc-link" href="#terraform-output">Terraform Output </a></li><li class="toc-item"><a class="toc-link" href="#terraform-versus-andere-tools">Terraform versus Andere Tools </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#opentofu">OpenTofu </a></li><li class="toc-item"><a class="toc-link" href="#terraform-vs.-configuratiebeheer-tools-(zoals-chef-of-puppet)">Terraform vs. Configuratiebeheer Tools (zoals Chef of Puppet) </a></li></ul></li></ul>
 </div>
 <div class="markdown-body">
 <h1 id="week-2---hello%2C-terraform!" tabindex="-1">Week 2 - Hello, Terraform! <a aria-hidden="true" class="anchor" href="#week-2---hello%2C-terraform!">#</a></h1>
@@ -546,46 +546,6 @@ De voordelen van OpenTofu zijn onder andere:</p>
 <li><strong>Configuratiebeheer tools</strong> (zoals Chef en Puppet) worden ingezet om servers en applicaties te configureren nadat ze zijn uitgerold.</li>
 <li>Beide tools vullen elkaar aan en kunnen in combinatie worden gebruikt voor een volledige deployment-pijplijn.</li>
 </ul>
-<h2 id="opdrachten" tabindex="-1">Opdrachten <a aria-hidden="true" class="anchor" href="#opdrachten">#</a></h2>
-<p>Deze twee opdrachten maak je in tweetallen. 1 persoon maakt de VM’s op ESXi en de andere persoon maakt ze in Azure. Werk samen aan de code.</p>
-<blockquote>
-<p>Opdracht 1 :</p>
-</blockquote>
-<p>A. (ESXi) Maak een terraform manifest voor 1 Ubuntu VM met 1 vcpu en 1024MB geheugen. Je zult zien dat de VM start en dat via de remote console van ESXi een prompt kunt zien. Maar je kunt er nog niks mee… Daarom mag je de VM verwijderen. De code bewaar je wel.</p>
-<p>B. (Azure) Maak een terraform manifest voor 1 Ubuntu VM, gebaseerd op de Standard_B2ats_v2 sizing.</p>
-<blockquote>
-<p>Opdracht 2 :</p>
-</blockquote>
-<p>A. (ESXi) Maak een terraform deployment file waarin je in totaal 3 Ubuntu VM’s deployed met 1 vcpu en 2048MB geheugen, met de volgende kenmerken:</p>
-<blockquote>
-<ul>
-<li>Je hebt het Ubuntu 24.04 cloudimage gebruikt</li>
-<li>Er is een resource voor 2 Ubuntu VM’s die de naam webserver hebben</li>
-<li>Er is een resource voor 1 Ubuntu VM die de naam databaseserver heeft.</li>
-<li>Via cloudinit maak je op de 3 vm’s een gebruiker aan met sudo rechten zonder dat er alsnog een wachtwoord wordt gevraagd.
-(De volgende criteria zoek je zelf op in de voorbeelden van de provider, zie voor de link hieronder)</li>
-<li>Via cloudinit zet je je public ssh-key (let op gebruik je ED25519 key) op de 3 vm’s gezet</li>
-<li>Via cloudinit installeer je de packages wget en ntpdate.</li>
-<li>Het ip adres van elke machine komt in een bestand op je beheer systeem.</li>
-<li>Maak in je Terraform manifest gebruik van variabelen waar dit kan. Zet deze variabelen in een apart bestand.</li>
-</ul>
-<p>Gebruik hiervoor de voorbeelden in de IAC Git repository en de voorbeelden in de <a href="https://github.com/josenk/terraform-provider-esxi/tree/master/examples">Git Repository van de ESXI-terraform provider</a></p>
-</blockquote>
-<p>B. (Azure) Maak 1 terraform manifest waarin je 2 Ubuntu 24.04 VM in Azure deployed met de volgende kenmerken:</p>
-<blockquote>
-<ul>
-<li>De VM is van het type “Standard_B2ats_v2”</li>
-<li>Je eerder geuploade SSH key wordt gebruikt.</li>
-<li>Je VM heeft een publiek IP adres</li>
-<li>Je maakt de user ‘iac’ aan.</li>
-<li>Via CloudInit wordt er een bestand ‘hello.txt’ in /home/iac geplaatst met de inhoud ‘Hello World’</li>
-<li>Het ip adres van elke machine komt in een bestand op je beheer systeem.</li>
-<li>Het moet dus 1 manifest zijn waarin 2 dezelfde VM’s aangemaakt worden.</li>
-<li>Maak in je Terraform manifest gebruik van variabelen waar dit kan. Zet deze variabelen in een apart bestand.</li>
-</ul>
-</blockquote>
-<p>Gebruik de volgende <a href="https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/virtual-machines/linux">Git repository</a> met voorbeelden van Hashicorp voor Azure.</p>
-<p>Maak een korte video waarin je laat zien dat je vanuit de VM op ESXi van opdracht 2A een SSH sessie kunt starten naar de Azure VM (opdracht 2B)</p>
 </div>
 </body>
 </html>

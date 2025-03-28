@@ -530,33 +530,6 @@ Om aan de slag te gaan met GitHub Actions, moet je een workflow bestand aanmaken
 <p>Je ziet hier een <code class="hljs"><span class="hljs-attribute">build</span></code> job met een aantal acties. De workflow gaat lopen als er een push of een pull-request wordt uitgevoerd.</p>
 <p>Een van de krachtigste aspecten van GitHub Actions is het uitgebreide ecosysteem van herbruikbare acties. Deze vooraf gebouwde componenten kunnen worden gebruikt om veelvoorkomende taken uit te voeren, zoals het uitchecken van code, het opzetten van een programmeeromgeving, of het deployen naar een cloudprovider. Dit bespaart tijd en vermindert de hoeveelheid code die je zelf moet schrijven.</p>
 <p>Nadat je je workflow bestand hebt gecommit en gepusht naar GitHub, kun je de uitvoering ervan volgen via de Actions tab in je repository. Hier zie je een overzicht van alle workflow runs, hun status, en gedetailleerde logs die helpen bij het debuggen van eventuele problemen.</p>
-<blockquote>
-<p>Opdracht 1:</p>
-<ul>
-<li>Maak een playbook waarbij het pakket <code class="hljs">apache2</code> wordt geinstaleerd, maar niet via de apt module. En er moet een ‘Changed’ melding komen als het installeren gelukt is. Zorg er ook voor dat het in een andere taak fout gaat en Ansible netjes laat zien dat het fout gegaan is.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 2:</p>
-</blockquote>
-<blockquote>
-<ul>
-<li>Installeer een lokale GitHub Runner en voeg deze toe aan je repository.</li>
-<li>Richt een Github workflow in en voeg deze ook toe aan je repository.</li>
-<li>Maak een playbook wat een package (bv apache of nginx) installeert en maak hier een CI/CD configuratie voor een aantal stages voor. De code wordt gecheckt in een daarvoor logische stage. Zorg dat het playbook automatisch draait bij push van jouw code…</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 3:</p>
-<ul>
-<li>Maak gebruik van de lokale GitHub Runner uit opdracht 2</li>
-<li>Maak een terraform manifest waarbij je een simpele vm deployed en maak hier een CI/CD configuratie voor. Zorg dat het bestand automatisch draait bij push van jouw code.</li>
-<li>Voeg een stap toe die controleert of de Terraform-code voldoet aan best practices</li>
-<li>Configureer de workflow zodanig dat deze alleen worden uitgevoerd wanneer er wijzigingen zijn in de Terraform-bestanden</li>
-<li>Voeg een workflow toe die alleen handmatig kan worden gestart voor het verwijderen van de infrastructuur.</li>
-</ul>
-</blockquote>
-<p>Lever een video in op Brightspace waarin je laat zien dat de pipeline van Opdracht 2 werkt…</p>
 </div>
 </body>
 </html>
