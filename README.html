@@ -336,6 +336,38 @@
 <div class="markdown-body">
 <h1 id="ict-cse-iac" tabindex="-1">ICT-CSE-IAC <a aria-hidden="true" class="anchor" href="#ict-cse-iac">#</a></h1>
 <p>Repo voor content Infrastructure as Code lessen.</p>
+<p>Opzet &amp; randvoorwaarden (geldt voor alle opdrachten):</p>
+<p>Repo lay-out voorbeeld (te gebruiken vanaf week 2):</p>
+<pre><code class="hljs"><span class="hljs-operator">/</span>infra<span class="hljs-symbol">/</span>
+  terraform<span class="hljs-symbol">/</span>
+    azure<span class="hljs-symbol">/</span>
+    esxi<span class="hljs-symbol">/</span>
+    modules<span class="hljs-symbol">/</span>
+  ansible<span class="hljs-symbol">/</span>
+    inventories<span class="hljs-symbol">/</span>
+      prod<span class="hljs-symbol">/</span>
+        hosts.ini
+        group_vars<span class="hljs-symbol">/</span>
+          all<span class="hljs-symbol">/</span>
+            vault.yml   <span class="hljs-comment"># ansible-vault encrypted</span>
+    roles<span class="hljs-symbol">/</span>
+      common<span class="hljs-symbol">/</span>
+      web<span class="hljs-symbol">/</span>
+      monitoring<span class="hljs-symbol">/</span>
+  docs<span class="hljs-symbol">/</span>
+.github<span class="hljs-symbol">/workflows/ci.yml</span>
+.pre-commit-config.yaml
+</code></pre>
+<p>Git workflow:
+Werk per opdracht op een nieuwe feature branch, open een PR naar main.
+Vereist: minimaal 1 review op elke PR (peer review op klasgenoot) met kort checklist-comment.
+Merge via PR merge (geen direct pushes naar main).</p>
+<p>Secrets:
+Bij de opdracht van week 6 gebruik je geen hardcoded wachtwoorden meer in je code.</p>
+<p>AI gebruik:
+Je mag AI gebruiken om specifieke taken te ondersteunen, zoals het opstellen, verfijnen en evalueren van je werk.
+Je moet AI-gegenereerde inhoud die je gebruikt kritisch evalueren en aanpassen. Dit moet terug te vinden zijn in je repository in de vorm van een reflectie en/of mondeling toegelicht kunnen worden. Ga daarbij niet alleen in op wat je gedaan hebt, maar ook waarom en welke keuzes je gemaakt hebt.
+<img alt="AI niveau 3 Samenwerking" src="images/AIAS_3.png"/></p>
 </div>
 </body>
 </html>
