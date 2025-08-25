@@ -1,4 +1,13 @@
 #### LAB
 
 > Opdracht :
-> Maak een complete deployment waarin je een Azure VM en ESXi VM combineert en je een hybrid cloud situatie maakt. Gebruik de stof van de afgelopen lessen. De deployment is compleet geautomatiseert, inclusief het aanmaken van VM's en andere resources in Azure. Je maakt op beide omgeving een gebruiker 'testuser' aan, via Ansible of via Terraform. De testuser kan inloggen van de ESXI VM naar de Azure VM, het plaatsen van de benodigde SSH keys is geautomatiseerd. Op beide systemen draait een "Hello World" Docker container en je gebruikt een zelfgemaakte ansible-galaxy role om docker te installeren. De omgeving kan automatisch via CI/CD uitgerold worden (dit hoeft alleen voor ESXi, want je hebt niet genoeg rechten hiervoor op Azure)
+> Maak een complete deployment waarin je een Azure VM en ESXi VM combineert en je een hybrid cloud situatie maakt waarbij er een connectie is tussen beide omgevingen. Gebruik de stof van de afgelopen lessen. De deployment is compleet geautomatiseert dmv Github Actions, inclusief het aanmaken van VM's en andere resources in Azure. Je gebruikt door jou zelf gemaakte Ansible Roles waar mogelijk. 
+
+Je uitwerking bevat de volgende kenmerken:
+- Docker (compose) gebaseerd
+- Docker via docker.io, niet default distro repo.
+- SSH private/public key gebruik
+- Secrets in Github
+- Laat een werkende applicatie zien
+- Gebruikt de Github, Ansible en Terraform richtlijnen / best practices
+- Code is gedocumenteerd in Github
