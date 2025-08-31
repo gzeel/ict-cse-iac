@@ -11,44 +11,41 @@ Installeer het met het volgende commando:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-## iTerm2 (optioneel)
+## Terminal (optioneel)
 
-iTerm2 is een terminal client met wat meer mogelijkheden dan de ingebouwde terminal client.
+Wezterm en iTerm2 zijn terminal clients met wat meer mogelijkheden dan de ingebouwde terminal client.
+
+```zsh
+brew install wezterm
+```
 
 ```zsh
 brew install iterm2
 ```
 
-## Gitlab
+## GitHub
 
-Voor onze code gaan we de gitlab omgeving van Windesheim gebruiken. Ga in een browser naar gitlab.windesheim.nl en log in. Maak vervolgens een Personal Access Token aan en bewaar dit op een goeie plek (hint: password manager)
-
-Voor onze ontwikkelomgeving hebben we een aantal bestanden nodig. Ook deze staan in een (publieke) repository.
-Deze repository moet je clonen naar je ontwikkel systeem. Voer het volgende commando op je ontwikkelsysteem uit:
-
-```bash
-git clone https://gitlab.windesheim.nl/fe2157786/iac-files.git
-```
-
-Als er gevraagd om met je gegevens in te loggen, gebruik dan je Windesheim email en net gemaakte Personal Access Token als wachtwoord.
+Voor onze code gaan we GitHub gebruiken. Ga in een browser naar github.com en log in of maak een account aan als je dat nog niet hebt.
 
 ## Installatie OVFTool
 
-In de bovenstaande Git repo vind je een directory files. Daarin staat een installatie bestand voor OVFTool.
+Op [deze](https://developer.broadcom.com/tools/open-virtualization-format-ovf-tool/latest) pagina is de binary van OVFtool te vinden. Download de juiste versie.
 Pak de zip file uit en installeer deze DMG op je systeem. Het kan zijn dat je permissies moet geven om deze op te mogen starten.
 
 Voeg na installatie de volgende regel toe aan .zshrc in je home directory
 
-````zsh
+```zsh
 export PATH="$PATH:/Applications/VMware OVF Tool/"
-
+```
 
 ## PIP
+
 PIP hebben we nodig om Ansible te installeren.
+
 ```zsh
 curl -o get-pip.py https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
-````
+```
 
 ## Ansible
 
@@ -74,4 +71,12 @@ Om o.a. de Ansible code te kunnen bewerken is het handig als er een editor op je
 
 ```zsh
 brew install --cask visual-studio-code
+```
+
+## NeoVim
+
+Een andere optie is een editor in de terminal zoals NeoVim.
+
+```zsh
+brew install neovim
 ```

@@ -54,23 +54,9 @@ Let op: het bestand /home/student/.ssh/authorized_keys moet alleen write rechten
 
 Als laatste upload je de azure publieke key naar Azure. Zie hiervoor https://learn.microsoft.com/en-us/azure/virtual-machines/ssh-keys-portal en dan 'Upload a ssh key'.
 
-## Gitlab
+## GitHub
 
-Voor onze code gaan we de gitlab omgeving van Windesheim gebruiken. Ga in een browser naar gitlab.windesheim.nl en log in. Maak vervolgens een Personal Access Token aan en bewaar dit op een goeie plek (hint: password manager)
-
-Voor onze ontwikkelomgeving hebben we een aantal bestanden nodig. Deze staan in de files directory van deze repo.
-
-Als er gevraagd om met je gegevens in te loggen, gebruik dan je Windesheim email en net gemaakte Personal Access Token als wachtwoord.
-
-Daarna maak je in de root van je homedir een bestand met de naam .netrc aan (let op de punt)
-Daar zet je de volgende informatie in:
-
-```
-machine gitlab.windesheim.nl
-login oauth2
-password jouwpersonalaccesstoken
-
-```
+Voor onze code gaan we GitHub gebruiken. Ga in een browser naar github.com en log in of maak een account aan.
 
 ## Installatie OVFTool
 
