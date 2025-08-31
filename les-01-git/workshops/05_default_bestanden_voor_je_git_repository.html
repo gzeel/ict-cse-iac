@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title><projectnaam></projectnaam></title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#default-bestanden-voor-je-git-repository">Default bestanden voor je Git repository </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-1%3A-een-sterke-readme.md">Opdracht 1: Een sterke README.md </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-2%3A-license-kiezen">Opdracht 2: LICENSE kiezen </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-3%3A-.gitignore-op-maat">Opdracht 3: .gitignore op maat </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-4%3A-codeowners-instellen">Opdracht 4: CODEOWNERS instellen </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-5%3A-.github%2F-met-templates-%26-ci">Opdracht 5: .github/ met templates &amp; CI </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-6%3A-formatter-%26-linting-(.prettierrc%2C-.yamllint%2C-.editorconfig)">Opdracht 6: Formatter &amp; linting (.prettierrc, .yamllint, .editorconfig) </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-7%3A-.gitattributes-(line-endings%2C-linguist)">Opdracht 7: .gitattributes (line-endings, linguist) </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-8%3A-contributing%2C-security-%26-support">Opdracht 8: CONTRIBUTING, SECURITY &amp; SUPPORT </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-9%3A-changelog-en-commitconventies">Opdracht 9: CHANGELOG en commitconventies </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-10%3A-dependency-updates-(dependabot%2Frenovate)">Opdracht 10: Dependency updates (Dependabot/Renovate) </a></li><li class="toc-item"><a class="toc-link" href="#opdracht-11%3A-bonus-%E2%80%93-repository-verzorging">Opdracht 11: Bonus – Repository verzorging </a></li><li class="toc-item"><a class="toc-link" href="#eindchecklijst">Eindchecklijst </a></li></ul>
+</div>
+<div class="markdown-body">
+<hr/>
+<h2 id="default-bestanden-voor-je-git-repository" tabindex="-1">Default bestanden voor je Git repository <a aria-hidden="true" class="anchor" href="#default-bestanden-voor-je-git-repository">#</a></h2>
+<blockquote>
+<p>[!warning] Stuk overslaan?
+Ben je al bekend met README, .gitignore en CODEOWNERS? Sla dan gerust de eerste opdrachten over en ga door bij <strong>Opdracht 5: .github/ met templates &amp; CI</strong>.</p>
+</blockquote>
+<blockquote>
+<p>[!info] Doel van deze workshop
+Na deze workshop staat je repository <strong>standaard netjes</strong>: goede documentatie, code owners, ignore-regels, linting/formatting, GitHub-templates en basis-CI.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-1%3A-een-sterke-readme.md" tabindex="-1">Opdracht 1: Een sterke <a href="http://README.md">README.md</a> <a aria-hidden="true" class="anchor" href="#opdracht-1%3A-een-sterke-readme.md">#</a></h2>
+<blockquote>
+<p>Je README is het visitekaartje van je project. We maken een duidelijke, herbruikbare structuur.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak in de root van je repo een bestand <code class="hljs">README.<span class="hljs-built_in">md</span></code>.</p>
+<p><strong>Stap 2:</strong> Plak de volgende basis-template en vul de placeholders in:</p>
+<pre><code class="hljs language-md"><span class="hljs-section"># <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Projectnaam</span>&gt;</span></span></span>
+
+Korte beschrijving (1–2 zinnen) van wat dit project doet en voor wie het bedoeld is.
+
+<span class="hljs-section">## Inhoudsopgave</span>
+<span class="hljs-bullet">-</span> Installatie
+<span class="hljs-bullet">-</span> Gebruik
+<span class="hljs-bullet">-</span> Ontwikkelen
+<span class="hljs-bullet">-</span> Testen
+<span class="hljs-bullet">-</span> Configuratie
+<span class="hljs-bullet">-</span> Roadmap
+<span class="hljs-bullet">-</span> Bijdragen (Contributing)
+<span class="hljs-bullet">-</span> Licentie
+
+<span class="hljs-section">## Installatie</span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">stappen</span> <span class="hljs-attr">om</span> <span class="hljs-attr">lokaal</span> <span class="hljs-attr">te</span> <span class="hljs-attr">draaien</span> / <span class="hljs-attr">pakket</span> <span class="hljs-attr">te</span> <span class="hljs-attr">installeren</span>&gt;</span></span>
+
+<span class="hljs-section">## Gebruik</span>
+<span class="language-xml">&lt;voorbeeldcommando's, screenshots of korte demo&gt;</span>
+
+<span class="hljs-section">## Ontwikkelen</span>
+<span class="hljs-bullet">-</span> Vereisten: <span class="language-xml">&lt;Node/Java/.NET/etc.&gt;</span>
+<span class="hljs-bullet">-</span> Scripts: <span class="hljs-code">`npm run dev`</span>, <span class="hljs-code">`make`</span>, ...
+<span class="hljs-bullet">-</span> Richtlijnen: code style, branching (bijv. GitFlow), commitconventies, etc.
+
+<span class="hljs-section">## Testen</span>
+<span class="hljs-bullet">-</span> Hoe tests draaien: <span class="hljs-code">`npm test`</span> / <span class="hljs-code">`pytest`</span> / <span class="hljs-code">`dotnet test`</span> …
+<span class="hljs-bullet">-</span> (Optioneel) Coverage, rapportage, testdata.
+
+<span class="hljs-section">## Configuratie</span>
+<span class="hljs-bullet">-</span> Omgevingsvariabelen ( <span class="hljs-code">`.env.example`</span> )
+<span class="hljs-bullet">-</span> Secrets/vertrouwelijke info <span class="hljs-strong">**nooit committen**</span>.
+
+<span class="hljs-section">## Roadmap</span>
+<span class="hljs-bullet">-</span> [ ] Feature A
+<span class="hljs-bullet">-</span> [ ] Feature B
+
+<span class="hljs-section">## Bijdragen</span>
+Zie [<span class="hljs-string">`CONTRIBUTING.md`</span>](<span class="hljs-link">CONTRIBUTING.md</span>) voor richtlijnen.
+
+<span class="hljs-section">## Licentie</span>
+Dit project is gelicentieerd onder <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">LICENTIE</span>&gt;</span></span>. Zie [<span class="hljs-string">`LICENSE`</span>](<span class="hljs-link">LICENSE</span>).
+</code></pre>
+<blockquote>
+<p>[!success] Tip:
+Voeg bovenaan badges toe (build status, coverage, versie). Dit kan later met GitHub Actions.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-2%3A-license-kiezen" tabindex="-1">Opdracht 2: LICENSE kiezen <a aria-hidden="true" class="anchor" href="#opdracht-2%3A-license-kiezen">#</a></h2>
+<blockquote>
+<p>Een duidelijke licentie voorkomt juridische onduidelijkheid.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak bestand <code class="hljs"><span class="hljs-attribute">LICENSE</span></code> in de root.</p>
+<p><strong>Stap 2:</strong> Kies een licentie (meest gebruikt: <strong>MIT</strong>, <strong>Apache-2.0</strong>, <strong>GPL-3.0</strong>). Plak de standaardtekst van de gekozen licentie in <code class="hljs"><span class="hljs-attribute">LICENSE</span></code>.</p>
+<p><strong>Stap 3:</strong> Verwijs ernaar in je <code class="hljs">README.<span class="hljs-built_in">md</span></code> (zie template hierboven).</p>
+<blockquote>
+<p>[!warning] Let op!
+Zonder licentie is je code juridisch <strong>niet</strong> vrij te hergebruiken.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-3%3A-.gitignore-op-maat" tabindex="-1">Opdracht 3: .gitignore op maat <a aria-hidden="true" class="anchor" href="#opdracht-3%3A-.gitignore-op-maat">#</a></h2>
+<blockquote>
+<p>Voorkom dat build-artifacts, IDE-folders en secrets in Git belanden.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak <code class="hljs"><span class="hljs-title">.gitignore</span></code> in de root. Gebruik een basis die past bij je stack.</p>
+<p><strong>Voorbeeld (Node + algemene regels):</strong></p>
+<pre><code class="hljs language-gitignore"># Node / npm
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Build output
+/dist/
+/build/
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+</code></pre>
+<blockquote>
+<p>[!info] Tip:
+Voeg waar nodig taal-/framework-specifieke secties toe (Python, Java, .NET, Docker, etc.).</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-4%3A-codeowners-instellen" tabindex="-1">Opdracht 4: CODEOWNERS instellen <a aria-hidden="true" class="anchor" href="#opdracht-4%3A-codeowners-instellen">#</a></h2>
+<blockquote>
+<p>Met <code class="hljs"><span class="hljs-attribute">CODEOWNERS</span></code> wijs je automatisch reviewers en eigenaren toe per pad.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak het bestand <code class="hljs"><span class="hljs-title">.github/CODEOWNERS</span></code> (of in <code class="hljs"><span class="hljs-attribute">CODEOWNERS</span></code> in de root).</p>
+<p><strong>Stap 2:</strong> Voeg regels toe per map/bestand:</p>
+<pre><code class="hljs language-txt"># Eigenaar voor alles
+*           @org/team-backend
+
+# Specifieke paden
+/docs/      @org/tech-writers
+/frontend/  @gebruikersnaam
+infra/**    @org/devops-team
+</code></pre>
+<p><strong>Stap 3:</strong> Zet branch protection aan (in GitHub Settings) zodat reviews van owners vereist zijn (optioneel, maar aanbevolen).</p>
+<blockquote>
+<p>[!success] Resultaat:
+Nieuwe PR’s krijgen automatisch de juiste reviewers.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-5%3A-.github%2F-met-templates-%26-ci" tabindex="-1">Opdracht 5: <code class="hljs"><span class="hljs-title">.github/</span></code> met templates &amp; CI <a aria-hidden="true" class="anchor" href="#opdracht-5%3A-.github%2F-met-templates-%26-ci">#</a></h2>
+<blockquote>
+<p>Maak bijdragen voorspelbaar met issue-/PR-templates en basis-automatisering.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak de map <code class="hljs"><span class="hljs-title">.github/</span></code> met submappen:</p>
+<pre><code class="hljs">.github<span class="hljs-symbol">/</span>
+  ISSUE_TEMPLATE<span class="hljs-symbol">/</span>
+  workflows<span class="hljs-symbol">/</span>
+</code></pre>
+<p><strong>Stap 2:</strong> Voeg een <em>issue form</em> (YAML) toe, bv. <code class="hljs"><span class="hljs-type">ISSUE_TEMPLATE</span>/bug_re<span class="hljs-keyword">port</span>.yml</code>:</p>
+<pre><code class="hljs language-yml"><span class="hljs-attr">name:</span> <span class="hljs-string">Bug</span> <span class="hljs-string">report</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Meld</span> <span class="hljs-string">een</span> <span class="hljs-string">fout</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">"[BUG] &lt;korte titel&gt;"</span>
+<span class="hljs-attr">labels:</span> [<span class="hljs-string">bug</span>]
+<span class="hljs-attr">body:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">textarea</span>
+    <span class="hljs-attr">id:</span> <span class="hljs-string">beschrijving</span>
+    <span class="hljs-attr">attributes:</span>
+      <span class="hljs-attr">label:</span> <span class="hljs-string">Beschrijving</span>
+      <span class="hljs-attr">placeholder:</span> <span class="hljs-string">Wat</span> <span class="hljs-string">ging</span> <span class="hljs-string">er</span> <span class="hljs-string">mis?</span>
+    <span class="hljs-attr">validations:</span>
+      <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">textarea</span>
+    <span class="hljs-attr">id:</span> <span class="hljs-string">stappen</span>
+    <span class="hljs-attr">attributes:</span>
+      <span class="hljs-attr">label:</span> <span class="hljs-string">Stappen</span> <span class="hljs-string">om</span> <span class="hljs-string">te</span> <span class="hljs-string">reproduceren</span>
+      <span class="hljs-attr">value:</span> <span class="hljs-string">|
+        1.
+        2.
+        3.
+</span>  <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">input</span>
+    <span class="hljs-attr">id:</span> <span class="hljs-string">versie</span>
+    <span class="hljs-attr">attributes:</span>
+      <span class="hljs-attr">label:</span> <span class="hljs-string">Versie</span> <span class="hljs-string">/</span> <span class="hljs-string">commit</span> <span class="hljs-string">SHA</span>
+</code></pre>
+<p><strong>Stap 3:</strong> Voeg een Pull Request template toe: <code class="hljs"><span class="hljs-title">.github/PULL_REQUEST_TEMPLATE.md</span></code></p>
+<pre><code class="hljs language-md"><span class="hljs-section">## Samenvatting</span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Wat</span> <span class="hljs-attr">verandert</span> <span class="hljs-attr">er</span> <span class="hljs-attr">en</span> <span class="hljs-attr">waarom</span>?&gt;</span></span>
+
+<span class="hljs-section">## Checklist</span>
+<span class="hljs-bullet">-</span> [ ] Tests ok / toegevoegd
+<span class="hljs-bullet">-</span> [ ] Documentatie bijgewerkt
+<span class="hljs-bullet">-</span> [ ] Geen secrets of ongewenste bestanden
+
+<span class="hljs-section">## Gerelateerd</span>
+Fixes #<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">issue-nummer</span>&gt;</span></span>
+</code></pre>
+<p><strong>Stap 4:</strong> Basis CI workflow: <code class="hljs"><span class="hljs-title">.github/workflows/ci.yml</span></code></p>
+<pre><code class="hljs language-yml"><span class="hljs-attr">name:</span> <span class="hljs-string">CI</span>
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">main</span> ]
+  <span class="hljs-attr">pull_request:</span>
+    <span class="hljs-attr">branches:</span> [ <span class="hljs-string">main</span> ]
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build-and-test:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/setup-node@v4</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">node-version:</span> <span class="hljs-string">'20'</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">ci</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">test</span> <span class="hljs-string">--if-present</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npm</span> <span class="hljs-string">run</span> <span class="hljs-string">build</span> <span class="hljs-string">--if-present</span>
+</code></pre>
+<blockquote>
+<p>[!info] Variatie:
+Gebruik voor andere stacks <code class="hljs">setup-python</code>, <code class="hljs">setup-java</code>, <code class="hljs">setup-dotnet</code> etc.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-6%3A-formatter-%26-linting-(.prettierrc%2C-.yamllint%2C-.editorconfig)" tabindex="-1">Opdracht 6: Formatter &amp; linting (.prettierrc, .yamllint, .editorconfig) <a aria-hidden="true" class="anchor" href="#opdracht-6%3A-formatter-%26-linting-(.prettierrc%2C-.yamllint%2C-.editorconfig)">#</a></h2>
+<blockquote>
+<p>Consistente code en config-bestanden.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Voeg <code class="hljs"><span class="hljs-attribute">prettier</span></code> toe (voor JS/TS/Markdown/JSON):</p>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">package</span>.json</code> scripts (indien Node):</li>
+</ul>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"scripts"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"format"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"prettier --write ."</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"format:check"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"prettier --check ."</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"devDependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"prettier"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^3.0.0"</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<ul>
+<li>Config: <code class="hljs"><span class="hljs-title">.prettierrc</span></code></li>
+</ul>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"printWidth"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">100</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"singleQuote"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"trailingComma"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"all"</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>Stap 2:</strong> YAML-lint: <code class="hljs"><span class="hljs-title">.yamllint</span></code> (of <code class="hljs"><span class="hljs-title">.yamllint.yml</span></code> in root)</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">extends:</span> <span class="hljs-string">default</span>
+<span class="hljs-attr">rules:</span>
+  <span class="hljs-attr">line-length:</span>
+    <span class="hljs-attr">max:</span> <span class="hljs-number">120</span>
+    <span class="hljs-attr">level:</span> <span class="hljs-string">warning</span>
+  <span class="hljs-attr">truthy:</span>
+    <span class="hljs-attr">level:</span> <span class="hljs-string">error</span>
+</code></pre>
+<p><strong>Stap 3:</strong> Editorconfig: <code class="hljs"><span class="hljs-title">.editorconfig</span></code></p>
+<pre><code class="hljs language-ini"><span class="hljs-attr">root</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-section">[*]</span>
+<span class="hljs-attr">charset</span> = utf-<span class="hljs-number">8</span>
+<span class="hljs-attr">end_of_line</span> = lf
+<span class="hljs-attr">insert_final_newline</span> = <span class="hljs-literal">true</span>
+<span class="hljs-attr">indent_style</span> = space
+<span class="hljs-attr">indent_size</span> = <span class="hljs-number">2</span>
+<span class="hljs-attr">trim_trailing_whitespace</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-section">[*.md]</span>
+<span class="hljs-attr">trim_trailing_whitespace</span> = <span class="hljs-literal">false</span>
+</code></pre>
+<p><strong>Stap 4:</strong> Voeg in CI een format-check en yamllint toe (Node-variant):</p>
+<pre><code class="hljs language-yml"><span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">npx</span> <span class="hljs-string">prettier</span> <span class="hljs-string">--check</span> <span class="hljs-string">.</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">ibiqlik/action-yamllint@v3</span>
+  <span class="hljs-attr">with:</span>
+    <span class="hljs-attr">config_file:</span> <span class="hljs-string">./.yamllint</span>
+</code></pre>
+<hr/>
+<h2 id="opdracht-7%3A-.gitattributes-(line-endings%2C-linguist)" tabindex="-1">Opdracht 7: .gitattributes (line-endings, linguist) <a aria-hidden="true" class="anchor" href="#opdracht-7%3A-.gitattributes-(line-endings%2C-linguist)">#</a></h2>
+<blockquote>
+<p>Beheer LF/CRLF, diff en talen-detectie.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Maak <code class="hljs"><span class="hljs-title">.gitattributes</span></code> in de root:</p>
+<pre><code class="hljs language-gitattributes"># Forceer LF in repo
+* text=auto eol=lf
+
+# Binaries (geen diff)
+*.png binary
+*.jpg binary
+*.pdf binary
+
+# (Optioneel) GitHub Linguist overrides
+docs/** linguist-documentation
+</code></pre>
+<blockquote>
+<p>[!warning] Windows?
+Zet in je Git-config <code class="hljs"><span class="hljs-attr">core.autocrlf</span>=input</code> om CRLF-ruis te voorkomen.</p>
+</blockquote>
+<hr/>
+<h2 id="opdracht-8%3A-contributing%2C-security-%26-support" tabindex="-1">Opdracht 8: CONTRIBUTING, SECURITY &amp; SUPPORT <a aria-hidden="true" class="anchor" href="#opdracht-8%3A-contributing%2C-security-%26-support">#</a></h2>
+<blockquote>
+<p>Maak bijdragen en security-meldingen duidelijk en veilig.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> <code class="hljs">CONTRIBUTING.<span class="hljs-built_in">md</span></code></p>
+<pre><code class="hljs language-md"><span class="hljs-section"># Bijdragen</span>
+<span class="hljs-bullet">-</span> Volg Conventional Commits (zie hieronder)
+<span class="hljs-bullet">-</span> Maak een issue aan voor grote veranderingen
+<span class="hljs-bullet">-</span> Schrijf tests waar passend
+</code></pre>
+<p><strong>Stap 2:</strong> <code class="hljs">SECURITY.<span class="hljs-built_in">md</span></code></p>
+<pre><code class="hljs language-md"><span class="hljs-section"># Security policy</span>
+<span class="hljs-bullet">-</span> Meld kwetsbaarheden <span class="hljs-strong">**privé**</span> via <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">contactmethode</span>&gt;</span></span>
+<span class="hljs-bullet">-</span> Geef versies/branches aan waarop dit geldt
+<span class="hljs-bullet">-</span> Verwacht respons binnen <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">x</span>&gt;</span></span> werkdagen
+</code></pre>
+<p><strong>Stap 3:</strong> <code class="hljs">SUPPORT.<span class="hljs-built_in">md</span></code> (optioneel)</p>
+<pre><code class="hljs language-md"><span class="hljs-section"># Support</span>
+<span class="hljs-bullet">-</span> Hoe en waar hulp te krijgen
+<span class="hljs-bullet">-</span> SLA’s / responstijden (indien van toepassing)
+</code></pre>
+<hr/>
+<h2 id="opdracht-9%3A-changelog-en-commitconventies" tabindex="-1">Opdracht 9: CHANGELOG en commitconventies <a aria-hidden="true" class="anchor" href="#opdracht-9%3A-changelog-en-commitconventies">#</a></h2>
+<blockquote>
+<p>Houd veranderingen bij en automatiseer versies.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Voeg <code class="hljs">CHANGELOG.<span class="hljs-built_in">md</span></code> toe en volg <em>Keep a Changelog</em>-stijl.</p>
+<p><strong>Stap 2:</strong> Gebruik <strong>Conventional Commits</strong>:</p>
+<pre><code class="hljs">feat: nieuwe feature
+fix: bugfix
+docs: documentatie
+chore: onderhoud
+refactor: herstructurering
+perf: performance
+<span class="hljs-keyword">test: test</span>s
+</code></pre>
+<p><strong>Stap 3 (optioneel):</strong> Commitlint configureren</p>
+<ul>
+<li><code class="hljs"><span class="hljs-keyword">package</span>.json</code>:</li>
+</ul>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"devDependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"@commitlint/cli"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^19.0.0"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"@commitlint/config-conventional"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^19.0.0"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"husky"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^9.0.0"</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<ul>
+<li><code class="hljs">commitlint.config.cjs</code>:</li>
+</ul>
+<pre><code class="hljs language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { <span class="hljs-attr">extends</span>: [<span class="hljs-string">'@commitlint/config-conventional'</span>] };
+</code></pre>
+<ul>
+<li>Husky hook:</li>
+</ul>
+<pre><code class="hljs language-bash">npx husky init
+<span class="hljs-comment"># in .husky/commit-msg</span>
+npx --no commitlint --edit <span class="hljs-variable">$1</span>
+</code></pre>
+<hr/>
+<h2 id="opdracht-10%3A-dependency-updates-(dependabot%2Frenovate)" tabindex="-1">Opdracht 10: Dependency updates (Dependabot/Renovate) <a aria-hidden="true" class="anchor" href="#opdracht-10%3A-dependency-updates-(dependabot%2Frenovate)">#</a></h2>
+<blockquote>
+<p>Blijf veilig en up-to-date.</p>
+</blockquote>
+<p><strong>Stap 1:</strong> Dependabot: <code class="hljs"><span class="hljs-title">.github/dependabot.yml</span></code></p>
+<pre><code class="hljs language-yml"><span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">updates:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">package-ecosystem:</span> <span class="hljs-string">npm</span>
+    <span class="hljs-attr">directory:</span> <span class="hljs-string">"/"</span>
+    <span class="hljs-attr">schedule:</span>
+      <span class="hljs-attr">interval:</span> <span class="hljs-string">weekly</span>
+    <span class="hljs-attr">open-pull-requests-limit:</span> <span class="hljs-number">5</span>
+</code></pre>
+<p><strong>Stap 2 (alternatief):</strong> Renovate ( <code class="hljs">renovate.json</code> in root )</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"extends"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"config:base"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"labels"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"dependencies"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"rangeStrategy"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"bump"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"schedule"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"before 8am on monday"</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr/>
+<h2 id="opdracht-11%3A-bonus-%E2%80%93-repository-verzorging" tabindex="-1">Opdracht 11: Bonus – Repository verzorging <a aria-hidden="true" class="anchor" href="#opdracht-11%3A-bonus-%E2%80%93-repository-verzorging">#</a></h2>
+<blockquote>
+<p>Kleine extra’s die veel verschil maken.</p>
+</blockquote>
+<ul>
+<li><code class="hljs">CODE_OF_CONDUCT.<span class="hljs-built_in">md</span></code> (bijv. Contributor Covenant)</li>
+<li><code class="hljs"><span class="hljs-attribute">README</span></code>-badges (build, coverage, licentie)</li>
+<li><code class="hljs">docs/</code> map voor handleidingen</li>
+<li>Branch protection rules (reviews vereist, status checks verplicht)</li>
+<li><code class="hljs">RELEASE.<span class="hljs-built_in">md</span></code> met release-stappen</li>
+</ul>
+<hr/>
+<h2 id="eindchecklijst" tabindex="-1">Eindchecklijst <a aria-hidden="true" class="anchor" href="#eindchecklijst">#</a></h2>
+<ul>
+<li>[ ] <code class="hljs">README.<span class="hljs-built_in">md</span></code> met alle secties</li>
+<li>[ ] <code class="hljs"><span class="hljs-attribute">LICENSE</span></code> toegevoegd en genoemd in README</li>
+<li>[ ] <code class="hljs"><span class="hljs-title">.gitignore</span></code> passend bij stack</li>
+<li>[ ] <code class="hljs"><span class="hljs-title">.github/</span></code> met issues/PR-templates en <code class="hljs">workflows/ci.yml</code></li>
+<li>[ ] <code class="hljs"><span class="hljs-attribute">CODEOWNERS</span></code> actief</li>
+<li>[ ] Formatters/lints: <code class="hljs"><span class="hljs-title">.prettierrc</span></code>, <code class="hljs"><span class="hljs-title">.yamllint</span></code>, <code class="hljs"><span class="hljs-title">.editorconfig</span></code></li>
+<li>[ ] <code class="hljs"><span class="hljs-title">.gitattributes</span></code> voor line-endings/binaries</li>
+<li>[ ] <code class="hljs">CONTRIBUTING.<span class="hljs-built_in">md</span></code>, <code class="hljs">SECURITY.<span class="hljs-built_in">md</span></code> (en evt. <code class="hljs">SUPPORT.<span class="hljs-built_in">md</span></code>)</li>
+<li>[ ] <code class="hljs">CHANGELOG.<span class="hljs-built_in">md</span></code> + (optioneel) commitlint</li>
+<li>[ ] Dependabot/Renovate ingesteld</li>
+</ul>
+<blockquote>
+<p>[!success] Klaar!
+Je repo is nu professioneel ingericht en klaar voor samenwerking.</p>
+</blockquote>
+</div>
+</body>
+</html>
