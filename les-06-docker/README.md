@@ -1,9 +1,4 @@
-# Les 6
-
-Leerdoelen:
-
-1. Aan het einde van de les weet je wat Docker is
-2. Aan het einde van deze les weet je hoe je via Ansible Docker containers kunt aanmaken en beheren.
+# Les 6 - Docker
 
 ## Docker
 
@@ -229,12 +224,3 @@ In de praktijk wordt Docker ingezet in een breed scala aan scenario's. Ontwikkel
 In CI/CD-pijplijnen maken Docker-containers het mogelijk om code consistent te testen en implementeren, terwijl in de data science wereld Docker zorgt voor reproduceerbare onderzoeksomgevingen met complexe afhankelijkheden. Legacy-applicaties kunnen worden gecontaineriseerd om ze portabel te maken zonder herschrijven, wat migratie naar de cloud aanzienlijk vereenvoudigt.
 
 De combinatie van Docker voor containerisatie, Docker Compose voor lokale ontwikkeling en testen, en Ansible voor grootschalig beheer, vormt een krachtige toolset voor moderne software-implementatie. Deze technologieën samen maken het mogelijk om applicaties betrouwbaar, schaalbaar en consistent uit te rollen, van de laptop van een ontwikkelaar tot grote productieclusters met duizenden servers.
-
-> Opdracht :
-> Maak een complete deployment waarin je een Azure VM en ESXi VM combineert en je een hybrid cloud situatie maakt. Gebruik de stof van de afgelopen lessen. De deployment is compleet geautomatiseert, inclusief het aanmaken van VM's en andere resources in Azure. Je maakt op beide omgeving een gebruiker 'testuser' aan, via Ansible of via Terraform. De testuser kan inloggen van de ESXI VM naar de Azure VM, het plaatsen van de benodigde SSH keys is geautomatiseerd. Op beide systemen draait een "Hello World" Docker container en je gebruikt een role om docker te installeren. De omgeving kan automatisch via CI/CD uitgerold worden (dit hoeft alleen voor ESXi, want je hebt niet genoeg rechten hiervoor op Azure).
-
-Voor week 6 hoef je niet specifiek iets in te leveren. Dit kun je bij je uiteindelijke eindoplevering plaatsen.
-
-```
-
-```
