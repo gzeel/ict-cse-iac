@@ -337,36 +337,46 @@
 <h4 id="lab" tabindex="-1">LAB <a aria-hidden="true" class="anchor" href="#lab">#</a></h4>
 <blockquote>
 <p>Opdracht 1 — Repository &amp; eerste VM (branch: test)
-Maak een nieuwe repository les-03.
-Voeg .gitignore, <a href="http://README.md">README.md</a> en eventueel LICENSE toe.
-Documenteer in de README hoe je de VM kunt deployen en hoe je Ansible gebruikt.
-Maak een nieuwe branch test.</p>
-</blockquote>
-<blockquote>
-<p>Terraform
+Maak een nieuwe repository les-03.</p>
+<ul>
+<li>Voeg een juiste .gitignore, <a href="http://README.md">README.md</a> en eventueel LICENSE toe.</li>
+<li>Documenteer in de README hoe je de VM kunt deployen en hoe je Ansible gebruikt.</li>
+<li>Maak een nieuwe branch test.</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>link naar repository met gevraagde bestanden</li>
+</ul>
+<p>Terraform:
 Schrijf een manifest dat één Ubuntu VM deployt.
 Je moet met een SSH-key kunnen inloggen.
 Terraform genereert automatisch een inventory.
 In deze inventory staat bij de host een variabele app_name=“demoapp”.</p>
-</blockquote>
-<blockquote>
 <p>Opdracht 2 — Variabelen gebruiken in een playbook (branch: test)
 Definieer in het playbook een variabele motd_message: “Welkom bij het lab” en zet deze tekst in /etc/motd.
 Gebruik de variabele app_name uit de inventory om een bestand /etc/app.conf te maken met daarin:
 Application = demoapp
 Voer het command uname -r uit en registreer de output in een variabele kernel_version.
 Schrijf de waarde van kernel_version.stdout naar /tmp/kernel.txt.
-Gebruik facts om de distributienaam (ansible_distribution) in een bestand /tmp/facts.txt te zetten.</p>
-</blockquote>
-<blockquote>
+Gebruik facts om de distributienaam (ansible_distribution) in een bestand /tmp/facts.txt te zetten.
+Voer het playbook 2x uit.</p>
+<p>Deliverables:</p>
+<ul>
+<li>link naar repository met gevraagde bestanden</li>
+<li>screenshot van de inhoud van het bestand /etc/motd en /tmp/facts.txt</li>
+</ul>
 <p>Opdracht 3 — Voorwaardelijke taken (branch: test)
 Schrijf een taak die alleen wordt uitgevoerd als de distributie Ubuntu is.
+Schrijf een taak die alleen wordt uitgevoerd als de distributie Red Hat is.
 Schrijf een taak die controleert of /etc/hosts bestaat.
 De taak faalt als het bestand niet bestaat (failed_when).
 Schrijf een taak die echo hallo uitvoert.
-Zorg dat deze taak niet als changed wordt weergegeven (changed_when: false).</p>
-</blockquote>
-<blockquote>
+Zorg dat deze taak niet als changed wordt weergegeven.</p>
+<p>Deliverables:</p>
+<ul>
+<li>link naar repository met gevraagde bestanden</li>
+<li>screenshot van de output.</li>
+</ul>
 <p>Opdracht 4 — Includes en Imports (feature branch: tasks)
 Maak een nieuwe feature branch tasks.
 Schrijf een playbook site.yaml dat taken inlaadt met import_tasks en include_tasks waarbij je een verschil tussen beide laat zien:
@@ -375,29 +385,41 @@ Voeg deze role toe in site.yaml.
 Beschrijf in je README:
 Het verschil tussen import_tasks en include_tasks en in welke gevallen je ze zou gebruiken
 Waarom het handig is om roles te gebruiken.</p>
-</blockquote>
-<blockquote>
+<p>Deliverables:</p>
+<ul>
+<li>screenshot van test of poort 8080 open is.</li>
+<li>screenshot van de README</li>
+</ul>
 <p>Opdracht 4 — Productieomgeving met roles vanuit Ansible Galaxy (branch: productie)
-Maak een nieuwe branch productie.
-Terraform
-Deploy drie VM’s vanuit één manifest:
-Twee webservers (web-1, web-2).
-Eén database server (db-1).
-Terraform genereert automatisch een inventory met de groepen web en db.
+Maak een nieuwe branch productie.</p>
+<p>Deploy drie VM’s vanuit één manifest:</p>
+<ul>
+<li>Twee webservers (web-1, web-2).</li>
+<li>Eén database server (db-1).</li>
+</ul>
+<p>Terraform genereert automatisch een inventory met de groepen web en db.
 Gebruik host_vars en group_vars
-In group_vars/web/vars.yml zet je:
-nginx_port: 8080
-In host_vars/db-1/vars.yml zet je:
-db_name: myapp
-Roles
+In group_vars/web/vars.yml zet je:</p>
+<ul>
+<li>nginx_port: 8080</li>
+</ul>
+<p>In host_vars/db-1/vars.yml zet je:</p>
+<ul>
+<li>db_name: myapp</li>
+</ul>
+<p>Roles
 Maak lokaal de role role_web die nginx installeert en configureert.
 Nginx moet draaien op poort 8080 (gebruik de variabele nginx_port).
-Gebruik een Jinja2-template index.html.j2 die de hostname en datum toont.
-Maak de role role_db die mariadb-server installeert en upload deze naar Ansible Galaxy.
+Gebruik een Jinja2-template index.html.j2 die de hostname en datum toont.</p>
+<p>Maak de role role_db die mariadb-server installeert en upload deze naar Ansible Galaxy.
 In de configuratie moet de database naam myapp gebruikt worden (variabele db_name).
 Schrijf een playbook prod.yaml dat:
 De groep web de role role_web geeft.
 De groep db de role role_db (vanuit Ansible Galaxy) geeft.</p>
+<p>Deliverables:</p>
+<ul>
+<li>screenshot van jouw role in Ansible Galaxy.</li>
+</ul>
 </blockquote>
 <p>Zorg dat je code in versiebeheer staat en lever van alle opdrachten een screenshot in op Brightspace.</p>
 </div>
