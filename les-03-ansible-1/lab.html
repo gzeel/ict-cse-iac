@@ -335,50 +335,77 @@
 </div>
 <div class="markdown-body">
 <h4 id="lab" tabindex="-1">LAB <a aria-hidden="true" class="anchor" href="#lab">#</a></h4>
+<p>Zorg dat je met Terraform 3 VM’s hebt uitgerold en voer daarop de volgende opdrachten uit:</p>
 <blockquote>
-<p>Opdracht 1</p>
+<p>Opdracht 1 — Repo &amp; bereikbaarheid: Inventory + ad-hoc vs module</p>
+<p>Maak repo aan, voeg ansible.cfg toe en wijs daarin je inventory.ini aan.
+Bouw inventory.ini met groepen app en db, plus all:vars voor ansible_user en ansible_ssh_private_key_file. Gebruik FQDN of IP’s.
+Toon het verschil tussen:</p>
 <ul>
-<li>Maak een nieuwe repository les-03 aan.</li>
-<li>Maak een nieuwe git branch <code class="hljs"><span class="hljs-built_in">test</span></code> aan en werk voor opdracht 1 en 2 in deze branch.</li>
-<li>Deploy met Terraform een VM en zorg dat je in kunt loggen op deze vm dmv een ssh-key. Zorg dat er bij het deployen van deze VM automatisch een inventory wordt aangemaakt.</li>
+<li>ad-hoc met -a (bijv. klassiek ping -c 1)</li>
+<li>en module-aanpak met ansible.builtin.ping (voorkeur). Leg uit waarom de module te verkiezen is (idempotentie/feedback).</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>ansible.cfg, inventory.ini.</li>
+<li>Terminal-output (in README of als .txt) van een mislukte en gelukt(e) ping (tip: -vvvv bij fouten).</li>
+</ul>
+<p>Opdracht 2 — Packages &amp; services: eerste playbook met FQMN en become</p>
+<p>Schrijf playbooks/02_packages_services.yml met twee taken voor één groep (kies app of db):</p>
+<ul>
+<li>Installeer een pakket.</li>
+<li>Start + enable de bijbehorende service.</li>
+</ul>
+<p>Run het playbook twee keer en laat zien dat de tweede run changed=0 geeft (idempotentie).
+Voeg tags toe (bv. packages, services) en demonstreer --tags en --check --diff.</p>
+<p>Deliverables:</p>
+<ul>
+<li>Playbookbestand en console-output (screenshot) van run 1 en run 2.</li>
+</ul>
+<p>Opdracht 3 — Meerdere groepen in één draaiboek</p>
+<p>Maak playbooks/03_multi_group.yml met twee plays:</p>
+<ul>
+<li>hosts: app → installeer chrony + start/enable service.</li>
+<li>hosts: db → installeer curl (geen service nodig).</li>
+</ul>
+<p>Gebruik group_vars/app.yml en group_vars/db.yml om pakketnamen of instellingen per groep te parametriseren.
+Voeg een dry-run voorbeeld toe en noteer bijzondere observaties (bijv. wanneer --check niet alles kan voorspellen).</p>
+<p>Deliverables:</p>
+<ul>
+<li>Playbook + group_vars.</li>
+<li>Korte README-sectie met het commando om het playbook te draaien en uitleg over de variabelen.</li>
+</ul>
+<p>Opdracht 4 — Idempotence &amp; guardrails: bewuste keuzes afdwingen</p>
+<p>Bouw playbooks/04_idempotence_guardrails.yml met taken die:
+Een bestand aanmaken via een module die daar het meest geschikt voor is.
+Een configbestand kopiëren en aantonen dat de tweede run nothing-to-do is.
+Voeg assertions toe op verwachte facts (bv. “bestand bestaat”, “service is enabled”).
+Documenteer in docs/decisions/… wanneer je nooit shell zou gebruiken en wanneer wel, met motivatie uit de theorie.</p>
+<p>Deliverables:</p>
+<ul>
+<li>Playbook + eventuele templates/bestanden.</li>
+<li>Console-output van twee opeenvolgende runs.</li>
+<li>Decisions document in versiebeheer</li>
+</ul>
+<p>Opdracht 5 — Release-play &amp; Git-flow: branches, PR’s en releases
+Maak playbooks/05_release_play.yml die:
+Met hosts: all een smoketest doet.
+Daarna conditioneel de juiste play uit eerdere opdrachten aanroept (keuze is aan jullie; motiveer).
+Werk met feature-branches per opdracht (feat/inventory, feat/packages, …). Maak PR’s naar main. Voeg in elke PR:</p>
+<ul>
+<li>korte samenvatting van de change,</li>
+<li>verwijzing naar de beslisnotitie,</li>
+<li>screenshots/uitvoer van --check, en</li>
+<li>motivatie voor FQMN/become/tags.</li>
+</ul>
+<p>Sluit af met een release-tag (bijv. v0.1.0) zodra 05_release_play.yml op alle hosts clean draait (2e run changed=0).</p>
+<p>Deliverables</p>
+<ul>
+<li>05_release_play.yml + bewijs van runs.</li>
+<li>Overzicht van branches, PR-links (of screenshots), en één release-tag.</li>
 </ul>
 </blockquote>
-<blockquote>
-<p>Opracht 2</p>
-<ul>
-<li>In de <code class="hljs"><span class="hljs-built_in">test</span></code> branch:</li>
-<li>Maak playbooks voor de volgende taken:</li>
-<li>Alle packages op een Ubuntu VM moeten geupdate worden.</li>
-<li>Het bestand /etc/hosts op de VM moet aangepast worden, er moet een regel toegevoegd worden in /etc/hosts toe die naar je esxi server wijst. Noem de host esxi.</li>
-<li>Een user <code class="hljs"><span class="hljs-built_in">test</span></code> toevoegen op de VM</li>
-<li>Een lokaal bestand wordt gekopieerd naar de VM</li>
-<li>Maak een playbook dat /etc/ en /var/www/ back-upt, voeg een cronjob toe die dagelijks een back-up maakt en kopieer dit naar /tmp</li>
-<li>Voer de code uit op de VM van opdracht 1</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 3</p>
-<ul>
-<li>Gebruik de repository van opdracht 1, maak een nieuwe branch <code class="hljs"><span class="hljs-attribute">productie</span></code> aan</li>
-<li>Deploy met Terraform drie VMs (vanuit 1 manifest) en zorg dat je in kunt loggen op deze vm’s dmv een ssh-key. Zorg dat er bij het deployen van deze vm’s automatisch een inventory wordt aangemaakt. Er zijn 2 webservers en 1 database server.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 4</p>
-<ul>
-<li>In de <code class="hljs"><span class="hljs-attribute">productie</span></code> branch:</li>
-<li>Schrijf een playbook wat op twee webservers nginx installeert en op de database server mariadb. Het playbook moet gebruik maken van de groepen uit de inventory van Opdracht 3.</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>Opdracht 5</p>
-<ul>
-<li>In een branch <code class="hljs"><span class="hljs-attribute">proxmox</span></code></li>
-<li>Schrijf een playbook dat van een Proxmox Hypervisor alle VM’s backupped. Gebruik de volgende waardes: api gebruiker en wachtwoord is <code class="hljs"><span class="hljs-built_in">test</span></code>, de api host is node1, en de storage waarop de backups opgeslagen moeten worden heet <code class="hljs"><span class="hljs-attribute">backup_vm</span></code>. Voor deze opdracht moet de juiste proxmox community module gebruikt worden.</li>
-<li>Je kunt dit playbook uiteraard niet testen.</li>
-</ul>
-</blockquote>
-<p>Lever de code van opdracht 4 deze week in op Brightspace.</p>
+<p>Zorg dat je code van alle opdrachten in versiebeheer staat.</p>
 </div>
 </body>
 </html>
