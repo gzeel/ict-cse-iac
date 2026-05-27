@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Demo 1: De Falende Pipeline</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#concept">Concept </a></li><li class="toc-item"><a class="toc-link" href="#stappenplan-demo">Stappenplan demo </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-repository-aanmaken-en-vullen">1. Repository aanmaken en vullen </a></li><li class="toc-item"><a class="toc-link" href="#2.-pipeline-zien-falen">2. Pipeline zien falen </a></li><li class="toc-item"><a class="toc-link" href="#3.-het-playbook-fixen">3. Het playbook fixen </a></li><li class="toc-item"><a class="toc-link" href="#4.-pipeline-zien-slagen">4. Pipeline zien slagen </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-leg-je-uit">Wat leg je uit </a></li><li class="toc-item"><a class="toc-link" href="#benodigdheden">Benodigdheden </a></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="demo-1%3A-de-falende-pipeline" tabindex="-1">Demo 1: De Falende Pipeline <a aria-hidden="true" class="anchor" href="#demo-1%3A-de-falende-pipeline">#</a></h1>
+<p><strong>Doel:</strong> Studenten laten zien hoe een CI/CD-pipeline fouten in Ansible-code vroegtijdig detecteert.</p>
+<h2 id="concept" tabindex="-1">Concept <a aria-hidden="true" class="anchor" href="#concept">#</a></h2>
+<ul>
+<li>Een opzettelijk kapot Ansible playbook (<code class="hljs">playbook-broken.yml</code>) bevat:
+<ul>
+<li>Geen <code class="hljs"><span class="hljs-meta">---</span></code> document-start</li>
+<li><code class="hljs"><span class="hljs-attribute">truthy</span></code> waarde <code class="hljs"><span class="hljs-literal">no</span></code> i.p.v. <code class="hljs"><span class="hljs-literal">false</span></code></li>
+<li>Trailing spaces op regel 9</li>
+<li>Te weinig spaties voor <code class="hljs"><span class="hljs-meta"># comment</span></code></li>
+<li>Verkeerde indentatie (7 i.p.v. 8 spaties) op regel 12</li>
+<li>Niet-bestaande module <code class="hljs">apache2</code></li>
+</ul>
+</li>
+<li>De workflow draait <code class="hljs"><span class="hljs-attribute">yamllint</span></code> + <code class="hljs">ansible-playbook <span class="hljs-comment">--syntax-check</span></code> en faalt.</li>
+<li>Daarna toon je de gefixte versie (<code class="hljs">playbook-<span class="hljs-keyword">fixed</span>.yml</code>) en de pipeline slaagt.</li>
+</ul>
+<h2 id="stappenplan-demo" tabindex="-1">Stappenplan demo <a aria-hidden="true" class="anchor" href="#stappenplan-demo">#</a></h2>
+<h3 id="1.-repository-aanmaken-en-vullen" tabindex="-1">1. Repository aanmaken en vullen <a aria-hidden="true" class="anchor" href="#1.-repository-aanmaken-en-vullen">#</a></h3>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Maak een nieuwe GitHub-repo aan (bijv. 'ansible-cicd-demo')</span>
+<span class="hljs-comment"># Clone de repo lokaal:</span>
+git <span class="hljs-built_in">clone</span> git@github.com:&lt;jouw-username&gt;/ansible-cicd-demo.git
+<span class="hljs-built_in">cd</span> ansible-cicd-demo
+
+<span class="hljs-comment"># Kopieer de inhoud van deze demo-map erin:</span>
+<span class="hljs-built_in">cp</span> -r /pad/naar/demo-01-falende-pipeline/* .
+git add .
+git commit -m <span class="hljs-string">"Start: kapot playbook"</span>
+git push
+</code></pre>
+<h3 id="2.-pipeline-zien-falen" tabindex="-1">2. Pipeline zien falen <a aria-hidden="true" class="anchor" href="#2.-pipeline-zien-falen">#</a></h3>
+<ul>
+<li>Ga op GitHub naar de <strong>Actions</strong>-tab.</li>
+<li>Je ziet een rode (gefaalde) workflow.</li>
+<li>Klik erop en toon de foutmeldingen van <code class="hljs"><span class="hljs-attribute">yamllint</span></code> en <code class="hljs"><span class="hljs-comment">--syntax-check</span></code>.</li>
+</ul>
+<h3 id="3.-het-playbook-fixen" tabindex="-1">3. Het playbook fixen <a aria-hidden="true" class="anchor" href="#3.-het-playbook-fixen">#</a></h3>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cp</span> ansible/playbook-fixed.yml ansible/playbook-broken.yml
+git add .
+git commit -m <span class="hljs-string">"Fix: playbook gecorrigeerd"</span>
+git push
+</code></pre>
+<h3 id="4.-pipeline-zien-slagen" tabindex="-1">4. Pipeline zien slagen <a aria-hidden="true" class="anchor" href="#4.-pipeline-zien-slagen">#</a></h3>
+<ul>
+<li>Ga opnieuw naar de <strong>Actions</strong>-tab.</li>
+<li>De workflow is nu groen!</li>
+</ul>
+<h2 id="wat-leg-je-uit" tabindex="-1">Wat leg je uit <a aria-hidden="true" class="anchor" href="#wat-leg-je-uit">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fout</th>
+<th>Oorzaak</th>
+<th>Tool die het vindt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Missing <code class="hljs"><span class="hljs-meta">---</span></code></td>
+<td>Geen document-start</td>
+<td><code class="hljs"><span class="hljs-attribute">yamllint</span></code></td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-literal">no</span></code> als boolean</td>
+<td>Ansible wil <code class="hljs"><span class="hljs-literal">false</span></code></td>
+<td><code class="hljs"><span class="hljs-attribute">yamllint</span></code> (met truthy-check)</td>
+</tr>
+<tr>
+<td>Trailing spaces</td>
+<td>Spaties einde regel</td>
+<td><code class="hljs"><span class="hljs-attribute">yamllint</span></code></td>
+</tr>
+<tr>
+<td>Te weinig spaties comment</td>
+<td><code class="hljs"><span class="hljs-meta">#comment</span></code> i.p.v. <code class="hljs"> <span class="hljs-meta"># comment</span></code></td>
+<td><code class="hljs"><span class="hljs-attribute">yamllint</span></code></td>
+</tr>
+<tr>
+<td>Foute indentatie</td>
+<td>7 spaties i.p.v. 8</td>
+<td><code class="hljs"><span class="hljs-attribute">yamllint</span></code></td>
+</tr>
+<tr>
+<td>Module <code class="hljs">apache2</code> bestaat niet</td>
+<td>Typo in module-naam</td>
+<td><code class="hljs">ansible-playbook <span class="hljs-comment">--syntax-check</span></code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="benodigdheden" tabindex="-1">Benodigdheden <a aria-hidden="true" class="anchor" href="#benodigdheden">#</a></h2>
+<ul>
+<li>GitHub account</li>
+<li>Git lokaal geïnstalleerd</li>
+<li>(Opt.) Ansible lokaal om playbook handmatig te testen</li>
+</ul>
+</div>
+</body>
+</html>

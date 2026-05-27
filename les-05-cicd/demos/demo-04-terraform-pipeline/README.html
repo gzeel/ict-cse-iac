@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Demo 4: Terraform CI/CD Pipeline</title>
+<style>
+    :root {
+      /* GitHub Light Variables */
+      --color-canvas-default: #ffffff;
+      --color-canvas-subtle: #f6f8fa;
+      --color-border-default: #d0d7de;
+      --color-border-muted: #d8dee4;
+      --color-neutral-muted: rgba(175, 184, 193, 0.2);
+      --color-accent-fg: #0969da;
+      --color-accent-emphasis: #0969da;
+      --color-danger-fg: #cf222e;
+      --color-fg-default: #24292f;
+      --color-fg-muted: #57606a;
+      --color-fg-subtle: #6e7781;
+      --color-success-fg: #1a7f37;
+      --color-attention-fg: #9a6700;
+      --color-header-bg: #24292f;
+      --color-header-fg: #ffffff;
+      --color-header-logo: #ffffff;
+      --color-header-search-bg: #24292f;
+      --color-header-search-border: #57606a;
+      --color-code-block-bg: #f6f8fa;
+      --color-code-block-border: #d0d7de;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--color-fg-default);
+      background-color: var(--color-canvas-default);
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px;
+      font-size: 16px;
+    }
+    
+    /* Layout */
+    .markdown-body {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 32px;
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+      background-color: var(--color-canvas-default);
+    }
+    
+    /* Table of Contents */
+    .toc-container {
+      margin-bottom: 32px;
+      padding: 16px;
+      background-color: var(--color-canvas-subtle);
+      border: 1px solid var(--color-border-default);
+      border-radius: 6px;
+    }
+    
+    .toc-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    
+    .toc-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    .toc-item {
+      margin: 4px 0;
+    }
+    
+    .toc-link {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    .toc-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding-bottom: 0.3em;
+    }
+    
+    h1 {
+      font-size: 2em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h2 {
+      font-size: 1.5em;
+      border-bottom: 1px solid var(--color-border-muted);
+    }
+    
+    h3 {
+      font-size: 1.25em;
+    }
+    
+    h4 {
+      font-size: 1em;
+    }
+    
+    h5 {
+      font-size: 0.875em;
+    }
+    
+    h6 {
+      font-size: 0.85em;
+      color: var(--color-fg-muted);
+    }
+    
+    a {
+      color: var(--color-accent-fg);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .anchor {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+      line-height: 1;
+      display: inline-block;
+      color: var(--color-fg-muted);
+      opacity: 0;
+      text-decoration: none;
+    }
+    
+    h1:hover .anchor,
+    h2:hover .anchor,
+    h3:hover .anchor,
+    h4:hover .anchor,
+    h5:hover .anchor,
+    h6:hover .anchor {
+      opacity: 1;
+    }
+    
+    /* Text elements */
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    blockquote {
+      padding: 0 1em;
+      color: var(--color-fg-muted);
+      border-left: 0.25em solid var(--color-border-default);
+      margin: 0 0 16px 0;
+    }
+    
+    ul, ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    li {
+      margin-top: 0.25em;
+    }
+    
+    li + li {
+      margin-top: 0.25em;
+    }
+    
+    /* Code */
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: var(--color-neutral-muted);
+      border-radius: 6px;
+    }
+    
+    pre {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: var(--color-code-block-bg);
+      border-radius: 6px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: normal;
+      border: 1px solid var(--color-code-block-border);
+    }
+    
+    pre code {
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: 0;
+      white-space: pre;
+      word-break: normal;
+    }
+    
+    /* Tables */
+    table {
+      display: block;
+      width: 100%;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    
+    table th {
+      font-weight: 600;
+    }
+    
+    table th,
+    table td {
+      padding: 6px 13px;
+      border: 1px solid var(--color-border-default);
+    }
+    
+    table tr {
+      background-color: var(--color-canvas-default);
+      border-top: 1px solid var(--color-border-muted);
+    }
+    
+    table tr:nth-child(2n) {
+      background-color: var(--color-canvas-subtle);
+    }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      box-sizing: content-box;
+      background-color: var(--color-canvas-default);
+      border-radius: 6px;
+    }
+    
+    /* Markdown extras */
+    hr {
+      height: 0.25em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: var(--color-border-default);
+      border: 0;
+    }
+    
+    /* GitHub syntax highlighting */
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #d73a49;
+    }
+    
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #6f42c1;
+    }
+    
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #005cc5;
+    }
+    
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #032f62;
+    }
+    
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #e36209;
+    }
+    
+    .hljs-comment,
+    .hljs-code,
+    .hljs-formula {
+      color: #6a737d;
+    }
+    
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-tag,
+    .hljs-selector-pseudo {
+      color: #22863a;
+    }
+    
+    .hljs-deletion {
+      color: #b31d28;
+      background-color: #ffeef0;
+    }
+    
+    .hljs-addition {
+      color: #22863a;
+      background-color: #f0fff4;
+    }
+  </style>
+</head>
+<body>
+<div class="toc-container">
+<h3 class="toc-header">Table of Contents</h3>
+<ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#concept">Concept </a></li><li class="toc-item"><a class="toc-link" href="#stappenplan-demo">Stappenplan demo </a><ul class="toc-list"><li class="toc-item"><a class="toc-link" href="#1.-repository-aanmaken">1. Repository aanmaken </a></li><li class="toc-item"><a class="toc-link" href="#2.-pipeline-op-main-bekijken">2. Pipeline op main bekijken </a></li><li class="toc-item"><a class="toc-link" href="#3.-path-filter-demo%3A-readme-wijzigen-triggert-g%C3%A9%C3%A9n-pipeline">3. Path-filter demo: README wijzigen triggert géén pipeline </a></li><li class="toc-item"><a class="toc-link" href="#4.-path-filter-demo%3A-terraform-file-triggert-w%C3%A9l-pipeline">4. Path-filter demo: Terraform-file triggert wél pipeline </a></li><li class="toc-item"><a class="toc-link" href="#5.-pull-request-demo-(g%C3%A9%C3%A9n-apply)">5. Pull Request demo (géén apply) </a></li><li class="toc-item"><a class="toc-link" href="#6.-handmatige-destroy">6. Handmatige destroy </a></li></ul></li><li class="toc-item"><a class="toc-link" href="#wat-leg-je-uit">Wat leg je uit </a></li></ul>
+</div>
+<div class="markdown-body">
+<h1 id="demo-4%3A-terraform-ci%2Fcd-pipeline" tabindex="-1">Demo 4: Terraform CI/CD Pipeline <a aria-hidden="true" class="anchor" href="#demo-4%3A-terraform-ci%2Fcd-pipeline">#</a></h1>
+<p><strong>Doel:</strong> Studenten laten zien hoe een Terraform-pipeline werkt — met <code class="hljs"><span class="hljs-built_in">fmt</span></code>, <code class="hljs"><span class="hljs-attribute">validate</span></code>, <code class="hljs"><span class="hljs-attribute">tflint</span></code> (best practices), <code class="hljs"><span class="hljs-attribute">plan</span></code>, <code class="hljs"><span class="hljs-built_in">apply</span></code> (alleen op main), en handmatige <code class="hljs"><span class="hljs-attribute">destroy</span></code>.</p>
+<h2 id="concept" tabindex="-1">Concept <a aria-hidden="true" class="anchor" href="#concept">#</a></h2>
+<ul>
+<li>Terraform-manifest dat een <strong>nginx Docker-container</strong> start (geen cloud-account nodig!).</li>
+<li>Pipeline met 5 stages die alleen draaien bij wijzigingen in <code class="hljs">terraform/</code>:
+<ol>
+<li><strong>fmt</strong> — <code class="hljs">terraform <span class="hljs-built_in">fmt</span> -check</code> (code-stijl)</li>
+<li><strong>validate</strong> — <code class="hljs"><span class="hljs-attribute">terraform validate</span></code> (syntax &amp; config)</li>
+<li><strong>tflint</strong> — controleert best practices (naming, deprecated syntax, etc.)</li>
+<li><strong>plan</strong> — <code class="hljs"><span class="hljs-attribute">terraform plan</span></code> (laat zien wat er zou veranderen)</li>
+<li><strong>apply</strong> — voert echt uit, <strong>alleen op push naar main</strong></li>
+</ol>
+</li>
+<li>Aparte <strong>handmatig te starten</strong> <code class="hljs"><span class="hljs-attribute">destroy</span></code>-workflow die alle infrastructuur opruimt.</li>
+</ul>
+<h2 id="stappenplan-demo" tabindex="-1">Stappenplan demo <a aria-hidden="true" class="anchor" href="#stappenplan-demo">#</a></h2>
+<h3 id="1.-repository-aanmaken" tabindex="-1">1. Repository aanmaken <a aria-hidden="true" class="anchor" href="#1.-repository-aanmaken">#</a></h3>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">clone</span> git@github.com:&lt;jouw-username&gt;/demo-04-terraform.git
+<span class="hljs-built_in">cd</span> demo-04-terraform
+<span class="hljs-built_in">cp</span> -r /pad/naar/demo-04-terraform-pipeline/* .
+git add . &amp;&amp; git commit -m <span class="hljs-string">"Start: Terraform Docker pipeline"</span>
+git push -u origin main
+</code></pre>
+<h3 id="2.-pipeline-op-main-bekijken" tabindex="-1">2. Pipeline op main bekijken <a aria-hidden="true" class="anchor" href="#2.-pipeline-op-main-bekijken">#</a></h3>
+<ul>
+<li>Ga naar <strong>Actions</strong> → je ziet alle 5 stages (fmt → validate → tflint → plan → apply).</li>
+</ul>
+<h3 id="3.-path-filter-demo%3A-readme-wijzigen-triggert-g%C3%A9%C3%A9n-pipeline" tabindex="-1">3. Path-filter demo: README wijzigen triggert géén pipeline <a aria-hidden="true" class="anchor" href="#3.-path-filter-demo%3A-readme-wijzigen-triggert-g%C3%A9%C3%A9n-pipeline">#</a></h3>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">"## Extra"</span> &gt;&gt; README.md
+git add README.md &amp;&amp; git commit -m <span class="hljs-string">"docs: update"</span>
+git push
+</code></pre>
+<ul>
+<li>Geen Terraform-run gestart — <code class="hljs"><span class="hljs-symbol">paths:</span></code>-filter werkt.</li>
+</ul>
+<h3 id="4.-path-filter-demo%3A-terraform-file-triggert-w%C3%A9l-pipeline" tabindex="-1">4. Path-filter demo: Terraform-file triggert wél pipeline <a aria-hidden="true" class="anchor" href="#4.-path-filter-demo%3A-terraform-file-triggert-w%C3%A9l-pipeline">#</a></h3>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Wijzig poort in terraform/main.tf (8080 → 9090)</span>
+sed -i <span class="hljs-string">''</span> <span class="hljs-string">'s/8080/9090/'</span> terraform/main.tf   <span class="hljs-comment"># macOS</span>
+git add terraform/main.tf &amp;&amp; git commit -m <span class="hljs-string">"feat: poort naar 9090"</span>
+git push
+</code></pre>
+<ul>
+<li>Pipeline draait nu wel.</li>
+</ul>
+<h3 id="5.-pull-request-demo-(g%C3%A9%C3%A9n-apply)" tabindex="-1">5. Pull Request demo (géén apply) <a aria-hidden="true" class="anchor" href="#5.-pull-request-demo-(g%C3%A9%C3%A9n-apply)">#</a></h3>
+<pre><code class="hljs language-bash">git checkout -b feature/update-label
+<span class="hljs-comment"># Wijzig label in main.tf</span>
+git add terraform/main.tf &amp;&amp; git commit -m <span class="hljs-string">"Update label"</span>
+git push -u origin feature/update-label
+</code></pre>
+<ul>
+<li>Open PR → alleen fmt, validate, tflint, plan — géén apply.</li>
+</ul>
+<h3 id="6.-handmatige-destroy" tabindex="-1">6. Handmatige destroy <a aria-hidden="true" class="anchor" href="#6.-handmatige-destroy">#</a></h3>
+<ul>
+<li>Ga naar <strong>Actions</strong> → “Terraform — Destroy (Handmatig)” → Run workflow.</li>
+<li>Vul <code class="hljs"><span class="hljs-attribute">DESTROY</span></code> in als confirm.</li>
+</ul>
+<h2 id="wat-leg-je-uit" tabindex="-1">Wat leg je uit <a aria-hidden="true" class="anchor" href="#wat-leg-je-uit">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Mechanisme</th>
+<th>Waar</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="hljs">paths: [<span class="hljs-string">'terraform/**'</span>]</code></td>
+<td>Workflow trigger</td>
+<td>Pipeline draait alleen bij Terraform-wijzigingen</td>
+</tr>
+<tr>
+<td><code class="hljs">terraform <span class="hljs-built_in">fmt</span> -check</code></td>
+<td>Stage <code class="hljs"><span class="hljs-built_in">fmt</span></code></td>
+<td>Faalt als code niet netjes geformatteerd is</td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-attribute">terraform validate</span></code></td>
+<td>Stage <code class="hljs"><span class="hljs-attribute">validate</span></code></td>
+<td>Controleert of de configuratie geldig is</td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-attribute">tflint</span></code></td>
+<td>Stage <code class="hljs"><span class="hljs-attribute">tflint</span></code></td>
+<td>Controleert best practices</td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-symbol">needs:</span></code></td>
+<td>Elke stage</td>
+<td>Sequential execution</td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-keyword">if</span>: github.event_name == <span class="hljs-symbol">'push'</span> &amp;&amp; github.<span class="hljs-built_in">ref</span> == <span class="hljs-symbol">'refs</span>/heads/main'</code></td>
+<td>Job <code class="hljs"><span class="hljs-built_in">apply</span></code></td>
+<td>Apply alleen op main</td>
+</tr>
+<tr>
+<td><code class="hljs"><span class="hljs-attribute">workflow_dispatch</span></code></td>
+<td>Destroy workflow</td>
+<td>Alleen handmatig te starten</td>
+</tr>
+<tr>
+<td><code class="hljs">inputs.<span class="hljs-keyword">confirm</span></code></td>
+<td>Destroy workflow</td>
+<td>Extra bevestiging vóór destroy</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>
