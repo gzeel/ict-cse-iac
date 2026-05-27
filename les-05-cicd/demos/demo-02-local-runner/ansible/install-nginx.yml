@@ -1,0 +1,53 @@
+---
+- name: Installeer en configureer nginx
+  hosts: localhost
+  gather_facts: yes
+  connection: local
+  become: yes
+
+  vars:
+    nginx_package: nginx
+    nginx_service: nginx
+    welkom_tekst: "<h1>Hallo van Ansible via GitHub Actions!</h1>"
+
+  tasks:
+    - name: Update apt cache (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Installeer nginx
+      ansible.builtin.package:
+        name: "{{ nginx_package }}"
+        state: present
+
+    - name: Zorg dat nginx gestart is
+      ansible.builtin.service:
+        name: "{{ nginx_service }}"
+        state: started
+        enabled: yes
+
+    - name: Plaats aangepaste index.html
+      ansible.builtin.copy:
+        content: "{{ welkom_tekst }}"
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Controleer of nginx bereikbaar is
+      ansible.builtin.uri:
+        url: http://localhost
+        return_content: yes
+      register: nginx_response
+
+    - name: Toon response van nginx
+      ansible.builtin.debug:
+        msg: "Nginx antwoordt: {{ nginx_response.content }}"
+
+    - name: Assert dat nginx de juiste pagina serveert
+      ansible.builtin.assert:
+        that:
+          - nginx_response.status == 200
+          - "'Hallo van Ansible' in nginx_response.content"
+        success_msg: "nginx draait correct en serveert de juiste pagina!"
+        fail_msg: "nginx-test gefaald!"

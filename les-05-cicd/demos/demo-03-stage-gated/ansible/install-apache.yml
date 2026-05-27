@@ -1,0 +1,54 @@
+---
+- name: Installeer en configureer Apache
+  hosts: localhost
+  gather_facts: yes
+  connection: local
+  become: yes
+
+  vars:
+    apache_package: apache2
+    apache_service: apache2
+    website_inhoud: "<h1>Stage-gated pipeline demo — Apache!</h1>"
+    website_poort: 80
+
+  tasks:
+    - name: Update apt cache (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Installeer Apache
+      ansible.builtin.package:
+        name: "{{ apache_package }}"
+        state: present
+
+    - name: Zorg dat Apache gestart is
+      ansible.builtin.service:
+        name: "{{ apache_service }}"
+        state: started
+        enabled: yes
+
+    - name: Plaats aangepaste index.html
+      ansible.builtin.copy:
+        content: "{{ website_inhoud }}"
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Controleer of Apache bereikbaar is
+      ansible.builtin.uri:
+        url: "http://localhost:{{ website_poort }}"
+        return_content: yes
+      register: apache_response
+
+    - name: Toon response van Apache
+      ansible.builtin.debug:
+        msg: "Apache antwoordt: {{ apache_response.content }}"
+
+    - name: Assert dat Apache correct werkt
+      ansible.builtin.assert:
+        that:
+          - apache_response.status == 200
+          - "'Stage-gated pipeline' in apache_response.content"
+        success_msg: "Apache draait correct!"
+        fail_msg: "Apache-test gefaald!"

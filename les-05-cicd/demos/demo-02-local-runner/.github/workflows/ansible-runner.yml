@@ -1,0 +1,39 @@
+name: Ansible — Installeer nginx via Self-Hosted Runner
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'ansible/**'
+      - '.github/workflows/ansible-runner.yml'
+
+jobs:
+  install-nginx:
+    name: Installeer nginx op localhost
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Installeer Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: YAML Lint
+        run: |
+          sudo apt install -y yamllint
+          yamllint ansible/
+
+      - name: Ansible Syntax Check
+        run: ansible-playbook --syntax-check ansible/install-nginx.yml
+
+      - name: Voer playbook uit (dry-run)
+        run: ansible-playbook --check --diff ansible/install-nginx.yml
+
+      - name: Voer playbook echt uit
+        run: ansible-playbook ansible/install-nginx.yml
+
+      - name: Toon nginx status
+        run: systemctl status nginx --no-pager || true

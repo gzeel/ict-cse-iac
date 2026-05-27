@@ -1,0 +1,76 @@
+---
+- name: Demo — Debug, Assert en Fail in Ansible
+  hosts: localhost
+  gather_facts: yes
+  connection: local
+
+  vars:
+    demo_debug_enabled: true
+    demo_fail_trigger: false
+    demo_assert_trigger: false
+    vereiste_diskruimte_mb: 100
+
+  tasks:
+    # ── DEEL 1: Debug ──
+    - name: 1A — Toon systeeminformatie met debug
+      ansible.builtin.debug:
+        msg:
+          - "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Hostname: {{ ansible_hostname }}"
+          - "Kernel: {{ ansible_kernel }}"
+
+    - name: 1B — Toon output van een commando
+      ansible.builtin.command: df -h /
+      register: disk_usage
+      changed_when: false
+
+    - name: 1C — Print geregistreerde output
+      ansible.builtin.debug:
+        var: disk_usage.stdout_lines
+      when: demo_debug_enabled
+
+    - name: 1D — Print een bericht bij 'changed'
+      ansible.builtin.debug:
+        msg: "Dit commando veroorzaakte een WIJZIGING!"
+      when: disk_usage is changed
+
+    # ── DEEL 2: Assert ──
+    - name: 2A — Assert: controleer beschikbare diskruimte
+      ansible.builtin.assert:
+        that:
+          - disk_usage.stdout_lines | length > 0
+          - "'/' in disk_usage.stdout_lines[-1]"
+        success_msg: "Disk check geslaagd: / is gemount en output bevat data."
+        fail_msg: "Disk check gefaald: / lijkt niet correct gemount."
+
+    - name: 2B — Assert met meerdere condities
+      ansible.builtin.assert:
+        that:
+          - demo_debug_enabled == true
+          - demo_assert_trigger == false
+          - demo_fail_trigger == false
+        success_msg: "Alle condities kloppen — demo_assert_trigger staat op false."
+        fail_msg: "ASSERTION FAILED! demo_assert_trigger staat op TRUE!"
+
+    - name: 2C — Deze taak draait alleen als de assert slaagde
+      ansible.builtin.debug:
+        msg: "Gefeliciteerd! Alle asserts zijn gepasseerd."
+
+    # ── DEEL 3: Fail ──
+    - name: 3A — Fail-module met condition
+      ansible.builtin.fail:
+        msg: "FAIL: demo_fail_trigger staat op TRUE! Playbook stopt hier."
+      when: demo_fail_trigger
+
+    - name: 3B — Fail-module was overgeslagen
+      ansible.builtin.debug:
+        msg: "demo_fail_trigger stond op FALSE, dus de fail-taak is overgeslagen."
+
+    - name: 3C — Einde — alle controles gepasseerd
+      ansible.builtin.debug:
+        msg:
+          - "═══════════════════════════════════════"
+          - "SUCCES: Playbook volledig doorlopen!"
+          - "Probeer demo_fail_trigger of demo_assert_trigger"
+          - "op true te zetten en draai opnieuw."
+          - "═══════════════════════════════════════"

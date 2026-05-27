@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: Register the output of the 'uptime' command.
+      command: uptime
+      register: system_uptime # comment
+
+     - name: Print the registered output of the 'uptime' command.
+       debug:
+        var: system_uptime.stdout
+
+    - name: Install nginx via wrong module name
+      apache2:
+        name: nginx
+        state: present

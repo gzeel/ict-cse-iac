@@ -1,0 +1,33 @@
+name: Ansible Lint & Syntax Check
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  lint:
+    name: YAML Lint & Ansible Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run yamllint
+        run: yamllint ansible/
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Ansible syntax check
+        run: ansible-playbook --syntax-check ansible/playbook-fixed.yml
+
+      - name: Run ansible-lint
+        run: |
+          pip install ansible-lint
+          ansible-lint ansible/playbook-fixed.yml
