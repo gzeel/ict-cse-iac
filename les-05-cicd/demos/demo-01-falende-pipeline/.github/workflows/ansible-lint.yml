@@ -25,9 +25,9 @@ jobs:
         run: pip install ansible
 
       - name: Ansible syntax check
-        run: ansible-playbook --syntax-check ansible/playbook-fixed.yml
+        run: ansible-playbook --syntax-check ansible/playbook-broken.yml
 
       - name: Run ansible-lint
         run: |
           pip install ansible-lint
-          ansible-lint ansible/playbook-fixed.yml
+          ansible-lint ansible/playbook-broken.yml
